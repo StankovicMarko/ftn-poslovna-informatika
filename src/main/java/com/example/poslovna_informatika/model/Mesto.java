@@ -11,7 +11,7 @@ public class Mesto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 150)
     private String grad;
 
     @Column(nullable = false)
