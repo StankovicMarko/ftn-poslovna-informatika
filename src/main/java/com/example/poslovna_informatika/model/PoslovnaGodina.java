@@ -1,6 +1,7 @@
 package com.example.poslovna_informatika.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,10 +23,10 @@ public class PoslovnaGodina {
     public PoslovnaGodina() {
     }
 
-    public PoslovnaGodina(int godina, boolean zakljucena, List<Faktura> fakture) {
+    public PoslovnaGodina(int godina, boolean zakljucena) {
         this.godina = godina;
         this.zakljucena = zakljucena;
-        this.fakture = fakture;
+        this.fakture = new ArrayList<>();
     }
 
     public long getId() {

@@ -11,7 +11,7 @@ public class PoslovniPartner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 150)
     private String naziv;
 
     @Column(nullable = false)

@@ -17,7 +17,7 @@ public class Preduzece {
     @Column(nullable = false)
     private String adresa;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, unique = true, length = 10)
     private int pib;
 
     @Column(length = 10)
