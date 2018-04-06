@@ -57,4 +57,9 @@ public class PreduzeceService implements PreduzeceServiceInterface {
     public Preduzece save(Preduzece preduzece) {
         return preduzeceRepository.save(preduzece);
     }
+
+    @Override
+    public void remove(long id) {
+        preduzeceRepository.delete(id);
+    }
 }

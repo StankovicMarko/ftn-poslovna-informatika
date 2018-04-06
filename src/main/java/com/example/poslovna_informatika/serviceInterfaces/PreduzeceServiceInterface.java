@@ -22,4 +22,6 @@ public interface PreduzeceServiceInterface {
 
     Preduzece save(Preduzece preduzece);
 
+    void remove(long id);
+
 }
