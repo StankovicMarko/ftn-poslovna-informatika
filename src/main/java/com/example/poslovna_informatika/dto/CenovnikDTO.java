@@ -3,19 +3,16 @@ package com.example.poslovna_informatika.dto;
 import com.example.poslovna_informatika.model.Cenovnik;
 import com.example.poslovna_informatika.model.StavkaCenovnika;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CenovnikDTO implements Serializable {
-
+public class CenovnikDTO {
 
     private long id;
     private Date datumVazenja;
     private List<StavkaCenovnikaDTO> stavkeCenovnikaDTO;
     private long preduzeceID;
-
 
     public CenovnikDTO() {
     }
@@ -66,10 +63,7 @@ public class CenovnikDTO implements Serializable {
         this.preduzeceID = preduzeceID;
     }
 
-    private List <StavkaCenovnikaDTO> makeStavkeCenovnikaDTO (List<StavkaCenovnika> stavkeCenovnika){
-
-        return stavkeCenovnika.stream().map(temp -> {
-            StavkaCenovnikaDTO dto = new StavkaCenovnikaDTO(temp);
-            return dto;
-        }).collect(Collectors.toList());}
+    private List<StavkaCenovnikaDTO> makeStavkeCenovnikaDTO(List<StavkaCenovnika> stavkeCenovnika) {
+        return stavkeCenovnika.stream().map(StavkaCenovnikaDTO::new).collect(Collectors.toList());
+    }
 }

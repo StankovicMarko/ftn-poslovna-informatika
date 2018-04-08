@@ -1,15 +1,12 @@
 package com.example.poslovna_informatika.dto;
 
-import com.example.poslovna_informatika.model.*;
+import com.example.poslovna_informatika.model.Faktura;
+import com.example.poslovna_informatika.model.PoslovniPartner;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PoslovniPartnerDTO implements Serializable {
-
-
+public class PoslovniPartnerDTO {
 
     private long id;
     private String naziv;
@@ -43,11 +40,9 @@ public class PoslovniPartnerDTO implements Serializable {
         this.preduzeceId = poslovniPartner.getPreduzece().getId();
     }
 
-    private List<Long> makeFaktureIds(List<Faktura> fakturas){
-        return fakturas.stream().map(x -> x.getId()).collect(Collectors.toList());
-
+    private List<Long> makeFaktureIds(List<Faktura> fakturas) {
+        return fakturas.stream().map(Faktura::getId).collect(Collectors.toList());
     }
-
 
     public long getId() {
         return id;

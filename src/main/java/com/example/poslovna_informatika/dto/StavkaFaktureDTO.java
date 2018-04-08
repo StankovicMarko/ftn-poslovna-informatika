@@ -1,16 +1,8 @@
 package com.example.poslovna_informatika.dto;
 
-import com.example.poslovna_informatika.model.Faktura;
-import com.example.poslovna_informatika.model.Roba;
 import com.example.poslovna_informatika.model.StavkaFakture;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
-public class StavkaFaktureDTO implements Serializable {
-
+public class StavkaFaktureDTO {
 
     private long id;
     private int kolicina;
@@ -23,8 +15,6 @@ public class StavkaFaktureDTO implements Serializable {
     private long robaId;
     private long fakturaId;
     private String nazivRobe;
-
-
 
     public StavkaFaktureDTO() {
     }
@@ -57,7 +47,6 @@ public class StavkaFaktureDTO implements Serializable {
         this.robaId = stavkaFakture.getRoba().getId();
         this.fakturaId = stavkaFakture.getFaktura().getId();
         this.nazivRobe = stavkaFakture.getRoba().getNaziv();
-
     }
 
     public long getId() {

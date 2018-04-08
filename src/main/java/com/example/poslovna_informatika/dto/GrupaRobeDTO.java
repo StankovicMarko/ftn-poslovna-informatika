@@ -1,15 +1,12 @@
 package com.example.poslovna_informatika.dto;
 
-import com.example.poslovna_informatika.model.*;
+import com.example.poslovna_informatika.model.GrupaRobe;
+import com.example.poslovna_informatika.model.Roba;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GrupaRobeDTO implements Serializable {
-
+public class GrupaRobeDTO {
 
     private long id;
     private String naziv;
@@ -35,7 +32,6 @@ public class GrupaRobeDTO implements Serializable {
         this.preduzeceId = grupaRobe.getPreduzece().getId();
         this.pdvId = grupaRobe.getPdv().getId();
     }
-
 
     public long getId() {
         return id;
@@ -77,11 +73,7 @@ public class GrupaRobeDTO implements Serializable {
         this.pdvId = pdvId;
     }
 
-    private List <RobaDTO> makeGrupaRobeDTO (List<Roba> roba){
-
-        return roba.stream().map(temp -> {
-            RobaDTO dto = new RobaDTO(temp);
-            return dto;
-        }).collect(Collectors.toList());}
-
+    private List<RobaDTO> makeGrupaRobeDTO(List<Roba> roba) {
+        return roba.stream().map(RobaDTO::new).collect(Collectors.toList());
+    }
 }

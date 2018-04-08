@@ -1,17 +1,12 @@
 package com.example.poslovna_informatika.dto;
 
 import com.example.poslovna_informatika.model.Faktura;
-import com.example.poslovna_informatika.model.GrupaRobe;
 import com.example.poslovna_informatika.model.PoslovnaGodina;
-import com.example.poslovna_informatika.model.PoslovniPartner;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PoslovnaGodinaDTO implements Serializable {
-
+public class PoslovnaGodinaDTO {
 
     private long id;
     private int godina;
@@ -35,9 +30,8 @@ public class PoslovnaGodinaDTO implements Serializable {
         this.faktureIds = makeFaktureIds(poslovnaGodina.getFakture());
     }
 
-    private List<Long> makeFaktureIds(List<Faktura> fakturas){
-        return fakturas.stream().map(x -> x.getId()).collect(Collectors.toList());
-
+    private List<Long> makeFaktureIds(List<Faktura> fakturas) {
+        return fakturas.stream().map(Faktura::getId).collect(Collectors.toList());
     }
 
     public long getId() {

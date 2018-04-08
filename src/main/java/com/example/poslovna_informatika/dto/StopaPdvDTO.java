@@ -1,19 +1,11 @@
 package com.example.poslovna_informatika.dto;
 
 import com.example.poslovna_informatika.model.PDV;
-import com.example.poslovna_informatika.model.StavkaCenovnika;
 import com.example.poslovna_informatika.model.StopaPDV;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
-public class StopaPdvDTO implements Serializable {
-
+public class StopaPdvDTO {
 
     private long id;
     private double procenat;
@@ -29,7 +21,6 @@ public class StopaPdvDTO implements Serializable {
         this.datumVazenja = datumVazenja;
         this.pdv = pdv;
     }
-
 
     public StopaPdvDTO(StopaPDV stopaPDV) {
         this(stopaPDV.getId(), stopaPDV.getProcenat(), stopaPDV.getDatumVazenja(), stopaPDV.getPdv());
