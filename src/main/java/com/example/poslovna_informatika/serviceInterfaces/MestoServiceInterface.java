@@ -10,6 +10,8 @@ public interface MestoServiceInterface {
 
     List<Mesto> findAll();
 
+    Mesto findOne(long mestoId);
+
     Mesto findByGrad(String grad);
 
     List<Mesto> findByDrzava(String drzava);

@@ -1,5 +1,6 @@
 package com.example.poslovna_informatika.serviceInterfaces;
 
+import com.example.poslovna_informatika.model.GrupaRobe;
 import com.example.poslovna_informatika.model.PoslovnaGodina;
 import com.example.poslovna_informatika.model.PoslovniPartner;
 
@@ -8,6 +9,8 @@ import java.util.List;
 public interface PoslovniPartnerServiceInterface {
 
     List<PoslovniPartner> findAll();
+
+    PoslovniPartner findOne(long id);
 
     PoslovniPartner findByNaziv(String naziv);
 

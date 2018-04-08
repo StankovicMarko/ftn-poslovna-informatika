@@ -1,5 +1,6 @@
 package com.example.poslovna_informatika.services;
 
+import com.example.poslovna_informatika.model.Mesto;
 import com.example.poslovna_informatika.model.Preduzece;
 import com.example.poslovna_informatika.repositories.PreduzeceRepository;
 import com.example.poslovna_informatika.serviceInterfaces.PreduzeceServiceInterface;
@@ -21,6 +22,11 @@ public class PreduzeceService implements PreduzeceServiceInterface {
     @Override
     public List<Preduzece> findAll() {
         return preduzeceRepository.findAll();
+    }
+
+    @Override
+    public Preduzece findOne(long preduzeceId){
+        return preduzeceRepository.findOne(preduzeceId);
     }
 
     @Override

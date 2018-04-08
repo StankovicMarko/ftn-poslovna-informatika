@@ -1,6 +1,7 @@
 package com.example.poslovna_informatika.services;
 
 
+import com.example.poslovna_informatika.model.Cenovnik;
 import com.example.poslovna_informatika.model.StavkaCenovnika;
 import com.example.poslovna_informatika.repositories.StavkaCenovnikaRepository;
 import com.example.poslovna_informatika.serviceInterfaces.StavkaCenovnikaServiceInterface;
@@ -23,6 +24,11 @@ public class StavkaCenovnikaService implements StavkaCenovnikaServiceInterface {
     public List<StavkaCenovnika> findAll() {
         return stavkaCenovnikaRepository.findAll();
 
+    }
+
+    @Override
+    public StavkaCenovnika findOne(long id){
+        return stavkaCenovnikaRepository.findOne(id);
     }
 
     @Override

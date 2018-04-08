@@ -1,6 +1,7 @@
 package com.example.poslovna_informatika.services;
 
 
+import com.example.poslovna_informatika.model.GrupaRobe;
 import com.example.poslovna_informatika.model.PoslovnaGodina;
 import com.example.poslovna_informatika.repositories.PdvRepository;
 import com.example.poslovna_informatika.repositories.PoslovnaGodinaRepository;
@@ -25,6 +26,11 @@ public class PoslovnaGodinaService implements PoslovnaGodinaServiceInterface {
     public List<PoslovnaGodina> findAll() {
         return poslovnaGodinaRepository.findAll();
 
+    }
+
+    @Override
+    public PoslovnaGodina findOne(long id){
+        return poslovnaGodinaRepository.findOne(id);
     }
 
     @Override

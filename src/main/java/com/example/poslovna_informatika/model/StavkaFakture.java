@@ -41,7 +41,8 @@ public class StavkaFakture {
     public StavkaFakture() {
     }
 
-    public StavkaFakture(int kolicina, double jedinicnaCena, double rabat, double osnovicaZaPDV, double procenatPDV, double iznosPDV, double iznosStavke, Roba roba, Faktura faktura) {
+    public StavkaFakture(int kolicina, double jedinicnaCena, double rabat, double osnovicaZaPDV,
+                         double procenatPDV, double iznosPDV, double iznosStavke, Roba roba, Faktura faktura) {
         this.kolicina = kolicina;
         this.jedinicnaCena = jedinicnaCena;
         this.rabat = rabat;

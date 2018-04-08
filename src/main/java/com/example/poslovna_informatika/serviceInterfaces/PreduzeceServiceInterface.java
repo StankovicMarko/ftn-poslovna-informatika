@@ -8,6 +8,8 @@ public interface PreduzeceServiceInterface {
 
     List<Preduzece> findAll();
 
+    Preduzece findOne(long preduzeceId);
+
     Preduzece findByNaziv(String naziv);
 
     Preduzece findByPib(int pib);

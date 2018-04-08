@@ -1,5 +1,6 @@
 package com.example.poslovna_informatika.services;
 
+import com.example.poslovna_informatika.model.Cenovnik;
 import com.example.poslovna_informatika.model.PDV;
 import com.example.poslovna_informatika.repositories.PdvRepository;
 import com.example.poslovna_informatika.serviceInterfaces.PdvServiceInterface;
@@ -22,6 +23,11 @@ public class PdvService implements PdvServiceInterface {
     public List<PDV> findAll() {
         return pdvRepository.findAll();
 
+    }
+
+    @Override
+    public PDV findOne(long id){
+        return pdvRepository.findOne(id);
     }
 
     @Override

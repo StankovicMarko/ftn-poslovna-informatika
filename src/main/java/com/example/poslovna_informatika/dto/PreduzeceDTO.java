@@ -14,10 +14,6 @@ public class PreduzeceDTO {
     private String telefon;
     private String email;
     private String logoPath;
-    private List<Long> grupeRobaIds;
-    private List<Long> faktureIds;
-    private List<Long> poslovniPartneriIds;
-    private List<Long> cenovniciIds;
     private long mestoId;
 
 
@@ -25,8 +21,7 @@ public class PreduzeceDTO {
     }
 
     public PreduzeceDTO(long id, String naziv, String adresa, int pib, String telefon, String email,
-                        String logoPath, List<Long> grupeRobaIds, List<Long> faktureIds,
-                        List<Long> poslovniPartneriIds, List<Long> cenovniciIds, long mestoId) {
+                        String logoPath, long mestoId) {
         this.id = id;
         this.naziv = naziv;
         this.adresa = adresa;
@@ -34,10 +29,6 @@ public class PreduzeceDTO {
         this.telefon = telefon;
         this.email = email;
         this.logoPath = logoPath;
-        this.grupeRobaIds = grupeRobaIds;
-        this.faktureIds = faktureIds;
-        this.poslovniPartneriIds = poslovniPartneriIds;
-        this.cenovniciIds = cenovniciIds;
         this.mestoId = mestoId;
     }
 
@@ -49,30 +40,9 @@ public class PreduzeceDTO {
         this.telefon = preduzece.getTelefon();
         this.email = preduzece.getEmail();
         this.logoPath = preduzece.getLogoPath();
-        this.grupeRobaIds = makeGrupeIds(preduzece.getGrupeRoba());
-        this.faktureIds = makeFaktureIds(preduzece.getFakture());
-        this.poslovniPartneriIds = makePartneriIds(preduzece.getPoslovniPartneri());
-        this.cenovniciIds = makeCenovniciIds(preduzece.getCenovnici());
         this.mestoId = preduzece.getMesto().getId();
     }
 
-    private List<Long> makeGrupeIds(List<GrupaRobe> grupaRobe) {
-        return grupaRobe.stream().map(GrupaRobe::getId).collect(Collectors.toList());
-    }
-
-
-    private List<Long> makeFaktureIds(List<Faktura> fakturas) {
-        return fakturas.stream().map(Faktura::getId).collect(Collectors.toList());
-    }
-
-
-    private List<Long> makePartneriIds(List<PoslovniPartner> poslovniPartners) {
-        return poslovniPartners.stream().map(PoslovniPartner::getId).collect(Collectors.toList());
-    }
-
-    private List<Long> makeCenovniciIds(List<Cenovnik> cenovniks) {
-        return cenovniks.stream().map(Cenovnik::getId).collect(Collectors.toList());
-    }
 
     public long getId() {
         return id;
@@ -128,38 +98,6 @@ public class PreduzeceDTO {
 
     public void setLogoPath(String logoPath) {
         this.logoPath = logoPath;
-    }
-
-    public List<Long> getGrupeRobaIds() {
-        return grupeRobaIds;
-    }
-
-    public void setGrupeRobaIds(List<Long> grupeRobaIds) {
-        this.grupeRobaIds = grupeRobaIds;
-    }
-
-    public List<Long> getFaktureIds() {
-        return faktureIds;
-    }
-
-    public void setFaktureIds(List<Long> faktureIds) {
-        this.faktureIds = faktureIds;
-    }
-
-    public List<Long> getPoslovniPartneriIds() {
-        return poslovniPartneriIds;
-    }
-
-    public void setPoslovniPartneriIds(List<Long> poslovniPartneriIds) {
-        this.poslovniPartneriIds = poslovniPartneriIds;
-    }
-
-    public List<Long> getCenovniciIds() {
-        return cenovniciIds;
-    }
-
-    public void setCenovniciIds(List<Long> cenovniciIds) {
-        this.cenovniciIds = cenovniciIds;
     }
 
     public long getMestoId() {

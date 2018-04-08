@@ -11,6 +11,8 @@ public interface GrupaRobeServiceInterface {
 
     List<GrupaRobe> findAll();
 
+    GrupaRobe findOne(long id);
+
     GrupaRobe findByNaziv(String naziv);
 
     List<GrupaRobe> findAllByPreduzeceId(long preduzeceId);

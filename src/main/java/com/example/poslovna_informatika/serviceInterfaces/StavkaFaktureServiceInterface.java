@@ -1,5 +1,6 @@
 package com.example.poslovna_informatika.serviceInterfaces;
 
+import com.example.poslovna_informatika.model.Cenovnik;
 import com.example.poslovna_informatika.model.StavkaCenovnika;
 import com.example.poslovna_informatika.model.StavkaFakture;
 
@@ -8,6 +9,8 @@ import java.util.List;
 public interface StavkaFaktureServiceInterface {
 
     List<StavkaFakture> findAll();
+
+    StavkaFakture findOne(long id);
 
     List<StavkaFakture> findAllByFakturaId(long fakturaId);
 

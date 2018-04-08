@@ -10,20 +10,20 @@ public class StopaPdvDTO {
     private long id;
     private double procenat;
     private Date datumVazenja;
-    private PDV pdv;
+    private long pdvId;
 
     public StopaPdvDTO() {
     }
 
-    public StopaPdvDTO(long id, double procenat, Date datumVazenja, PDV pdv) {
+    public StopaPdvDTO(long id, double procenat, Date datumVazenja, long pdvId) {
         this.id = id;
         this.procenat = procenat;
         this.datumVazenja = datumVazenja;
-        this.pdv = pdv;
+        this.pdvId = pdvId;
     }
 
     public StopaPdvDTO(StopaPDV stopaPDV) {
-        this(stopaPDV.getId(), stopaPDV.getProcenat(), stopaPDV.getDatumVazenja(), stopaPDV.getPdv());
+        this(stopaPDV.getId(), stopaPDV.getProcenat(), stopaPDV.getDatumVazenja(), stopaPDV.getPdv().getId());
     }
 
     public long getId() {
@@ -50,12 +50,12 @@ public class StopaPdvDTO {
         this.datumVazenja = datumVazenja;
     }
 
-    public PDV getPdv() {
-        return pdv;
+    public long getPdvId() {
+        return pdvId;
     }
 
-    public void setPdv(PDV pdv) {
-        this.pdv = pdv;
+    public void setPdvId(long pdvId) {
+        this.pdvId = pdvId;
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.poslovna_informatika.services;
 
+import com.example.poslovna_informatika.model.Cenovnik;
 import com.example.poslovna_informatika.model.GrupaRobe;
 import com.example.poslovna_informatika.model.JedinicaMere;
 import com.example.poslovna_informatika.repositories.GrupaRobeRepository;
@@ -25,6 +26,11 @@ public class JedinicaMereService implements JedinicaMereServiceInterface {
     public List<JedinicaMere> findAll() {
         return jedinicaMereRepository.findAll();
 
+    }
+
+    @Override
+    public JedinicaMere findOne(long id){
+        return jedinicaMereRepository.findOne(id);
     }
 
 
