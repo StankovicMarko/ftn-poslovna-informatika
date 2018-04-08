@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,12 @@ import java.util.List;
 public class PreduzeceController {
 
     private PreduzeceService preduzeceService;
+
+    @Autowired
+    public PreduzeceController(PreduzeceService preduzeceService){
+        this.preduzeceService = preduzeceService;
+    }
+
 
 
     @GetMapping
@@ -35,20 +43,21 @@ public class PreduzeceController {
 
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<AuctionDTO> saveItem(@RequestBody AuctionDTO auctionDTO, @RequestHeader(value = "Authorization") String token) {
-        Auction a = new Auction();
+    public ResponseEntity<PreduzeceDTO> saveItem(@RequestBody PreduzeceDTO preduzeceDTO) {
+        Preduzece p = new Preduzece(preduzeceDTO.getId(), );
         a.setStartDate(auctionDTO.getStartDate());
         a.setEndDate(auctionDTO.getEndDate());
         a.setStartPrice(auctionDTO.getStartPrice());
         a.setAuctionItem(itemService.findOne(auctionDTO.getItem_id()));
+
+
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userService.findByUsername(username);
         a.setUser(user);
-        a = auctionService.save(a);
-        logger.info("new auction" + a.getId() + a.getUser().getUsername());
-        ;
 
-        return new ResponseEntity<AuctionDTO>(new AuctionDTO(a), HttpStatus.CREATED);
+
+        p = preduzeceService.save(p);
+        return new ResponseEntity<PreduzeceDTO>(new PreduzeceDTO(p), HttpStatus.CREATED);
     }
 
 
