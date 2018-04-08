@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example of controller
- * Required services to be completed
- */
+
 @RestController
 @RequestMapping(value = "api/cenovnik")
 public class CenovnikController {
@@ -35,7 +32,7 @@ public class CenovnikController {
     }
 
 
-    @GetMapping(value="/{preduzece-id}")
+    @GetMapping(value="/{cenovnik-id}")
     public ResponseEntity<List<CenovnikDTO>> getCenovnici(@PathVariable("id") long id) {
         List<Cenovnik> cenovnici = cenovnikService.findAllByPreduzeceId(id);
         List<CenovnikDTO> cenovniciDTOS = new ArrayList<CenovnikDTO>();
