@@ -1,14 +1,13 @@
 package com.example.poslovna_informatika.dto;
 
-import com.example.poslovna_informatika.model.*;
+import com.example.poslovna_informatika.model.GrupaRobe;
+import com.example.poslovna_informatika.model.PDV;
+import com.example.poslovna_informatika.model.StopaPDV;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PdvDTO implements Serializable {
-
+public class PdvDTO {
 
     private long id;
     private String naziv;
@@ -25,27 +24,19 @@ public class PdvDTO implements Serializable {
         this.stopePdvDTO = stopePdvDTO;
     }
 
-
     public PdvDTO(PDV pdv) {
         this.id = pdv.getId();
         this.naziv = pdv.getNaziv();
-        this.grupaRobeIds =  makeGrupaRobeIds(pdv.getGrupaRobe());
+        this.grupaRobeIds = makeGrupaRobeIds(pdv.getGrupaRobe());
         this.stopePdvDTO = makeStopePdvDTO(pdv.getStopePDV());
     }
 
-
     private List<StopaPdvDTO> makeStopePdvDTO(List<StopaPDV> stopaPDVS) {
-
-        return stopaPDVS.stream().map(temp -> {
-            StopaPdvDTO dto = new StopaPdvDTO(temp);
-            return dto;
-        }).collect(Collectors.toList());
+        return stopaPDVS.stream().map(StopaPdvDTO::new).collect(Collectors.toList());
     }
 
-
-    private List<Long> makeGrupaRobeIds(List<GrupaRobe> grupaRobes){
-        return grupaRobes.stream().map(x -> x.getId()).collect(Collectors.toList());
-
+    private List<Long> makeGrupaRobeIds(List<GrupaRobe> grupaRobes) {
+        return grupaRobes.stream().map(GrupaRobe::getId).collect(Collectors.toList());
     }
 
     public long getId() {

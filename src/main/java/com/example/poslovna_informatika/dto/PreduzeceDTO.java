@@ -2,13 +2,10 @@ package com.example.poslovna_informatika.dto;
 
 import com.example.poslovna_informatika.model.*;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PreduzeceDTO implements Serializable {
-
+public class PreduzeceDTO {
 
     private long id;
     private String naziv;
@@ -57,29 +54,24 @@ public class PreduzeceDTO implements Serializable {
         this.poslovniPartneriIds = makePartneriIds(preduzece.getPoslovniPartneri());
         this.cenovniciIds = makeCenovniciIds(preduzece.getCenovnici());
         this.mestoId = preduzece.getMesto().getId();
-        }
+    }
 
-    private List<Long> makeGrupeIds(List<GrupaRobe> grupaRobe){
-        return grupaRobe.stream().map(x -> x.getId()).collect(Collectors.toList());
-
+    private List<Long> makeGrupeIds(List<GrupaRobe> grupaRobe) {
+        return grupaRobe.stream().map(GrupaRobe::getId).collect(Collectors.toList());
     }
 
 
-    private List<Long> makeFaktureIds(List<Faktura> fakturas){
-        return fakturas.stream().map(x -> x.getId()).collect(Collectors.toList());
-
+    private List<Long> makeFaktureIds(List<Faktura> fakturas) {
+        return fakturas.stream().map(Faktura::getId).collect(Collectors.toList());
     }
 
 
-    private List<Long> makePartneriIds(List<PoslovniPartner> poslovniPartners){
-        return poslovniPartners.stream().map(x -> x.getId()).collect(Collectors.toList());
-
+    private List<Long> makePartneriIds(List<PoslovniPartner> poslovniPartners) {
+        return poslovniPartners.stream().map(PoslovniPartner::getId).collect(Collectors.toList());
     }
 
-
-    private List<Long> makeCenovniciIds(List<Cenovnik> cenovniks){
-        return cenovniks.stream().map(x -> x.getId()).collect(Collectors.toList());
-
+    private List<Long> makeCenovniciIds(List<Cenovnik> cenovniks) {
+        return cenovniks.stream().map(Cenovnik::getId).collect(Collectors.toList());
     }
 
     public long getId() {

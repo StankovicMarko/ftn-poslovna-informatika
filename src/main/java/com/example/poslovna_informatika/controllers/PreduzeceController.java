@@ -9,8 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+=======
+>>>>>>> dto
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +46,15 @@ public class PreduzeceController {
 
 
     @PostMapping(consumes = "application/json")
+
     public ResponseEntity<PreduzeceDTO> saveItem(@RequestBody PreduzeceDTO preduzeceDTO) {
         Preduzece p = new Preduzece(preduzeceDTO.getId(), );
+
         a.setStartDate(auctionDTO.getStartDate());
         a.setEndDate(auctionDTO.getEndDate());
         a.setStartPrice(auctionDTO.getStartPrice());
         a.setAuctionItem(itemService.findOne(auctionDTO.getItem_id()));
+
 
 
         String username = jwtTokenUtil.getUsernameFromToken(token);
@@ -58,6 +64,7 @@ public class PreduzeceController {
 
         p = preduzeceService.save(p);
         return new ResponseEntity<PreduzeceDTO>(new PreduzeceDTO(p), HttpStatus.CREATED);
+
     }
 
 

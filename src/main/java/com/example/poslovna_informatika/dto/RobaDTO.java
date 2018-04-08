@@ -1,14 +1,13 @@
 package com.example.poslovna_informatika.dto;
 
-import com.example.poslovna_informatika.model.*;
+import com.example.poslovna_informatika.model.Roba;
+import com.example.poslovna_informatika.model.StavkaCenovnika;
+import com.example.poslovna_informatika.model.StavkaFakture;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class RobaDTO implements Serializable {
-
+public class RobaDTO {
 
     private long id;
     private String naziv;
@@ -39,16 +38,12 @@ public class RobaDTO implements Serializable {
         this.grupaRobeId = roba.getJediniceMere().getId();
     }
 
-
-    private List<Long> makeStavkeCenovnikaIds(List<StavkaCenovnika> stavkaCenovnika){
-        return stavkaCenovnika.stream().map(x -> x.getId()).collect(Collectors.toList());
-
+    private List<Long> makeStavkeCenovnikaIds(List<StavkaCenovnika> stavkaCenovnika) {
+        return stavkaCenovnika.stream().map(StavkaCenovnika::getId).collect(Collectors.toList());
     }
 
-
-    private List<Long> makeStavkeFaktureIds(List<StavkaFakture> stavkaFakture){
-        return stavkaFakture.stream().map(x -> x.getId()).collect(Collectors.toList());
-
+    private List<Long> makeStavkeFaktureIds(List<StavkaFakture> stavkaFakture) {
+        return stavkaFakture.stream().map(StavkaFakture::getId).collect(Collectors.toList());
     }
 
     public long getId() {

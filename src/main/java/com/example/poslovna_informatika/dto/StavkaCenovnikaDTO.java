@@ -1,26 +1,14 @@
 package com.example.poslovna_informatika.dto;
 
-import com.example.poslovna_informatika.model.Cenovnik;
-import com.example.poslovna_informatika.model.Roba;
 import com.example.poslovna_informatika.model.StavkaCenovnika;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import java.io.Serializable;
-
-public class StavkaCenovnikaDTO implements Serializable {
+public class StavkaCenovnikaDTO {
 
     private long id;
-
     private double cena;
-
     private long robaId;
-
     private long cenovnikId;
-
     private String nazivRobe;
-
 
     public StavkaCenovnikaDTO() {
     }
@@ -33,7 +21,6 @@ public class StavkaCenovnikaDTO implements Serializable {
         this.nazivRobe = nazivRobe;
     }
 
-
     public StavkaCenovnikaDTO(StavkaCenovnika stavkaCenovnika) {
         this.id = stavkaCenovnika.getId();
         this.cena = stavkaCenovnika.getCena();
@@ -41,7 +28,6 @@ public class StavkaCenovnikaDTO implements Serializable {
         this.cenovnikId = stavkaCenovnika.getCenovnik().getId();
         this.nazivRobe = stavkaCenovnika.getRoba().getNaziv();
     }
-
 
     public long getId() {
         return id;

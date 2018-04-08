@@ -1,17 +1,12 @@
 package com.example.poslovna_informatika.dto;
 
-import com.example.poslovna_informatika.model.GrupaRobe;
 import com.example.poslovna_informatika.model.JedinicaMere;
 import com.example.poslovna_informatika.model.Roba;
-import com.example.poslovna_informatika.model.StavkaCenovnika;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JedinicaMereDTO implements Serializable {
-
+public class JedinicaMereDTO {
 
     private long id;
     private char[] naziv = new char[2];
@@ -32,7 +27,6 @@ public class JedinicaMereDTO implements Serializable {
         this.robeDTO = makeGrupaRobeDTO(jedinicaMere.getRoba());
     }
 
-
     public long getId() {
         return id;
     }
@@ -49,7 +43,6 @@ public class JedinicaMereDTO implements Serializable {
         this.naziv = naziv;
     }
 
-
     public List<RobaDTO> getRobeDTO() {
         return robeDTO;
     }
@@ -59,10 +52,6 @@ public class JedinicaMereDTO implements Serializable {
     }
 
     private List<RobaDTO> makeGrupaRobeDTO(List<Roba> roba) {
-
-        return roba.stream().map(temp -> {
-            RobaDTO dto = new RobaDTO(temp);
-            return dto;
-        }).collect(Collectors.toList());
+        return roba.stream().map(RobaDTO::new).collect(Collectors.toList());
     }
 }

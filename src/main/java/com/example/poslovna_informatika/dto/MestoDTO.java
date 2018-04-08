@@ -1,14 +1,13 @@
 package com.example.poslovna_informatika.dto;
 
-import com.example.poslovna_informatika.model.*;
+import com.example.poslovna_informatika.model.Mesto;
+import com.example.poslovna_informatika.model.PoslovniPartner;
+import com.example.poslovna_informatika.model.Preduzece;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MestoDTO implements Serializable {
-
+public class MestoDTO {
 
     private long id;
     private String grad;
@@ -35,7 +34,6 @@ public class MestoDTO implements Serializable {
         this.preduzecaDTO = makePreduzecaDTO(mesto.getPreduzeca());
         this.poslovniPartneriDTO = makePoslovniPartneriDTO(mesto.getPoslovniPartneri());
     }
-
 
     public long getId() {
         return id;
@@ -78,19 +76,11 @@ public class MestoDTO implements Serializable {
     }
 
     private List<PreduzeceDTO> makePreduzecaDTO(List<Preduzece> preduzeca) {
-
-        return preduzeca.stream().map(temp -> {
-            PreduzeceDTO dto = new PreduzeceDTO(temp);
-            return dto;
-        }).collect(Collectors.toList());
+        return preduzeca.stream().map(PreduzeceDTO::new).collect(Collectors.toList());
     }
 
     private List<PoslovniPartnerDTO> makePoslovniPartneriDTO(List<PoslovniPartner> poslovniPartneri) {
-
-        return poslovniPartneri.stream().map(temp -> {
-            PoslovniPartnerDTO dto = new PoslovniPartnerDTO(temp);
-            return dto;
-        }).collect(Collectors.toList());
+        return poslovniPartneri.stream().map(PoslovniPartnerDTO::new).collect(Collectors.toList());
     }
 
 }
