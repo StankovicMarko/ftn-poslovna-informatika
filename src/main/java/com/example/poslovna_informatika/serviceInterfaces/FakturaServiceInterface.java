@@ -10,6 +10,8 @@ public interface FakturaServiceInterface {
 
     List<Faktura> findAll();
 
+    Faktura findOne(long id);
+
     Faktura findByBrojFakture(int brojFakture);
 
     Faktura findByStatus(char[] status);

@@ -1,48 +1,28 @@
-package com.example.poslovna_informatika.model;
+package com.example.poslovna_informatika.dto;
 
-import javax.persistence.*;
+import com.example.poslovna_informatika.model.StavkaFakture;
 
-@Entity
-public class StavkaFakture {
+public class StavkaFaktureDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @Column(nullable = false)
     private int kolicina;
-
-    @Column(nullable = false)
     private double jedinicnaCena;
-
-    @Column(nullable = false)
     private double rabat;
-
-    @Column(nullable = false)
     private double osnovicaZaPDV;
-
-    @Column(nullable = false)
     private double procenatPDV;
-
-    @Column(nullable = false)
     private double iznosPDV;
-
-    @Column(nullable = false)
     private double iznosStavke;
+    private long robaId;
+    private long fakturaId;
+    private String nazivRobe;
 
-    @ManyToOne
-    @JoinColumn(name = "roba")
-    private Roba roba;
-
-    @ManyToOne
-    @JoinColumn(name = "faktura")
-    private Faktura faktura;
-
-    public StavkaFakture() {
+    public StavkaFaktureDTO() {
     }
 
-    public StavkaFakture(int kolicina, double jedinicnaCena, double rabat, double osnovicaZaPDV,
-                         double procenatPDV, double iznosPDV, double iznosStavke, Roba roba, Faktura faktura) {
+    public StavkaFaktureDTO(long id, int kolicina, double jedinicnaCena, double rabat, double osnovicaZaPDV,
+                            double procenatPDV, double iznosPDV, double iznosStavke, long robaId, long fakturaId,
+                            String nazivRobe) {
+        this.id = id;
         this.kolicina = kolicina;
         this.jedinicnaCena = jedinicnaCena;
         this.rabat = rabat;
@@ -50,8 +30,23 @@ public class StavkaFakture {
         this.procenatPDV = procenatPDV;
         this.iznosPDV = iznosPDV;
         this.iznosStavke = iznosStavke;
-        this.roba = roba;
-        this.faktura = faktura;
+        this.robaId = robaId;
+        this.fakturaId = fakturaId;
+        this.nazivRobe = nazivRobe;
+    }
+
+    public StavkaFaktureDTO(StavkaFakture stavkaFakture) {
+        this.id = stavkaFakture.getId();
+        this.kolicina = stavkaFakture.getKolicina();
+        this.jedinicnaCena = stavkaFakture.getJedinicnaCena();
+        this.rabat = stavkaFakture.getRabat();
+        this.osnovicaZaPDV = stavkaFakture.getOsnovicaZaPDV();
+        this.procenatPDV = stavkaFakture.getProcenatPDV();
+        this.iznosPDV = stavkaFakture.getIznosPDV();
+        this.iznosStavke = stavkaFakture.getIznosStavke();
+        this.robaId = stavkaFakture.getRoba().getId();
+        this.fakturaId = stavkaFakture.getFaktura().getId();
+        this.nazivRobe = stavkaFakture.getRoba().getNaziv();
     }
 
     public long getId() {
@@ -118,19 +113,27 @@ public class StavkaFakture {
         this.iznosStavke = iznosStavke;
     }
 
-    public Roba getRoba() {
-        return roba;
+    public long getRobaId() {
+        return robaId;
     }
 
-    public void setRoba(Roba roba) {
-        this.roba = roba;
+    public void setRobaId(long robaId) {
+        this.robaId = robaId;
     }
 
-    public Faktura getFaktura() {
-        return faktura;
+    public long getFakturaId() {
+        return fakturaId;
     }
 
-    public void setFaktura(Faktura faktura) {
-        this.faktura = faktura;
+    public void setFakturaId(long fakturaId) {
+        this.fakturaId = fakturaId;
+    }
+
+    public String getNazivRobe() {
+        return nazivRobe;
+    }
+
+    public void setNazivRobe(String nazivRobe) {
+        this.nazivRobe = nazivRobe;
     }
 }

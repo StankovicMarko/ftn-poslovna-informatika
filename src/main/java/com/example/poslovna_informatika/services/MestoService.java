@@ -28,6 +28,11 @@ public class MestoService implements MestoServiceInterface {
     }
 
     @Override
+    public Mesto findOne(long mestoId){
+        return mestoRepository.findOne(mestoId);
+    }
+
+    @Override
     public Mesto findByGrad(String grad) {
         return mestoRepository.findByGrad(grad);
     }

@@ -1,6 +1,7 @@
 package com.example.poslovna_informatika.services;
 
 import com.example.poslovna_informatika.model.Cenovnik;
+import com.example.poslovna_informatika.model.Mesto;
 import com.example.poslovna_informatika.model.Preduzece;
 import com.example.poslovna_informatika.repositories.CenovnikRepository;
 import com.example.poslovna_informatika.repositories.PreduzeceRepository;
@@ -27,6 +28,10 @@ public class CenovnikService implements CenovnikServiceInterface {
         return cenovnikRepository.findAll();
     }
 
+    @Override
+    public Cenovnik findOne(long id){
+        return cenovnikRepository.findOne(id);
+    }
 
     @Override
     public List<Cenovnik> findAllByPreduzeceId(long preduzeceId) {

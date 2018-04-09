@@ -1,5 +1,6 @@
 package com.example.poslovna_informatika.services;
 
+import com.example.poslovna_informatika.model.Cenovnik;
 import com.example.poslovna_informatika.model.Faktura;
 import com.example.poslovna_informatika.model.GrupaRobe;
 import com.example.poslovna_informatika.repositories.FakturaRepository;
@@ -26,6 +27,11 @@ public class GrupaRobeService implements GrupaRobeServiceInterface {
     public List<GrupaRobe> findAll() {
         return grupaRobeRepository.findAll();
 
+    }
+
+    @Override
+    public GrupaRobe findOne(long id){
+        return grupaRobeRepository.findOne(id);
     }
 
     @Override

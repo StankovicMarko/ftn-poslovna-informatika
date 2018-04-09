@@ -1,6 +1,7 @@
 package com.example.poslovna_informatika.services;
 
 
+import com.example.poslovna_informatika.model.GrupaRobe;
 import com.example.poslovna_informatika.model.PoslovnaGodina;
 import com.example.poslovna_informatika.model.PoslovniPartner;
 import com.example.poslovna_informatika.repositories.PoslovnaGodinaRepository;
@@ -26,6 +27,11 @@ public class PoslovniPartnerService implements PoslovniPartnerServiceInterface {
     public List<PoslovniPartner> findAll() {
         return poslovniPartnerRepository.findAll();
 
+    }
+
+    @Override
+    public PoslovniPartner findOne(long id){
+        return poslovniPartnerRepository.findOne(id);
     }
 
     @Override

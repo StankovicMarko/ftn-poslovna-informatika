@@ -12,6 +12,7 @@ public class Faktura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, unique = true)
     private int brojFakture;
 
@@ -51,8 +52,9 @@ public class Faktura {
     public Faktura() {
     }
 
-    public Faktura(int brojFakture, Date datumFakture, Date datumValute, double osnovica, double ukupanPDV, double iznosZaPlacanje, char[] status, Preduzece preduzece, PoslovniPartner poslovniPartner, PoslovnaGodina poslovnaGodina) {
-        this.brojFakture = brojFakture;
+    public Faktura(Date datumFakture, Date datumValute, double osnovica, double ukupanPDV,
+                   double iznosZaPlacanje, char[] status, Preduzece preduzece, PoslovniPartner poslovniPartner,
+                   PoslovnaGodina poslovnaGodina) {
         this.datumFakture = datumFakture;
         this.datumValute = datumValute;
         this.osnovica = osnovica;

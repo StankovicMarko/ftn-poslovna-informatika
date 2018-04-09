@@ -10,6 +10,8 @@ public interface JedinicaMereServiceInterface {
 
     List<JedinicaMere> findAll();
 
+    JedinicaMere findOne(long id);
+
     JedinicaMere findByNaziv(char[] naziv);
 
     JedinicaMere save(JedinicaMere jedinicaMere);

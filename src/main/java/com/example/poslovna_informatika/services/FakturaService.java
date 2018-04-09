@@ -1,11 +1,8 @@
 package com.example.poslovna_informatika.services;
 
 import com.example.poslovna_informatika.model.Faktura;
-import com.example.poslovna_informatika.model.Preduzece;
 import com.example.poslovna_informatika.repositories.FakturaRepository;
-import com.example.poslovna_informatika.repositories.PreduzeceRepository;
 import com.example.poslovna_informatika.serviceInterfaces.FakturaServiceInterface;
-import com.example.poslovna_informatika.serviceInterfaces.PreduzeceServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +23,11 @@ public class FakturaService implements FakturaServiceInterface {
     public List<Faktura> findAll() {
         return fakturaRepository.findAll();
 
+    }
+
+    @Override
+    public Faktura findOne(long id){
+        return fakturaRepository.findOne(id);
     }
 
     @Override

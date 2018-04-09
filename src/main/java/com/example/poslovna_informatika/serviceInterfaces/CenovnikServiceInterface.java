@@ -1,6 +1,7 @@
 package com.example.poslovna_informatika.serviceInterfaces;
 
 import com.example.poslovna_informatika.model.Cenovnik;
+import com.example.poslovna_informatika.model.Mesto;
 import com.example.poslovna_informatika.model.Preduzece;
 
 import java.util.Date;
@@ -9,6 +10,8 @@ import java.util.List;
 public interface CenovnikServiceInterface {
 
     List<Cenovnik> findAll();
+
+    Cenovnik findOne(long id);
 
     List<Cenovnik> findAllByPreduzeceId(long preduzeceId);
 

@@ -23,6 +23,12 @@ public class PDV {
     public PDV() {
     }
 
+    public PDV(String naziv, List<GrupaRobe> grupaRobe, List<StopaPDV> stopePDV) {
+        this.naziv = naziv;
+        this.grupaRobe = grupaRobe;
+        this.stopePDV = stopePDV;
+    }
+
     public PDV(String naziv) {
         this.naziv = naziv;
         this.grupaRobe = new ArrayList<>();

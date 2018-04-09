@@ -1,6 +1,7 @@
 package com.example.poslovna_informatika.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,9 +20,9 @@ public class JedinicaMere {
     public JedinicaMere() {
     }
 
-    public JedinicaMere(char[] naziv, List<Roba> roba) {
+    public JedinicaMere(char[] naziv) {
         this.naziv = naziv;
-        this.roba = roba;
+        this.roba = new ArrayList<>();
     }
 
     public long getId() {

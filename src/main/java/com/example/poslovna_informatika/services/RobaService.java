@@ -1,6 +1,7 @@
 package com.example.poslovna_informatika.services;
 
 
+import com.example.poslovna_informatika.model.Cenovnik;
 import com.example.poslovna_informatika.model.PoslovniPartner;
 import com.example.poslovna_informatika.model.Roba;
 import com.example.poslovna_informatika.repositories.PoslovniPartnerRepository;
@@ -26,6 +27,11 @@ public class RobaService implements RobaServiceInterface {
     public List<Roba> findAll() {
         return robaRepository.findAll();
 
+    }
+
+    @Override
+    public Roba findOne(long id){
+        return robaRepository.findOne(id);
     }
 
     @Override

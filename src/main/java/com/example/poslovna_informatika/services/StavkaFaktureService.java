@@ -1,6 +1,7 @@
 package com.example.poslovna_informatika.services;
 
 
+import com.example.poslovna_informatika.model.Cenovnik;
 import com.example.poslovna_informatika.model.StavkaCenovnika;
 import com.example.poslovna_informatika.model.StavkaFakture;
 import com.example.poslovna_informatika.repositories.StavkaCenovnikaRepository;
@@ -26,6 +27,11 @@ public class StavkaFaktureService implements StavkaFaktureServiceInterface {
     public List<StavkaFakture> findAll() {
         return stavkaFaktureRepository.findAll();
 
+    }
+
+    @Override
+    public StavkaFakture findOne(long id){
+        return stavkaFaktureRepository.findOne(id);
     }
 
     @Override
