@@ -1,9 +1,12 @@
 package com.example.poslovna_informatika.controllers;
 
-import com.example.poslovna_informatika.dto.PreduzeceDTO;
 import com.example.poslovna_informatika.dto.RobaDTO;
-import com.example.poslovna_informatika.model.*;
-import com.example.poslovna_informatika.services.*;
+import com.example.poslovna_informatika.model.GrupaRobe;
+import com.example.poslovna_informatika.model.JedinicaMere;
+import com.example.poslovna_informatika.model.Roba;
+import com.example.poslovna_informatika.services.GrupaRobeService;
+import com.example.poslovna_informatika.services.JedinicaMereService;
+import com.example.poslovna_informatika.services.RobaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example of controller
- * Required services to be completed
- */
 @RestController
 @RequestMapping(value = "api/roba")
 public class RobaController {
@@ -33,11 +32,10 @@ public class RobaController {
     }
 
 
-
     @GetMapping
     public ResponseEntity<List<RobaDTO>> getItems() {
         List<Roba> robas = robaService.findAll();
-        List<RobaDTO> robaDTOS= new ArrayList<RobaDTO>();
+        List<RobaDTO> robaDTOS = new ArrayList<RobaDTO>();
         for (Roba r : robas) {
             robaDTOS.add(new RobaDTO(r));
         }

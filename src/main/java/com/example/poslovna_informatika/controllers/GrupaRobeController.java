@@ -1,9 +1,10 @@
 package com.example.poslovna_informatika.controllers;
 
-import com.example.poslovna_informatika.dto.CenovnikDTO;
 import com.example.poslovna_informatika.dto.GrupaRobeDTO;
-import com.example.poslovna_informatika.model.*;
-import com.example.poslovna_informatika.services.CenovnikService;
+import com.example.poslovna_informatika.model.GrupaRobe;
+import com.example.poslovna_informatika.model.PDV;
+import com.example.poslovna_informatika.model.Preduzece;
+import com.example.poslovna_informatika.model.Roba;
 import com.example.poslovna_informatika.services.GrupaRobeService;
 import com.example.poslovna_informatika.services.PdvService;
 import com.example.poslovna_informatika.services.PreduzeceService;
@@ -15,10 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example of controller
- * Required services to be completed
- */
 @RestController
 @RequestMapping(value = "api/grupa-robe")
 public class GrupaRobeController {
@@ -36,7 +33,7 @@ public class GrupaRobeController {
     }
 
 
-    @GetMapping(value = "/{preduzece-id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobe(@PathVariable("id") long id) {
         List<GrupaRobe> grupaRobes = grupaRobeService.findAllByPreduzeceId(id);
         List<GrupaRobeDTO> grupaRobeDTOS = new ArrayList<GrupaRobeDTO>();

@@ -1,11 +1,8 @@
 package com.example.poslovna_informatika.controllers;
 
-import com.example.poslovna_informatika.dto.MestoDTO;
 import com.example.poslovna_informatika.dto.StopaPdvDTO;
-import com.example.poslovna_informatika.model.Mesto;
 import com.example.poslovna_informatika.model.PDV;
 import com.example.poslovna_informatika.model.StopaPDV;
-import com.example.poslovna_informatika.services.MestoService;
 import com.example.poslovna_informatika.services.PdvService;
 import com.example.poslovna_informatika.services.StopaPdvService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example of controller
- * Required services to be completed
- */
 @RestController
-@RequestMapping(value = "api/mesto")
+@RequestMapping(value = "api/stopa-pdv")
 public class StopaPdvController {
 
     private StopaPdvService stopaPdvService;
@@ -35,12 +28,10 @@ public class StopaPdvController {
     }
 
 
-
-
-    @GetMapping(value="/{pdv-id}")
+    @GetMapping
     public ResponseEntity<List<StopaPdvDTO>> getItems() {
         List<StopaPDV> stopaPDVS = stopaPdvService.findAll();
-        List<StopaPdvDTO> stopaPdvDTOS= new ArrayList<StopaPdvDTO>();
+        List<StopaPdvDTO> stopaPdvDTOS = new ArrayList<StopaPdvDTO>();
         for (StopaPDV st : stopaPDVS) {
             stopaPdvDTOS.add(new StopaPdvDTO(st));
         }
@@ -61,7 +52,7 @@ public class StopaPdvController {
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<StopaPdvDTO> updateItem(@RequestBody StopaPdvDTO stopaPdvDTO,
-                                                      @PathVariable("id") long id) {
+                                                  @PathVariable("id") long id) {
         StopaPDV stopa = stopaPdvService.findOne(id);
 
         if (stopa == null) {

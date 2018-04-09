@@ -1,9 +1,14 @@
 package com.example.poslovna_informatika.controllers;
 
 import com.example.poslovna_informatika.dto.FakturaDTO;
-import com.example.poslovna_informatika.dto.GrupaRobeDTO;
-import com.example.poslovna_informatika.model.*;
-import com.example.poslovna_informatika.services.*;
+import com.example.poslovna_informatika.model.Faktura;
+import com.example.poslovna_informatika.model.PoslovnaGodina;
+import com.example.poslovna_informatika.model.PoslovniPartner;
+import com.example.poslovna_informatika.model.Preduzece;
+import com.example.poslovna_informatika.services.FakturaService;
+import com.example.poslovna_informatika.services.PoslovnaGodinaService;
+import com.example.poslovna_informatika.services.PoslovniPartnerService;
+import com.example.poslovna_informatika.services.PreduzeceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example of controller
- * Required services to be completed
- */
 @RestController
 @RequestMapping(value = "api/faktura")
 public class FakturaController {
@@ -26,11 +27,9 @@ public class FakturaController {
     private PoslovniPartnerService poslovniPartnerService;
 
 
-
     @Autowired
     public FakturaController(FakturaService fakturaService, PreduzeceService preduzeceService,
-                             PoslovnaGodinaService poslovnaGodinaService, PoslovniPartnerService poslovniPartnerService)
-    {
+                             PoslovnaGodinaService poslovnaGodinaService, PoslovniPartnerService poslovniPartnerService) {
         this.fakturaService = fakturaService;
         this.preduzeceService = preduzeceService;
         this.poslovnaGodinaService = poslovnaGodinaService;
@@ -38,7 +37,7 @@ public class FakturaController {
     }
 
 
-    @GetMapping(value = "/{preduzece-id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<List<FakturaDTO>> getFakture(@PathVariable("id") long id) {
         List<Faktura> fakture = fakturaService.findAllByPreduzeceId(id);
         List<FakturaDTO> fakturaDTOS = new ArrayList<FakturaDTO>();

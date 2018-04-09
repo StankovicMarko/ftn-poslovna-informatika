@@ -1,9 +1,13 @@
 package com.example.poslovna_informatika.controllers;
 
-import com.example.poslovna_informatika.dto.FakturaDTO;
 import com.example.poslovna_informatika.dto.PoslovniPartnerDTO;
-import com.example.poslovna_informatika.model.*;
-import com.example.poslovna_informatika.services.*;
+import com.example.poslovna_informatika.model.Mesto;
+import com.example.poslovna_informatika.model.PoslovniPartner;
+import com.example.poslovna_informatika.model.Preduzece;
+import com.example.poslovna_informatika.services.FakturaService;
+import com.example.poslovna_informatika.services.MestoService;
+import com.example.poslovna_informatika.services.PoslovniPartnerService;
+import com.example.poslovna_informatika.services.PreduzeceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example of controller
- * Required services to be completed
- */
 @RestController
 @RequestMapping(value = "api/poslovni-partner")
 public class PoslovniPartnerController {
@@ -34,8 +34,7 @@ public class PoslovniPartnerController {
     }
 
 
-
-    @GetMapping(value = "/{preduzece-id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<List<PoslovniPartnerDTO>> getPartnere(@PathVariable("id") long id) {
         List<PoslovniPartner> poslovniPartners = poslovniPartnerService.findAllByPreduzeceId(id);
         List<PoslovniPartnerDTO> poslovniPartnerDTOS = new ArrayList<PoslovniPartnerDTO>();
@@ -49,14 +48,13 @@ public class PoslovniPartnerController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PoslovniPartnerDTO> saveItem(@RequestBody PoslovniPartnerDTO poslovniPartnerDTO) {
         Preduzece preduzece = preduzeceService.findOne(poslovniPartnerDTO.getPreduzeceId());
-        Mesto mesto= mestoService.findOne(poslovniPartnerDTO.getMestoId());
+        Mesto mesto = mestoService.findOne(poslovniPartnerDTO.getMestoId());
 
         PoslovniPartner pp = new PoslovniPartner(poslovniPartnerDTO.getNaziv(), poslovniPartnerDTO.getAdresa(),
                 poslovniPartnerDTO.getVrsta(), mesto, preduzece);
 
         pp = poslovniPartnerService.save(pp);
         return new ResponseEntity<PoslovniPartnerDTO>(new PoslovniPartnerDTO(pp), HttpStatus.CREATED);
-
     }
 
 

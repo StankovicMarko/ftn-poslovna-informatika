@@ -1,12 +1,9 @@
 package com.example.poslovna_informatika.controllers;
 
 import com.example.poslovna_informatika.dto.CenovnikDTO;
-import com.example.poslovna_informatika.dto.PreduzeceDTO;
 import com.example.poslovna_informatika.model.Cenovnik;
-import com.example.poslovna_informatika.model.Mesto;
 import com.example.poslovna_informatika.model.Preduzece;
 import com.example.poslovna_informatika.services.CenovnikService;
-import com.example.poslovna_informatika.services.MestoService;
 import com.example.poslovna_informatika.services.PreduzeceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @RestController
 @RequestMapping(value = "api/cenovnik")
@@ -32,7 +28,7 @@ public class CenovnikController {
     }
 
 
-    @GetMapping(value="/{cenovnik-id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<List<CenovnikDTO>> getCenovnici(@PathVariable("id") long id) {
         List<Cenovnik> cenovnici = cenovnikService.findAllByPreduzeceId(id);
         List<CenovnikDTO> cenovniciDTOS = new ArrayList<CenovnikDTO>();
@@ -43,7 +39,7 @@ public class CenovnikController {
     }
 
 
-    @PostMapping(consumes = "application/json")
+    @PostMapping(value = "/", consumes = "application/json")
     public ResponseEntity<CenovnikDTO> saveItem(@RequestBody CenovnikDTO cenovnikDTO) {
         Preduzece preduzece = preduzeceService.findOne(cenovnikDTO.getPreduzeceID());
 
@@ -51,7 +47,6 @@ public class CenovnikController {
 
         c = cenovnikService.save(c);
         return new ResponseEntity<CenovnikDTO>(new CenovnikDTO(c), HttpStatus.CREATED);
-
     }
 
 
@@ -69,7 +64,7 @@ public class CenovnikController {
         c.setDatumVazenja(cenovnikDTO.getDatumVazenja());
         c.setPreduzece(p);
 
-        c= cenovnikService.save(c);
+        c = cenovnikService.save(c);
 
         return new ResponseEntity<CenovnikDTO>(new CenovnikDTO(c), HttpStatus.OK);
     }

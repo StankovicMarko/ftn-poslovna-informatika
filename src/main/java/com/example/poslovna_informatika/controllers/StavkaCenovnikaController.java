@@ -1,9 +1,12 @@
 package com.example.poslovna_informatika.controllers;
 
-import com.example.poslovna_informatika.dto.RobaDTO;
 import com.example.poslovna_informatika.dto.StavkaCenovnikaDTO;
-import com.example.poslovna_informatika.model.*;
-import com.example.poslovna_informatika.services.*;
+import com.example.poslovna_informatika.model.Cenovnik;
+import com.example.poslovna_informatika.model.Roba;
+import com.example.poslovna_informatika.model.StavkaCenovnika;
+import com.example.poslovna_informatika.services.CenovnikService;
+import com.example.poslovna_informatika.services.RobaService;
+import com.example.poslovna_informatika.services.StavkaCenovnikaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example of controller
- * Required services to be completed
- */
 @RestController
 @RequestMapping(value = "api/stavka-cenovnika")
 public class StavkaCenovnikaController {
@@ -34,11 +33,10 @@ public class StavkaCenovnikaController {
     }
 
 
-
-    @GetMapping(value = "/{cenovnik-id}")
+    @GetMapping
     public ResponseEntity<List<StavkaCenovnikaDTO>> getItems() {
         List<StavkaCenovnika> stavkaCenovnikas = stavkaCenovnikaService.findAll();
-        List<StavkaCenovnikaDTO> stavkaCenovnikaDTOS= new ArrayList<StavkaCenovnikaDTO>();
+        List<StavkaCenovnikaDTO> stavkaCenovnikaDTOS = new ArrayList<StavkaCenovnikaDTO>();
         for (StavkaCenovnika sc : stavkaCenovnikas) {
             stavkaCenovnikaDTOS.add(new StavkaCenovnikaDTO(sc));
         }

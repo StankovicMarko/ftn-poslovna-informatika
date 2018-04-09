@@ -1,10 +1,7 @@
 package com.example.poslovna_informatika.controllers;
 
-import com.example.poslovna_informatika.dto.MestoDTO;
 import com.example.poslovna_informatika.dto.PoslovnaGodinaDTO;
-import com.example.poslovna_informatika.model.Mesto;
 import com.example.poslovna_informatika.model.PoslovnaGodina;
-import com.example.poslovna_informatika.services.MestoService;
 import com.example.poslovna_informatika.services.PoslovnaGodinaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example of controller
- * Required services to be completed
- */
 @RestController
 @RequestMapping(value = "api/poslovna-godina")
 public class PoslovnaGodinaController {
@@ -54,7 +47,7 @@ public class PoslovnaGodinaController {
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<PoslovnaGodinaDTO> updateItem(@RequestBody PoslovnaGodinaDTO poslovnaGodinaDTO,
-                                                      @PathVariable("id") long id) {
+                                                        @PathVariable("id") long id) {
         PoslovnaGodina pg = poslovnaGodinaService.findOne(id);
 
         if (pg == null) {

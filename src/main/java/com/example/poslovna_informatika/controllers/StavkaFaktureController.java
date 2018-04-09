@@ -1,9 +1,12 @@
 package com.example.poslovna_informatika.controllers;
 
-import com.example.poslovna_informatika.dto.StavkaCenovnikaDTO;
 import com.example.poslovna_informatika.dto.StavkaFaktureDTO;
-import com.example.poslovna_informatika.model.*;
-import com.example.poslovna_informatika.services.*;
+import com.example.poslovna_informatika.model.Faktura;
+import com.example.poslovna_informatika.model.Roba;
+import com.example.poslovna_informatika.model.StavkaFakture;
+import com.example.poslovna_informatika.services.FakturaService;
+import com.example.poslovna_informatika.services.RobaService;
+import com.example.poslovna_informatika.services.StavkaFaktureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example of controller
- * Required services to be completed
- */
 @RestController
-@RequestMapping(value = "api/stavka-cenovnika")
+@RequestMapping(value = "api/stavka-fakture")
 public class StavkaFaktureController {
 
     private StavkaFaktureService stavkaFaktureService;
@@ -25,6 +24,7 @@ public class StavkaFaktureController {
     private RobaService robaService;
 
 
+    @Autowired
     public StavkaFaktureController(StavkaFaktureService stavkaFaktureService,
                                    FakturaService fakturaService, RobaService robaService) {
         this.stavkaFaktureService = stavkaFaktureService;
@@ -32,15 +32,10 @@ public class StavkaFaktureController {
         this.robaService = robaService;
     }
 
-    @Autowired
-
-
-
-
-    @GetMapping(value = "/{faktura-id}")
+    @GetMapping
     public ResponseEntity<List<StavkaFaktureDTO>> getItems() {
-        List<StavkaFakture> stavkaFaktures= stavkaFaktureService.findAll();
-        List<StavkaFaktureDTO> stavkaFaktureDTOS= new ArrayList<StavkaFaktureDTO>();
+        List<StavkaFakture> stavkaFaktures = stavkaFaktureService.findAll();
+        List<StavkaFaktureDTO> stavkaFaktureDTOS = new ArrayList<StavkaFaktureDTO>();
         for (StavkaFakture sf : stavkaFaktures) {
             stavkaFaktureDTOS.add(new StavkaFaktureDTO(sf));
         }
@@ -67,7 +62,7 @@ public class StavkaFaktureController {
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<StavkaFaktureDTO> updateItem(@RequestBody StavkaFaktureDTO stavkaFaktureDTO,
-                                                         @PathVariable("id") long id) {
+                                                       @PathVariable("id") long id) {
         StavkaFakture sf = stavkaFaktureService.findOne(id);
 
         if (sf == null) {
@@ -86,7 +81,6 @@ public class StavkaFaktureController {
         sf.setIznosStavke(stavkaFaktureDTO.getIznosStavke());
         sf.setRoba(r);
         sf.setFaktura(f);
-
 
 
         sf = stavkaFaktureService.save(sf);

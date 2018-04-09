@@ -1,13 +1,8 @@
 package com.example.poslovna_informatika.controllers;
 
 import com.example.poslovna_informatika.dto.JedinicaMereDTO;
-import com.example.poslovna_informatika.dto.PreduzeceDTO;
 import com.example.poslovna_informatika.model.JedinicaMere;
-import com.example.poslovna_informatika.model.Mesto;
-import com.example.poslovna_informatika.model.Preduzece;
 import com.example.poslovna_informatika.services.JedinicaMereService;
-import com.example.poslovna_informatika.services.MestoService;
-import com.example.poslovna_informatika.services.PreduzeceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example of controller
- * Required services to be completed
- */
 @RestController
 @RequestMapping(value = "api/jedinica-mere")
 public class JedinicaMereController {
@@ -45,13 +36,10 @@ public class JedinicaMereController {
 
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<JedinicaMereDTO> saveItem(@RequestBody JedinicaMereDTO jedinicaMereDTO) {
-
-        JedinicaMere jm = new JedinicaMere(jedinicaMereDTO.getNaziv(), new ArrayList<>());
-
-        jm = jedinicaMereService.save(jm);
-        return new ResponseEntity<JedinicaMereDTO>(new JedinicaMereDTO(jm), HttpStatus.CREATED);
-
+    public ResponseEntity<JedinicaMere> saveItem(@RequestBody JedinicaMere jedinicaMere) {
+        JedinicaMere jm = new JedinicaMere(jedinicaMere.getNaziv());
+        jedinicaMereService.save(jm);
+        return new ResponseEntity<JedinicaMere>(jm, HttpStatus.CREATED);
     }
 
 

@@ -1,10 +1,7 @@
 package com.example.poslovna_informatika.controllers;
 
-import com.example.poslovna_informatika.dto.JedinicaMereDTO;
 import com.example.poslovna_informatika.dto.MestoDTO;
-import com.example.poslovna_informatika.model.JedinicaMere;
 import com.example.poslovna_informatika.model.Mesto;
-import com.example.poslovna_informatika.services.JedinicaMereService;
 import com.example.poslovna_informatika.services.MestoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,10 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Example of controller
- * Required services to be completed
- */
 @RestController
 @RequestMapping(value = "api/mesto")
 public class MestoController {
@@ -41,19 +34,17 @@ public class MestoController {
         return new ResponseEntity<List<MestoDTO>>(mestoDTOS, HttpStatus.OK);
     }
 
-
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<MestoDTO> saveItem(@RequestBody MestoDTO mestoDTO) {
-        Mesto m = new Mesto(mestoDTO.getGrad(), mestoDTO.getDrzava(), new ArrayList<>(), new ArrayList<>());
+    public ResponseEntity<Mesto> saveItem(@RequestBody Mesto mesto) {
+        Mesto m = new Mesto(mesto.getGrad(), mesto.getDrzava());
         m = mestoService.save(m);
-        return new ResponseEntity<MestoDTO>(new MestoDTO(m), HttpStatus.CREATED);
-
+        return new ResponseEntity<Mesto>(m, HttpStatus.CREATED);
     }
 
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<MestoDTO> updateItem(@RequestBody MestoDTO mestoDTO,
-                                                      @PathVariable("id") long id) {
+                                               @PathVariable("id") long id) {
         Mesto m = mestoService.findOne(id);
 
         if (m == null) {
