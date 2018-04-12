@@ -30,6 +30,16 @@ public class PreduzeceController {
     }
 
 
+    @GetMapping(value = "/mesto/{id}")
+    public ResponseEntity<List<PreduzeceDTO>> getPreduzecaIzMesta(@PathVariable("id") long id) {
+        List<Preduzece> preduzeca = preduzeceService.findAllByMestoId(id);
+        List<PreduzeceDTO> preduzecaDTO = new ArrayList<PreduzeceDTO>();
+        for (Preduzece p : preduzeca) {
+            preduzecaDTO.add(new PreduzeceDTO(p));
+        }
+        return new ResponseEntity<List<PreduzeceDTO>>(preduzecaDTO, HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<List<PreduzeceDTO>> getPreduzeca() {
         List<Preduzece> preduzeca = preduzeceService.findAll();
