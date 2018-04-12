@@ -36,8 +36,7 @@ public class MestoController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Mesto> saveItem(@RequestBody Mesto mesto) {
-        Mesto m = new Mesto(mesto.getGrad(), mesto.getDrzava());
-        m = mestoService.save(m);
+        Mesto m = mestoService.save(mesto);
         return new ResponseEntity<Mesto>(m, HttpStatus.CREATED);
     }
 
