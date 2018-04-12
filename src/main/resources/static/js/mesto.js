@@ -27,7 +27,7 @@ $('#mesto-add-form').submit(function (e) {
     e.preventDefault();
 
     var grad = $('#mesto-grad-add').val();
-    var drzava = $('#mesto-grad-add').val();
+    var drzava = $('#mesto-drzava-add').val();
 
     var data = {
         "grad": grad,
