@@ -84,7 +84,7 @@ $('#cenovnik-add-form').submit(function (e) {
 
 });
 
-$('#cenovnik').on( 'click', 'tr', function () {
+$('#cenovnici').on( 'click', 'tr', function () {
     var cenovnikId = $(this).children(':first').text();
     $('#edit-cenovnik').modal('toggle');
 
