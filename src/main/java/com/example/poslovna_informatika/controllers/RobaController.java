@@ -45,7 +45,7 @@ public class RobaController {
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<RobaDTO> saveItem(@RequestBody RobaDTO robaDTO) {
-        JedinicaMere jm = jedinicaMereService.findOne(robaDTO.getJediniceMereId());
+        JedinicaMere jm = jedinicaMereService.findOne(robaDTO.getJedinicaMereId());
         GrupaRobe gr = grupaRobeService.findOne(robaDTO.getGrupaRobeId());
 
 
@@ -65,12 +65,12 @@ public class RobaController {
             return new ResponseEntity<RobaDTO>(HttpStatus.BAD_REQUEST);
         }
 
-        JedinicaMere jm = jedinicaMereService.findOne(robaDTO.getJediniceMereId());
+        JedinicaMere jm = jedinicaMereService.findOne(robaDTO.getJedinicaMereId());
         GrupaRobe gr = grupaRobeService.findOne(robaDTO.getGrupaRobeId());
 
 
         r.setNaziv(robaDTO.getNaziv());
-        r.setJediniceMere(jm);
+        r.setJedinicaMere(jm);
         r.setGrupaRobe(gr);
 
         r = robaService.save(r);
