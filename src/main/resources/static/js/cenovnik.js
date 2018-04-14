@@ -9,10 +9,6 @@ $(document).ready(function () {
 
 
 
-
-    //loadCenovnici(preduzeceId);
-
-
 });
 
 
@@ -25,7 +21,7 @@ function loadCenovnici(preduzeceId) {
         success: function (cenovnik) {
                 sviCenovnici=cenovnik;
                 cenovnik.forEach(function (cenovnik) {
-                    $('#cenovnik').append('<tr> <td>' + cenovnik.id+ '</td> <td>'+cenovnik.datumVazenja+'</td> </tr>');
+                    $('#cenovnici').append('<tr> <td>' + cenovnik.id+ '</td> <td>'+cenovnik.datumVazenja+'</td> </tr>');
                 });
             }
     });
@@ -47,6 +43,7 @@ function loadPreduzeca() {
 }
 
 $('#lista-preduzeca').on('change', function() {
+    $('#cenovnici').empty();
 
      var preduzeceIdString = $(this).find(":selected").text();
      preduzeceId = preduzeceIdString.substr(0, preduzeceIdString.indexOf('.'));

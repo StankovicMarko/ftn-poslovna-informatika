@@ -22,50 +22,38 @@
         <input id="pretraga-preduzeca" list="lista-preduzeca" class="form-control">
         <datalist id="lista-preduzeca">
 
-            <!--<option value="Something"></option>-->
-            <!--<option value="Something Else"></option>-->
-            <!--<option value="Another One"></option>-->
-            <!--<option value="Alpha"></option>-->
-            <!--<option value="Bravo"></option>-->
-            <!--<option value="Charlie"></option>-->
-            <!--<option value="Delta"></option>-->
-            <!--<option value="Echo"></option>-->
-            <!--<option value="Foxtrot"></option>-->
-            <!--<option value="Gamma"></option>-->
         </datalist>
-        <!--<select class="form-control" id="lista-preduzeca">-->
 
-
-            <!--<option selected="true" disabled="disabled" hidden>Choose Tagging</option>-->
-            <!--<option value="">a</option>-->
-            <!--<option value="">b</option>-->
-            <!--<option value="">c</option>-->
-            <!--<option value="">d</option>-->
-
-
-
-        <!--</select>-->
         <thead>
         <tr>
-            <th scope="col">Grad</th>
-            <th scope="col">Drzava</th>
+            <th scope="col">Broj Fakture</th>
+            <th scope="col">Datum Fakture</th>
+            <th scope="col">Datum Valute</th>
+            <th scope="col">Osnovica</th>
+            <th scope="col">Ukupan PDV</th>
+            <th scope="col">Iznos</th>
+            <th scope="col">Status Fakture</th>
+            <th scope="col">Naziv Posl. Part</th>
+            <th scope="col">Posl. Godina</th>
+
+
         </tr>
         </thead>
-        <tbody id="mesta">
+        <tbody id="fakture">
 
         </tbody>
     </table>
 
-    <div id="add-mesto" class="modal fade" role="dialog">
+    <div id="add-faktura" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Mesto</h4>
+                    <h4 class="modal-title">Add Faktura</h4>
                 </div>
 
                 <div class="modal-body">
-                    <form id="mesto-add-form" action="api/mesto" method="post">
+                    <form id="faktura-add-form">
                         <div class="form-group">
                             <label for="mesto-grad-add">Grad</label>
                             <input id="mesto-grad-add" type="text" class="form-control">
@@ -135,7 +123,7 @@
 
 </div>
 
-<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-mesto"><span class="glyphicon glyphicon-plus"></span></button>
+<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-faktura"><span class="glyphicon glyphicon-plus"></span></button>
 
 
 <script src="js/jquery-3.2.1.js"></script>

@@ -14,32 +14,38 @@ public class FakturaDTO {
     private Date datumFakture;
     private Date datumValute;
     private double osnovica;
-    private double ukupanPDV;
+    private double ukupanPdv;
     private double iznosZaPlacanje;
     private char[] status = new char[2];
     private List<StavkaFaktureDTO> stavkeFaktureDTO;
     private long preduzeceId;
     private long poslovniPartnerId;
+    private String poslovniPartnerNaziv;
     private long poslovnaGodinaId;
+    private int poslovnaGodinaBroj;
+
 
     public FakturaDTO() {
     }
 
-    public FakturaDTO(long id, int brojFakture, Date datumFakture, Date datumValute, double osnovica, double ukupanPDV,
+
+    public FakturaDTO(long id, int brojFakture, Date datumFakture, Date datumValute, double osnovica, double ukupanPdv,
                       double iznosZaPlacanje, char[] status, List<StavkaFaktureDTO> stavkeFaktureDTO, long preduzeceId,
-                      long poslovniPartnerId, long poslovnaGodinaId) {
+                      long poslovniPartnerId, String poslovniPartnerNaziv, long poslovnaGodinaId, int poslovnaGodinaBroj) {
         this.id = id;
         this.brojFakture = brojFakture;
         this.datumFakture = datumFakture;
         this.datumValute = datumValute;
         this.osnovica = osnovica;
-        this.ukupanPDV = ukupanPDV;
+        this.ukupanPdv = ukupanPdv;
         this.iznosZaPlacanje = iznosZaPlacanje;
         this.status = status;
         this.stavkeFaktureDTO = stavkeFaktureDTO;
         this.preduzeceId = preduzeceId;
         this.poslovniPartnerId = poslovniPartnerId;
+        this.poslovniPartnerNaziv = poslovniPartnerNaziv;
         this.poslovnaGodinaId = poslovnaGodinaId;
+        this.poslovnaGodinaBroj = poslovnaGodinaBroj;
     }
 
     public FakturaDTO(Faktura faktura) {
@@ -48,13 +54,15 @@ public class FakturaDTO {
         this.datumFakture = faktura.getDatumFakture();
         this.datumValute = faktura.getDatumValute();
         this.osnovica = faktura.getOsnovica();
-        this.ukupanPDV = faktura.getUkupanPDV();
+        this.ukupanPdv = faktura.getUkupanPDV();
         this.iznosZaPlacanje = faktura.getIznosZaPlacanje();
         this.status = faktura.getStatus();
         this.stavkeFaktureDTO = makeStavkeFaktureDTO(faktura.getStavkeFakture());
         this.preduzeceId = faktura.getPreduzece().getId();
         this.poslovniPartnerId = faktura.getPoslovniPartner().getId();
         this.poslovnaGodinaId = faktura.getPoslovnaGodina().getId();
+        this.poslovniPartnerNaziv = faktura.getPoslovniPartner().getNaziv();
+        this.poslovnaGodinaBroj = faktura.getPoslovnaGodina().getGodina();
     }
 
     public long getId() {
@@ -97,12 +105,12 @@ public class FakturaDTO {
         this.osnovica = osnovica;
     }
 
-    public double getUkupanPDV() {
-        return ukupanPDV;
+    public double getUkupanPdv() {
+        return ukupanPdv;
     }
 
-    public void setUkupanPDV(double ukupanPDV) {
-        this.ukupanPDV = ukupanPDV;
+    public void setUkupanPdv(double ukupanPdv) {
+        this.ukupanPdv = ukupanPdv;
     }
 
     public double getIznosZaPlacanje() {
@@ -151,6 +159,22 @@ public class FakturaDTO {
 
     public void setPoslovnaGodinaId(long poslovnaGodinaId) {
         this.poslovnaGodinaId = poslovnaGodinaId;
+    }
+
+    public String getPoslovniPartnerNaziv() {
+        return poslovniPartnerNaziv;
+    }
+
+    public void setPoslovniPartnerNaziv(String poslovniPartnerNaziv) {
+        this.poslovniPartnerNaziv = poslovniPartnerNaziv;
+    }
+
+    public int getPoslovnaGodinaBroj() {
+        return poslovnaGodinaBroj;
+    }
+
+    public void setPoslovnaGodinaBroj(int poslovnaGodinaBroj) {
+        this.poslovnaGodinaBroj = poslovnaGodinaBroj;
     }
 
     private List<StavkaFaktureDTO> makeStavkeFaktureDTO(List<StavkaFakture> stavkaFaktures) {

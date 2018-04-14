@@ -55,7 +55,7 @@ public class FakturaController {
         PoslovniPartner poslovniPartner = poslovniPartnerService.findOne(fakturaDTO.getPoslovniPartnerId());
 
         Faktura f = new Faktura(fakturaDTO.getDatumFakture(), fakturaDTO.getDatumValute(), fakturaDTO.getOsnovica(),
-                fakturaDTO.getUkupanPDV(), fakturaDTO.getIznosZaPlacanje(), fakturaDTO.getStatus(), preduzece, poslovniPartner,
+                fakturaDTO.getUkupanPdv(), fakturaDTO.getIznosZaPlacanje(), fakturaDTO.getStatus(), preduzece, poslovniPartner,
                 poslovnaGodina);
 
         f = fakturaService.save(f);
@@ -79,7 +79,7 @@ public class FakturaController {
         f.setDatumFakture(fakturaDTO.getDatumFakture());
         f.setDatumValute(fakturaDTO.getDatumValute());
         f.setOsnovica(fakturaDTO.getOsnovica());
-        f.setUkupanPDV(fakturaDTO.getUkupanPDV());
+        f.setUkupanPDV(fakturaDTO.getUkupanPdv());
         f.setIznosZaPlacanje(fakturaDTO.getIznosZaPlacanje());
         f.setStatus(fakturaDTO.getStatus());
         f.setPreduzece(preduzece);

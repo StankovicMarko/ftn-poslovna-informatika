@@ -1,12 +1,12 @@
-    var svaMesta;
     var svaPreduzeca;
+    var preduzeceId;
+
 
 
 $(document).ready(function () {
 
     loadPreduzeca();
 
-    loadMesta();
 
 });
 
@@ -25,16 +25,36 @@ function loadPreduzeca() {
     });
 }
 
+$('#pretraga-preduzeca').on('input', function() {
 
-function loadMesta() {
+     var preduzeceIdString = this.value;
+
+     preduzeceId = preduzeceIdString.substr(0, preduzeceIdString.indexOf('.'));
+
+     loadFakture(preduzeceId);
+
+
+});
+
+
+function loadFakture(preduzeceIdu) {
     $.ajax({
         type: "GET",
-        url: "api/mesto",
+        url: "api/faktura/"+preduzeceId,
         dataType: "json",
-        success: function (mesta) {
-                svaMesta=mesta;
-                mesta.forEach(function (mesto) {
-                    $('#mesta').append('<tr> <td style="display:none;">' + mesto.id+ '</td> <td>'+mesto.grad+'</td> <td>'+mesto.drzava+'</td> </tr>');
+        success: function (fakture) {
+                fakture.forEach(function (faktura) {
+                    $('#fakture').append('<tr> <td style="display:none;">' + faktura.id+
+                                        '</td> <td>'+faktura.brojFakture+
+                                        '</td> <td>'+faktura.datumFakture+
+                                        '</td> <td>'+faktura.datumValute+
+                                        '</td> <td>'+faktura.osnovica+
+                                        '</td> <td>'+faktura.ukupanPdv+
+                                        '</td> <td>'+faktura.iznosZaPlacanje+
+                                        '</td> <td>'+faktura.status+
+                                        '</td> <td>'+faktura.poslovniPartnerNaziv+
+                                        '</td> <td>'+faktura.poslovnaGodinaBroj+
+                                        '</td> </tr>');
                 });
             }
 
