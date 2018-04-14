@@ -33,6 +33,16 @@ public class StavkaCenovnikaController {
     }
 
 
+    @GetMapping(value="/cenovnik/{id}")
+    public ResponseEntity<List<StavkaCenovnikaDTO>> getItemsByCenovnik(@PathVariable("id") long id) {
+        List<StavkaCenovnika> stavkaCenovnikas = stavkaCenovnikaService.findAllByCenovnikId(id);
+        List<StavkaCenovnikaDTO> stavkaCenovnikaDTOS = new ArrayList<StavkaCenovnikaDTO>();
+        for (StavkaCenovnika sc : stavkaCenovnikas) {
+            stavkaCenovnikaDTOS.add(new StavkaCenovnikaDTO(sc));
+        }
+        return new ResponseEntity<List<StavkaCenovnikaDTO>>(stavkaCenovnikaDTOS, HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<List<StavkaCenovnikaDTO>> getItems() {
         List<StavkaCenovnika> stavkaCenovnikas = stavkaCenovnikaService.findAll();

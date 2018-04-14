@@ -39,13 +39,16 @@ public class CenovnikController {
     }
 
 
-    @PostMapping(value = "/", consumes = "application/json")
+    @PostMapping(consumes = "application/json")
     public ResponseEntity<CenovnikDTO> saveItem(@RequestBody CenovnikDTO cenovnikDTO) {
-        Preduzece preduzece = preduzeceService.findOne(cenovnikDTO.getPreduzeceID());
 
+        Preduzece preduzece = preduzeceService.findOne(cenovnikDTO.getPreduzeceId());
         Cenovnik c = new Cenovnik(cenovnikDTO.getDatumVazenja(), preduzece);
 
+
+
         c = cenovnikService.save(c);
+
         return new ResponseEntity<CenovnikDTO>(new CenovnikDTO(c), HttpStatus.CREATED);
     }
 
@@ -58,7 +61,7 @@ public class CenovnikController {
             return new ResponseEntity<CenovnikDTO>(HttpStatus.BAD_REQUEST);
         }
 
-        Preduzece p = preduzeceService.findOne(cenovnikDTO.getPreduzeceID());
+        Preduzece p = preduzeceService.findOne(cenovnikDTO.getPreduzeceId());
 
 
         c.setDatumVazenja(cenovnikDTO.getDatumVazenja());
