@@ -79,4 +79,13 @@ public class Mesto {
     public void setPoslovniPartneri(List<PoslovniPartner> poslovniPartneri) {
         this.poslovniPartneri = poslovniPartneri;
     }
+
+    @Override
+    public String toString() {
+        return "Mesto{" +
+                "id=" + id +
+                ", grad='" + grad + '\'' +
+                ", drzava='" + drzava + '\'' +
+                '}';
+    }
 }

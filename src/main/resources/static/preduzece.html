@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.min.css">
+
+    <title>Poslovna Informatika | Preduzeća</title>
+
+</head>
+
+<body>
+<div id="nav"></div>
+
+<div id="main" class="container">
+
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Naziv</th>
+                <th scope="col">Adresa</th>
+                <th scope="col">PIB</th>
+                <th scope="col">Telefon</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Logo</th>
+            </tr>
+        </thead>
+        <tbody id="preduzeca">
+
+        </tbody>
+    </table>
+
+    <div id="add-preduzeca" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Preduzeće</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="preduzeca-add-form" action="api/preduzece" method="post">
+                        <div class="form-group">
+                            <label for="preduzeca-naziv-add">Naziv</label>
+                            <input id="preduzeca-naziv-add" type="text" class="form-control">
+
+                            <label for="preduzeca-adresa-add">Adresa</label>
+                            <input id="preduzeca-adresa-add" type="text" class="form-control">
+
+                            <label for="preduzeca-pib-add">PIB</label>
+                            <input id="preduzeca-pib-add" type="text" class="form-control">
+
+                            <label for="preduzeca-telefon-add">Telefon</label>
+                            <input id="preduzeca-telefon-add" type="text" class="form-control">
+
+                            <label for="preduzeca-email-add">E-mail</label>
+                            <input id="preduzeca-email-add" type="text" class="form-control">
+
+                            <label for="preduzeca-logo-add">Logo</label>
+                            <input id="preduzeca-logo-add" type="text" class="form-control">
+
+                            <label for="lista-mesta">Lista Mesta</label>
+                                <select class="form-control" id="lista-mesta">
+
+                                </select>
+                        </div>
+                        <button type="submit" class="btn btn-default">Add</button>
+
+
+
+                    </form>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="edit-preduzeca" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Preduzeca</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="preduzeca-edit-form" action="api/preduzece" method="put">
+                        <div class="form-group">
+
+                            <input id="preduzeca-naziv-id" type="hidden" class="form-control">
+
+                            <label for="preduzeca-naziv-edit">Naziv</label>
+                            <input id="preduzeca-naziv-edit" type="text" class="form-control">
+
+                            <label for="preduzeca-adresa-edit">Adresa</label>
+                            <input id="preduzeca-adresa-edit" type="text" class="form-control">
+
+                            <label for="preduzeca-pib-edit">PIB</label>
+                            <input id="preduzeca-pib-edit" type="text" class="form-control">
+
+                            <label for="preduzeca-telefon-edit">Telefon</label>
+                            <input id="preduzeca-telefon-edit" type="text" class="form-control">
+
+                            <label for="preduzeca-email-edit">E-mail</label>
+                            <input id="preduzeca-email-edit" type="text" class="form-control">
+
+                            <label for="preduzeca-logo-edit">Logo</label>
+                            <input id="preduzeca-logo-edit" type="text" class="form-control">
+                        </div>
+                        <br>
+                        <label>Cenovnik</label>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id Cenovnika</th>
+                                    <th scope="col">Datum važenja</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cenovnik">
+                                <tr></tr>
+                            </tbody>
+                        </table>
+
+                        <label>Faktura</label>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Broj fakture</th>
+                                    <th scope="col">Datum fakture</th>
+                                    <th scope="col">Datum valute</th>
+                                    <th scope="col">Osnovica</th>
+                                    <th scope="col">Ukupan PDV</th>
+                                    <th scope="col">Iznos za plaćanje</th>
+                                    <th scope="col">Status fakture</th>
+                                </tr>
+                            </thead>
+                            <tbody id="faktura">
+                                <tr></tr>
+                            </tbody>
+                        </table>
+
+                        <label>Grupa robe</label>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id robe</th>
+                                    <th scope="col">Naziv grupe</th>
+                                </tr>
+                            </thead>
+                            <tbody id="grupaRobe">
+                                <tr></tr>
+                            </tbody>
+                        </table>
+
+                        <label>Poslovni partner</label>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Naziv partnera</th>
+                                    <th scope="col">Adresa</th>
+                                    <th scope="col">Vrsta partnera</th>
+                                </tr>
+                            </thead>
+                            <tbody id="poslovniPartner">
+                            <tr></tr>
+                            </tbody>
+                        </table>
+
+
+                        <button type="submit" class="btn btn-default">Edit</button>
+                        <button type="submit" class="btn btn-default btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-preduzeca"><span class="glyphicon glyphicon-plus"></span></button>
+
+
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/main.js"></script>
+<script src="js/preduzeca.js"></script>
+<script src="js/bootstrap-toggle.min.js"></script>
+
+</body>
+</html>

@@ -58,7 +58,6 @@ public class PreduzeceController {
         Preduzece p = new Preduzece(preduzeceDTO.getNaziv(), preduzeceDTO.getAdresa(),
                 preduzeceDTO.getPib(), preduzeceDTO.getTelefon(), preduzeceDTO.getEmail(),
                 preduzeceDTO.getLogoPath(), mesto);
-
         p = preduzeceService.save(p);
         return new ResponseEntity<PreduzeceDTO>(new PreduzeceDTO(p), HttpStatus.CREATED);
 
@@ -75,6 +74,7 @@ public class PreduzeceController {
 
         Mesto mesto = mestoService.findOne(preduzeceDTO.getMestoId());
 
+        System.out.println(mesto);
 
         p.setNaziv(preduzeceDTO.getNaziv());
         p.setAdresa(preduzeceDTO.getAdresa());

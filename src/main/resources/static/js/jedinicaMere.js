@@ -1,20 +1,20 @@
-    var svaMesta;
+    var sveJedinice;
 
 $(document).ready(function () {
 
-    loadMesta();
+    loadJedinice();
 
 });
 
-function loadMesta() {
+function loadJedinice() {
     $.ajax({
         type: "GET",
-        url: "api/mesto",
+        url: "api/jedinica-mere",
         dataType: "json",
-        success: function (mesta) {
-                svaMesta=mesta;
-                mesta.forEach(function (mesto) {
-                    $('#mesta').append('<tr> <td style="display:none;">' + mesto.id+ '</td> <td>'+mesto.grad+'</td> <td>'+mesto.drzava+'</td> </tr>');
+        success: function (jedinicaMere) {
+                sveJedinice=jedinicaMere;
+                jedinicaMere.forEach(function (jedinicaMere) {
+                    $('#jedinicaMere').append('<tr> <td style="display:none;">' + jedinicaMere.id+ '</td> <td>'+jedinicaMere.naziv+'</td></tr>');
                 });
             }
 
@@ -23,25 +23,24 @@ function loadMesta() {
 
 
 
-$('#mesto-add-form').submit(function (e) {
+$('#jedinicaMere-add-form').submit(function (e) {
     e.preventDefault();
 
-    var grad = $('#mesto-grad-add').val();
-    var drzava = $('#mesto-drzava-add').val();
+    var naziv = $('#jedinicaMere-naziv-add').val();
+
 
     var data = {
-        "grad": grad,
-        "drzava": drzava
+        "naziv": naziv
     };
 
     $.ajax({
         type: "POST",
-        url: "api/mesto",
+        url: "api/jedinica-mere/",
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function (response) {
         console.log(response);
-            $('#add-mesto').modal('toggle');
+            $('#add-jedinicaMere').modal('toggle');
             location.reload(true); //reloads from server rather than browser cache
 //            alert(response['message']);
         },
@@ -53,26 +52,25 @@ $('#mesto-add-form').submit(function (e) {
 
 });
 
-$('#mesta').on( 'click', 'tr', function () {
-    var mestoId = $(this).children(':first').text();
-    $('#edit-mesto').modal('toggle');
+$('#jedinicaMere').on( 'click', 'tr', function () {
+    var jedinicaMereId = $(this).children(':first').text();
+    $('#edit-jedinicaMere').modal('toggle');
 
-    var mesto = svaMesta.find(function(element) {
-                           return element.id == mestoId;
+    var jedinicaMere = sveJedinice.find(function(element) {
+                           return element.id == jedinicaMereId;
                          });
 
 
-    var grad = $('#mesto-grad-edit').val(mesto.grad);
-    var drzava = $('#mesto-drzava-edit').val(mesto.drzava);
-    $("#preduzeca").empty();
+    var naziv = $('#jedinicaMere-naziv-edit').val(jedinicaMere.naziv);
+    $("#roba").empty();
 
      $.ajax({
       type: "GET",
-      url: "api/preduzece/mesto/"+mestoId,
+      url: "api/roba/jedinica-mere/"+jedinicaMereId,
       dataType: "json",
-      success: function (preduzeca) {
-             preduzeca.forEach(function (pred) {
-                                     $('#preduzeca').append('<tr> <td>'+pred.naziv+'</td> <td>'+pred.adresa+'</td> <td> ' +pred.pib + '</td> </tr>');
+      success: function (roba) {
+             roba.forEach(function (roba) {
+                                     $('#roba').append('<tr> <td>'+roba.naziv+'</td> </tr>');
                                  });
           }});
 
@@ -82,23 +80,22 @@ $('#mesta').on( 'click', 'tr', function () {
 
     // mogucnost submita menjanja podatak i delete brisanja
 
-    $('#mesto-edit-form').submit(function (e) {
+    $('#jedinicaMere-edit-form').submit(function (e) {
         e.preventDefault();
 
 
         var data = {
-            "grad": grad.val(),
-            "drzava": drzava.val()
+            "naziv": naziv.val()
         };
 
         $.ajax({
             type: "PUT",
-            url: "api/mesto/"+mestoId,
+            url: "api/jedinica-mere/"+jedinicaMereId,
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function (response) {
             console.log(response);
-                $('#edit-mesto').modal('toggle');
+                $('#edit-jedinicaMere').modal('toggle');
                 location.reload(true); //reloads from server rather than browser cache
     //            alert(response['message']);
             },
@@ -111,19 +108,19 @@ $('#mesta').on( 'click', 'tr', function () {
     });
 
 
-    $('#mesto-edit-form').on( 'click', '.btn-danger', function (e){
+    $('#jedinicaMere-edit-form').on( 'click', '.btn-danger', function (e){
     e.preventDefault();
 
-     if (confirm('Are you sure you want do delete this Mesto?')) {
+     if (confirm('Are you sure you want do delete this Jedinicu Mere?')) {
             $.ajax({
                 type: 'DELETE',
-                url: 'api/mesto/' + mestoId,
+                url: 'api/jedinica-mere/' + jedinicaMereId,
                 contentType: "application/json",
                 success: function (response) {
                 location.reload(true); //reloads from server rather than browser cache
                 },
                 error: function (err) {
-                    alert("Can't delete Mesto that have Preduzeca");
+                    alert("Can't delete Jedinicu Mere that have Robu");
                 }
             });
         }

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.min.css">
+
+    <title>Poslovna informatika | Jedinica Mere</title>
+</head>
+    <div id="nav"></div>
+
+    <div id="main" class="container">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Naziv</th>
+                </tr>
+            </thead>
+            <tbody id="jedinicaMere">
+            </tbody>
+        </table>
+
+        <div id="add-jedinicaMere" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add Jedinicu Mere</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="jedinicaMere-add-form" action="api/jedinica-mere" method="post">
+                            <div class="form-group">
+                                <label for="jedinicaMere-naziv-add">Naziv</label>
+                                <input id="jedinicaMere-naziv-add" type="text" class="form-control">
+
+                            </div>
+                            <button type="submit" class="btn btn-default">Add</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div id="edit-jedinicaMere" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Edit Jedinica Mere</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="jedinicaMere-edit-form" action="api/jedinica-mere" method="put">
+                            <div class="form-group">
+
+                                <input id="jedinicaMere-naziv-id" type="hidden" class="form-control">
+
+                                <label for="jedinicaMere-naziv-edit">Naziv</label>
+                                <input id="jedinicaMere-naziv-edit" type="text" class="form-control">
+
+                            </div>
+                            <br>
+                            <label>Roba</label>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Naziv robe ili usluge</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="roba">
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                            <button type="submit" class="btn btn-default">Edit</button>
+                            <button type="submit" class="btn btn-default btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-jedinicaMere">
+        <span class="glyphicon glyphicon-plus"></span>
+    </button>
+
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jedinicaMere.js"></script>
+    <script src="js/bootstrap-toggle.min.js"></script>
+
+<body>
+
+</body>
+</html>

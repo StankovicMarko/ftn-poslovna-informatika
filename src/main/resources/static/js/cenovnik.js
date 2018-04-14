@@ -1,20 +1,20 @@
-    var svaMesta;
+    var sviCenovnici;
 
 $(document).ready(function () {
 
-    loadMesta();
+    loadCenovnici();
 
 });
 
-function loadMesta() {
+function loadCenovnici() {
     $.ajax({
         type: "GET",
-        url: "api/mesto",
+        url: "api/cenovnik",
         dataType: "json",
-        success: function (mesta) {
-                svaMesta=mesta;
-                mesta.forEach(function (mesto) {
-                    $('#mesta').append('<tr> <td style="display:none;">' + mesto.id+ '</td> <td>'+mesto.grad+'</td> <td>'+mesto.drzava+'</td> </tr>');
+        success: function (cenovnik) {
+                sviCenovnici=cenovnik;
+                cenovnik.forEach(function (cenovnik) {
+                    $('#cenovnik').append('<tr> <td>' + cenovnik.id+ '</td> <td>'+cenovnik.datumVazenja+'</td> </tr>');
                 });
             }
 
@@ -23,7 +23,7 @@ function loadMesta() {
 
 
 
-$('#mesto-add-form').submit(function (e) {
+$('#cenovnik-add-form').submit(function (e) {
     e.preventDefault();
 
     var grad = $('#mesto-grad-add').val();

@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.min.css">
 
-    <title>Poslovna Informatika | Mesto</title>
+    <title>Poslovna Informatika | Cenovnik</title>
 
 </head>
 
@@ -19,31 +19,31 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">Grad</th>
-            <th scope="col">Drzava</th>
+            <th scope="col">Id Cenovnika</th>
+            <th scope="col">Datum Važenja</th>
         </tr>
         </thead>
-        <tbody id="mesta">
+        <tbody id="cenovnik">
 
         </tbody>
     </table>
 
-    <div id="add-mesto" class="modal fade" role="dialog">
+    <div id="add-cenovnik" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Mesto</h4>
+                    <h4 class="modal-title">Add Cenovnik</h4>
                 </div>
 
                 <div class="modal-body">
-                    <form id="mesto-add-form" action="api/mesto" method="post">
+                    <form id="cenovnik-add-form" action="api/cenovnik" method="post">
                         <div class="form-group">
-                            <label for="mesto-grad-add">Grad</label>
-                            <input id="mesto-grad-add" type="text" class="form-control">
+                            <label for="cenovnik-idCenovnik-add">Id Cenovnik</label>
+                            <input id="cenovnik-idCenovnik-add" type="text" class="form-control">
 
-                            <label for="mesto-drzava-add">Drzava</label>
-                            <input id="mesto-drzava-add" type="text" class="form-control">
+                            <label for="cenovnik-datumVazenja-add">Datum Važenja</label>
+                            <input id="cenovnik-datumVazenja-add" type="text" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-default">Add</button>
                     </form>
@@ -54,25 +54,23 @@
     </div>
 
 
-    <div id="edit-mesto" class="modal fade" role="dialog">
+    <div id="edit-cenovnik" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Mesto</h4>
+                    <h4 class="modal-title">Edit Cenovnik</h4>
                 </div>
 
                 <div class="modal-body">
-                    <form id="mesto-edit-form" action="api/mesto" method="put">
+                    <form id="cenovnik-edit-form" action="api/cenovnik" method="put">
                         <div class="form-group">
 
-                            <input id="mesto-grad-id" type="hidden" class="form-control">
+                            <input id="cenovnik-idCenovnik-id" type="text" class="form-control">
 
-                            <label for="mesto-grad-edit">Grad</label>
-                            <input id="mesto-grad-edit" type="text" class="form-control">
+                            <label for="cenovnik-datumVazenja-edit">Datum važenja</label>
+                            <input id="cenovnik-datumVazenja-edit" type="text" class="form-control">
 
-                            <label for="mesto-drzava-edit">Drzava</label>
-                            <input id="mesto-drzava-edit" type="text" class="form-control">
                         </div>
                         <br>
                         <label>Preduzca</label>
@@ -107,13 +105,13 @@
 
 </div>
 
-<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-mesto"><span class="glyphicon glyphicon-plus"></span></button>
+<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-cenovnik"><span class="glyphicon glyphicon-plus"></span></button>
 
 
 <script src="js/jquery-3.2.1.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/main.js"></script>
-<script src="js/mesto.js"></script>
+<script src="js/cenovnik.js"></script>
 <script src="js/bootstrap-toggle.min.js"></script>
 
 </body>
