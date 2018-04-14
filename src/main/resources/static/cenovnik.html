@@ -15,13 +15,21 @@
 
 <div id="main" class="container">
 
+    <div class="dropdown">
+        <label for="lista-preduzeca">Lista Preduzeća</label>
+        <select class="form-control" id="lista-preduzeca">
+            <option value="" selected disabled hidden>Izaberi preduzece</option>
+
+
+        </select>
+    </div>
 
     <table class="table table-hover">
         <thead>
-        <tr>
-            <th scope="col">Id Cenovnika</th>
-            <th scope="col">Datum Važenja</th>
-        </tr>
+            <tr>
+                <th scope="col">Id Cenovnika</th>
+                <th scope="col">Datum Važenja</th>
+            </tr>
         </thead>
         <tbody id="cenovnik">
 
@@ -39,10 +47,7 @@
                 <div class="modal-body">
                     <form id="cenovnik-add-form" action="api/cenovnik" method="post">
                         <div class="form-group">
-                            <label for="cenovnik-idCenovnik-add">Id Cenovnik</label>
-                            <input id="cenovnik-idCenovnik-add" type="text" class="form-control">
-
-                            <label for="cenovnik-datumVazenja-add">Datum Važenja</label>
+                            <label for="cenovnik-datumVazenja-add" >Datum Važenja dd-MM-yyyy</label>
                             <input id="cenovnik-datumVazenja-add" type="text" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-default">Add</button>
@@ -66,24 +71,23 @@
                     <form id="cenovnik-edit-form" action="api/cenovnik" method="put">
                         <div class="form-group">
 
-                            <input id="cenovnik-idCenovnik-id" type="text" class="form-control">
+                            <input id="cenovnik-datumVazenja-id" type="hidden" class="form-control">
 
                             <label for="cenovnik-datumVazenja-edit">Datum važenja</label>
                             <input id="cenovnik-datumVazenja-edit" type="text" class="form-control">
 
                         </div>
                         <br>
-                        <label>Preduzca</label>
+                        <label>Stavke cenovnika</label>
                         <table class="table table-hover">
                             <thead>
                             <tr>
-                                <th scope="col">Naziv</th>
-                                <th scope="col">Adresa</th>
-                                <th scope="col">PIB</th>
+                                <th scope="col">Naziv robe</th>
+                                <th scope="col">Cena</th>
 
                             </tr>
                             </thead>
-                            <tbody id="preduzeca">
+                            <tbody id="stavkeCenovnika">
                             <tr>
                             </tr>
 
