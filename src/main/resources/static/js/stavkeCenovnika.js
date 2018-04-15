@@ -49,7 +49,7 @@ function loadStavkeCenovnika(cenovnikId) {
         success: function (stavkeCenovnika) {
                 sveStavkeCenovnika=stavkeCenovnika;
                 stavkeCenovnika.forEach(function (stavke) {
-                    $('#stavkeCenovnika').append('<tr> <td>' + stavkde.nazivRobe+ '</td> <td>'+stavke.cena+'</td> </tr>');
+                    $('#stavkeCenovnika').append('<tr>  <td style="display:none;">' + stavkde.id+ '</td><td>' + stavkde.nazivRobe+ '</td> <td>'+stavke.cena+'</td> </tr>');
                 });
             }
     });
@@ -65,7 +65,7 @@ $('#lista-preduzeca').on('change', function() {
 });
 
 $('#lista-cenovnika').on('change', function() {
-    //$('#lista-cenovnika').find("option:gt(0)").remove();
+//    $('#lista-cenovnika').find("option:gt(0)").remove();
 
      var cenovnikIdString = $(this).find(":selected").text();
      cenovnikId = cenovnikIdString.substr(0, cenovnikIdString.indexOf('.'));
@@ -165,7 +165,7 @@ $('#stavkeCenovnika').on( 'click', 'tr', function () {
      if (confirm('Are you sure you want do delete this Cenovnik?')) {
             $.ajax({
                 type: 'DELETE',
-                url: 'api/cenovnik/' + cenovnikId,
+                url: "api/cenovnik/" + cenovnikId,
                 contentType: "application/json",
                 success: function (response) {
                 location.reload(true); //reloads from server rather than browser cache

@@ -129,7 +129,7 @@ $.ajax({
       dataType: "json",
       success: function (grupeRobe) {
              grupeRobe.forEach(function (grupaRobe) {
-                                     $('#grupaRobe').append('<tr> <td>'+grupaRobe.id+'</td> <td>'+grupaRobe.nazivGrupe+'</td>  </tr>');
+                                     $('#grupaRobe').append('<tr> <td>'+grupaRobe.id+'</td> <td>'+grupaRobe.naziv+'</td>  </tr>');
                                  });
           }});
 $.ajax({
