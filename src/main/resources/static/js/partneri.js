@@ -111,7 +111,7 @@ $('#partneri').on('click', 'tr', function () {
 
     $.ajax({
         type: "GET",
-        url: "api/faktura/" + partnerId,
+        url: "api/faktura/partner/" + partnerId,
         dataType: "json",
         success: function (faktura) {
             faktura.forEach(function (faktura) {
