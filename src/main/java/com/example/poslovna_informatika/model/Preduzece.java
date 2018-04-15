@@ -157,4 +157,22 @@ public class Preduzece {
     public void setMesto(Mesto mesto) {
         this.mesto = mesto;
     }
+
+    @Override
+    public String toString() {
+        return "Preduzece{" +
+                "id=" + id +
+                ", naziv='" + naziv + '\'' +
+                ", adresa='" + adresa + '\'' +
+                ", pib=" + pib +
+                ", telefon='" + telefon + '\'' +
+                ", email='" + email + '\'' +
+                ", logoPath='" + logoPath + '\'' +
+                ", grupeRoba=" + grupeRoba +
+                ", fakture=" + fakture +
+                ", poslovniPartneri=" + poslovniPartneri +
+                ", cenovnici=" + cenovnici +
+                ", mesto=" + mesto +
+                '}';
+    }
 }

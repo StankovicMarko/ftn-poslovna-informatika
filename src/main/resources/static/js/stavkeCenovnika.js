@@ -56,9 +56,8 @@ function loadStavkeCenovnika(cenovnikId) {
 }
 
 $('#lista-preduzeca').on('change', function() {
-   // $('#lista-cenovnika').empty();
-    $('#lista-cenovnika').not(':first').empty();
-
+    $('#lista-cenovnika').empty();
+//    $('#lista-cenovnika').not(':first').empty();
 
      var preduzeceIdString = $(this).find(":selected").text();
      preduzeceId = preduzeceIdString.substr(0, preduzeceIdString.indexOf('.'));

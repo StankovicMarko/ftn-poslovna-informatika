@@ -2,6 +2,7 @@ package com.example.poslovna_informatika.dto;
 
 import com.example.poslovna_informatika.model.PDV;
 import com.example.poslovna_informatika.model.StopaPDV;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
@@ -9,6 +10,7 @@ public class StopaPdvDTO {
 
     private long id;
     private double procenat;
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Date datumVazenja;
     private long pdvId;
 
@@ -23,7 +25,10 @@ public class StopaPdvDTO {
     }
 
     public StopaPdvDTO(StopaPDV stopaPDV) {
-        this(stopaPDV.getId(), stopaPDV.getProcenat(), stopaPDV.getDatumVazenja(), stopaPDV.getPdv().getId());
+        this(stopaPDV.getId(),
+                stopaPDV.getProcenat(),
+                stopaPDV.getDatumVazenja(),
+                stopaPDV.getPdv().getId());
     }
 
     public long getId() {

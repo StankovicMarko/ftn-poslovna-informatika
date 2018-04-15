@@ -63,6 +63,8 @@ $('#preduzeca-add-form').submit(function (e) {
 
     };
 
+
+
     $.ajax({
         type: "POST",
         url: "api/preduzece",
