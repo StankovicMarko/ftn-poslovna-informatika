@@ -174,3 +174,24 @@ tr:after {
 .btn-danger{
 float:right;
     }
+
+
+.my-modal-dialog{
+width: 95%
+}
+
+
+
+.fakt-status{
+width: 10%;
+min-width: 25px;
+}
+
+#fakt-status{
+width: 10%;
+min-width: 25px;
+}
+
+.my-input>input{
+width: 50px;
+}

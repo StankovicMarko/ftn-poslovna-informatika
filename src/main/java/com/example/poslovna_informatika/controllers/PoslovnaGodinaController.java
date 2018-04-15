@@ -24,6 +24,13 @@ public class PoslovnaGodinaController {
     }
 
 
+    @GetMapping(value="/{id}")
+    public ResponseEntity<PoslovnaGodinaDTO> getPoslGodine(@PathVariable("id") long id) {
+        PoslovnaGodina poslovnaGodina = poslovnaGodinaService.findOne(id);
+        PoslovnaGodinaDTO poslovnaGodinaDTO = new PoslovnaGodinaDTO(poslovnaGodina);
+        return new ResponseEntity<PoslovnaGodinaDTO>(poslovnaGodinaDTO, HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<List<PoslovnaGodinaDTO>> getPoslGodine() {
         List<PoslovnaGodina> poslovnaGodinas = poslovnaGodinaService.findAll();

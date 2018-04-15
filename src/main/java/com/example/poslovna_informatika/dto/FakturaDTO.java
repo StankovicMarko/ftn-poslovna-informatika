@@ -2,6 +2,7 @@ package com.example.poslovna_informatika.dto;
 
 import com.example.poslovna_informatika.model.Faktura;
 import com.example.poslovna_informatika.model.StavkaFakture;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -11,7 +12,9 @@ public class FakturaDTO {
 
     private long id;
     private int brojFakture;
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Date datumFakture;
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Date datumValute;
     private double osnovica;
     private double ukupanPdv;

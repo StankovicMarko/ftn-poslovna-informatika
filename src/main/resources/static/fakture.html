@@ -55,11 +55,18 @@
                 <div class="modal-body">
                     <form id="faktura-add-form">
                         <div class="form-group">
-                            <label for="mesto-grad-add">Grad</label>
-                            <input id="mesto-grad-add" type="text" class="form-control">
 
-                            <label for="mesto-drzava-add">Drzava</label>
-                            <input id="mesto-drzava-add" type="text" class="form-control">
+                            <label for="lista-preduzeca">Izaberite Poslovnog Partera</label>
+                            <input id="pretraga-partnera" list="lista-partnera" class="form-control">
+                            <datalist id="lista-partnera">
+                            </datalist>
+
+                            <label for="lista-godina">Izaberite Poslovnu Godinu</label>
+                            <input id="pretraga-godina" list="lista-godina" class="form-control">
+                            <datalist id="lista-godina">
+                            </datalist>
+
+
                         </div>
                         <button type="submit" class="btn btn-default">Add</button>
                     </form>
@@ -70,50 +77,93 @@
     </div>
 
 
-    <div id="edit-mesto" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+    <div id="edit-faktura" class="modal fade" role="dialog">
+        <div class="my-modal-dialog modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Edit Mesto</h4>
+                    <h4 class="modal-title">Edit Faktura</h4>
+                    <button type="submit" class="btn btn-default btn-danger">Delete</button>
                 </div>
 
                 <div class="modal-body">
-                    <form id="mesto-edit-form" action="api/mesto" method="put">
-                        <div class="form-group">
+                    <table class="table table-hover">
 
-                            <input id="mesto-grad-id" type="hidden" class="form-control">
+                        <thead>
+                        <tr>
+                            <th scope="col">Broj Fakture</th>
+                            <th scope="col">Datum Fakture</th>
+                            <th scope="col">Datum Valute</th>
+                            <th scope="col">Osnovica</th>
+                            <th scope="col">Ukupan PDV</th>
+                            <th scope="col">Iznos</th>
+                            <th scope="col">Status Fakture</th>
+                            <th scope="col">Naziv Posl. Part</th>
+                            <th scope="col">Posl. Godina</th>
 
-                            <label for="mesto-grad-edit">Grad</label>
-                            <input id="mesto-grad-edit" type="text" class="form-control">
 
-                            <label for="mesto-drzava-edit">Drzava</label>
-                            <input id="mesto-drzava-edit" type="text" class="form-control">
-                        </div>
-                        <br>
-                        <label>Preduzca</label>
-                        <table class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th scope="col">Naziv</th>
-                                <th scope="col">Adresa</th>
-                                <th scope="col">PIB</th>
+                        </tr>
+                        </thead>
+                        <tbody id="faktura-for-edit">
+                        <tr> <td style="display:none;" id="fakt-id"> </td>
+                            <td id="fakt-br"> </td>
+                            <td id="fakt-datum"></td>
+                            <td id="fakt-valute"></td>
+                            <td id="fakt-osnovica"> </td>
+                            <td id="fakt-pdv"></td>
+                            <td id="fakt-iznos"></td>
+                            <td class="fakt-status"><input type="text" id="fakt-status"></td>
+                            <td id="fakt-partner"></td>
+                            <td id="fakt-godina"></td> </tr>
 
-                            </tr>
-                            </thead>
-                            <tbody id="preduzeca">
-                            <tr>
-                            </tr>
+                        </tbody>
+                    </table>
 
-                            </tbody>
-                        </table>
-                        <button type="submit" class="btn btn-default">Edit</button>
-                        <button type="submit" class="btn btn-default btn-danger">Delete</button>
-                    </form>
+
+                    <table class="table table-hover">
+
+                        <thead>
+                        <tr>
+                            <th scope="col">Cenovnik</th>
+                            <th scope="col">Stavka Cenovnika</th>
+                            <th scope="col">Kolicina</th>
+                            <th scope="col">Cena</th>
+                            <th scope="col">Rabat</th>
+                            <th scope="col">Osnovica za PDV</th>
+                            <th scope="col">Procenat PDV</th>
+                            <th scope="col">Iznos PDV</th>
+                            <th scope="col">Iznos Stavke</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="my-input"><input id="pretraga-cenovnika" list="lista-cenovnika" >
+                            <datalist id="lista-cenovnika">
+                            </datalist> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td><button type="submit" class="btn btn-default btn-primary">Add Stavka</button></></td> </tr>
+
+                        </tbody>
+                    </table>
+
+
                 </div>
+
             </div>
 
+
         </div>
+
+
     </div>
 
 
@@ -123,7 +173,10 @@
 
 </div>
 
-<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-faktura"><span class="glyphicon glyphicon-plus"></span></button>
+<button id="btn-add-faktura" class="btn btn-default float my-float">
+        <!--data-toggle="modal" data-target="#add-faktura"-->
+
+    <span class="glyphicon glyphicon-plus"></span></button>
 
 
 <script src="js/jquery-3.2.1.js"></script>

@@ -2,6 +2,7 @@ package com.example.poslovna_informatika.dto;
 
 import com.example.poslovna_informatika.model.PDV;
 import com.example.poslovna_informatika.model.StopaPDV;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
@@ -9,6 +10,7 @@ public class StopaPdvDTO {
 
     private long id;
     private double procenat;
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date datumVazenja;
     private long pdvId;
 

@@ -74,8 +74,6 @@ public class PreduzeceController {
 
         Mesto mesto = mestoService.findOne(preduzeceDTO.getMestoId());
 
-        System.out.println(mesto);
-
         p.setNaziv(preduzeceDTO.getNaziv());
         p.setAdresa(preduzeceDTO.getAdresa());
         p.setPib(preduzeceDTO.getPib());

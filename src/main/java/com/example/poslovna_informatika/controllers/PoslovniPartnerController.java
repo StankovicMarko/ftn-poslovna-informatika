@@ -35,7 +35,15 @@ public class PoslovniPartnerController {
 
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<List<PoslovniPartnerDTO>> getPartnere(@PathVariable("id") long id) {
+    public ResponseEntity<PoslovniPartnerDTO> getPartnere(@PathVariable("id") long id) {
+        PoslovniPartner poslovniPartner = poslovniPartnerService.findOne(id);
+        PoslovniPartnerDTO poslovniPartnerDTO = new PoslovniPartnerDTO(poslovniPartner);
+
+        return new ResponseEntity<PoslovniPartnerDTO>(poslovniPartnerDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/preduzece/{id}")
+    public ResponseEntity<List<PoslovniPartnerDTO>> getPartnereByPreduzece(@PathVariable("id") long id) {
         List<PoslovniPartner> poslovniPartners = poslovniPartnerService.findAllByPreduzeceId(id);
         List<PoslovniPartnerDTO> poslovniPartnerDTOS = new ArrayList<PoslovniPartnerDTO>();
         for (PoslovniPartner pp : poslovniPartners) {

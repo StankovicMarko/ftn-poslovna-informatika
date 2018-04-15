@@ -2,6 +2,7 @@ package com.example.poslovna_informatika.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,6 @@ public class Faktura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, unique = true)
     private int brojFakture;
 
@@ -60,6 +60,19 @@ public class Faktura {
         this.osnovica = osnovica;
         this.ukupanPDV = ukupanPDV;
         this.iznosZaPlacanje = iznosZaPlacanje;
+        this.status = status;
+        this.preduzece = preduzece;
+        this.poslovniPartner = poslovniPartner;
+        this.poslovnaGodina = poslovnaGodina;
+        this.stavkeFakture = new ArrayList<>();
+    }
+
+    public Faktura(Preduzece preduzece, PoslovniPartner poslovniPartner, PoslovnaGodina poslovnaGodina, char[] status) {
+        this.datumFakture = new Date();
+        this.datumValute = new Date();
+        this.osnovica = 0;
+        this.ukupanPDV = 0;
+        this.iznosZaPlacanje = 0;
         this.status = status;
         this.preduzece = preduzece;
         this.poslovniPartner = poslovniPartner;
@@ -162,4 +175,24 @@ public class Faktura {
     public void setPoslovnaGodina(PoslovnaGodina poslovnaGodina) {
         this.poslovnaGodina = poslovnaGodina;
     }
+
+    @Override
+    public String toString() {
+        return "Faktura{" +
+                "id=" + id +
+                ", brojFakture=" + brojFakture +
+                ", datumFakture=" + datumFakture +
+                ", datumValute=" + datumValute +
+                ", osnovica=" + osnovica +
+                ", ukupanPDV=" + ukupanPDV +
+                ", iznosZaPlacanje=" + iznosZaPlacanje +
+                ", status=" + Arrays.toString(status) +
+                ", stavkeFakture=" + stavkeFakture +
+                ", preduzece=" + preduzece +
+                ", poslovniPartner=" + poslovniPartner +
+                ", poslovnaGodina=" + poslovnaGodina +
+                '}';
+    }
+
+
 }

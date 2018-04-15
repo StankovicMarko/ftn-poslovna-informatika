@@ -5,13 +5,13 @@ import com.example.poslovna_informatika.model.StavkaFakture;
 public class StavkaFaktureDTO {
 
     private long id;
-    private int kolicina;
-    private double jedinicnaCena;
-    private double rabat;
-    private double osnovicaZaPDV;
-    private double procenatPDV;
-    private double iznosPDV;
-    private double iznosStavke;
+    private int kolicina; //unosim
+    private double jedinicnaCena; //dobijem iz
+    private double rabat; //unosim    unos-100
+    private double osnovicaZaPDV; // kol * cena * (unos - 100) * 100
+    private double procenatPDV; // ucitaj stopu pdv
+    private double iznosPDV; // osnovica * procenat / 100
+    private double iznosStavke; // osnovica + iznos pdv
     private long robaId;
     private long fakturaId;
     private String nazivRobe;

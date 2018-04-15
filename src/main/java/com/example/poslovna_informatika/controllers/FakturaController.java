@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import static java.lang.Math.toIntExact;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +56,13 @@ public class FakturaController {
         PoslovnaGodina poslovnaGodina = poslovnaGodinaService.findOne(fakturaDTO.getPoslovnaGodinaId());
         PoslovniPartner poslovniPartner = poslovniPartnerService.findOne(fakturaDTO.getPoslovniPartnerId());
 
-        Faktura f = new Faktura(fakturaDTO.getDatumFakture(), fakturaDTO.getDatumValute(), fakturaDTO.getOsnovica(),
-                fakturaDTO.getUkupanPdv(), fakturaDTO.getIznosZaPlacanje(), fakturaDTO.getStatus(), preduzece, poslovniPartner,
-                poslovnaGodina);
+        Faktura f = new Faktura(preduzece, poslovniPartner, poslovnaGodina, fakturaDTO.getStatus());
 
         f = fakturaService.save(f);
+
+        f.setBrojFakture(toIntExact(f.getId()));
+        f = fakturaService.save(f);
+
         return new ResponseEntity<FakturaDTO>(new FakturaDTO(f), HttpStatus.CREATED);
 
     }
