@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.min.css">
+
+    <title>Poslovna Informatika | Poslovni Partneri</title>
+
+</head>
+
+<body>
+<div id="nav"></div>
+
+<div id="main" class="container">
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Naziv</th>
+            <th scope="col">Adresa</th>
+            <th scope="col">Vrsta</th>
+        </tr>
+        </thead>
+        <tbody id="partneri">
+
+        </tbody>
+    </table>
+
+    <div id="add-partner" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Poslovni Partner</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="partner-add-form" action="/api/poslovni-partner" method="post">
+                        <div class="form-group">
+                            <label for="partner-naziv-add">Naziv</label>
+                            <input id="partner-naziv-add" type="text" class="form-control">
+
+                            <label for="partner-adresa-add">Adresa</label>
+                            <input id="partner-adresa-add" type="text" class="form-control">
+
+                            <label for="partner-vrsta-add">Vrsta</label>
+                            <input id="partner-vrsta-add" type="text" class="form-control">
+
+                            <label for="partner-preduzece-add">Preduzece</label>
+                            <select class="form-control" id="partner-preduzece-add">
+
+                            </select>
+                            <label for="lista-mesta-add">Lista Mesta</label>
+                            <select class="form-control" id="lista-mesta-add">
+
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-default">Add</button>
+
+
+                    </form>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="edit-partner" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Poslovni Partner</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="partner-edit-form" action="/api/poslovni-partner" method="put">
+                        <div class="form-group">
+
+                            <input id="partner-naziv-id" type="hidden" class="form-control">
+
+                            <label for="partner-naziv-edit">Naziv</label>
+                            <input id="partner-naziv-edit" type="text" class="form-control">
+
+                            <label for="partner-adresa-edit">Adresa</label>
+                            <input id="partner-adresa-edit" type="text" class="form-control">
+
+                            <label for="partner-vrsta-edit">Vrsta</label>
+                            <input id="partner-vrsta-edit" type="text" class="form-control">
+
+                        </div>
+                        <br>
+
+                        <label>Faktura</label>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">Broj fakture</th>
+                                <th scope="col">Datum fakture</th>
+                                <th scope="col">Datum valute</th>
+                                <th scope="col">Osnovica</th>
+                                <th scope="col">Ukupan PDV</th>
+                                <th scope="col">Iznos za plaćanje</th>
+                                <th scope="col">Status fakture</th>
+                            </tr>
+                            </thead>
+                            <tbody id="faktura">
+                            <tr></tr>
+                            </tbody>
+                        </table>
+
+                        <button type="submit" class="btn btn-default">Edit</button>
+                        <button type="submit" class="btn btn-default btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-partner"><span
+        class="glyphicon glyphicon-plus"></span></button>
+
+
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/main.js"></script>
+<script src="js/partneri.js"></script>
+<script src="js/bootstrap-toggle.min.js"></script>
+
+</body>
+</html>
