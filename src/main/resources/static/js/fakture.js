@@ -181,6 +181,29 @@ $('#fakture').on( 'click', 'tr', function () {
                            return element.id == fakturaId;
                          });
 
+     $('#dodate-stavke-fakture').empty();
+     $.ajax({
+        type: "GET",
+        url: "api/stavka-fakture/faktura/"+fakturaId,
+        dataType: "json",
+        success: function (stavkeFakture) {
+            stavkeFakture.forEach(function (stavkaFakture){
+
+            $("#dodate-stavke-fakture").append('<tr>  <td>'+stavkaFakture.nazivRobe+
+                  '</td> <td>'+stavkaFakture.kolicina+
+                  '</td> <td>'+stavkaFakture.jedinicnaCena+
+                  '</td> <td>'+stavkaFakture.rabat+
+                   '</td> <td>'+stavkaFakture.osnovicaZaPDV+
+                  '</td> <td>'+stavkaFakture.procenatPDV+
+                  '</td> <td>'+stavkaFakture.iznosPDV+
+                  '</td> <td>'+stavkaFakture.iznosStavke+
+                   '</td> <td><button class="delete-stavka" stavka-id="'+stavkaFakture.id+
+                  '">Delete</button>'+
+                  '</td> </tr>');
+            });
+            }
+        });
+
 //console.log(faktura);
 
     var id = $('#fakt-id').html(faktura.id);
@@ -199,6 +222,20 @@ $('#fakture').on( 'click', 'tr', function () {
     $('#lista-cenovnika').empty();
     $('#lista-stavki').empty();
     $('#cena').text('');
+     $("#dodate-stavke-fakture").empty();
+
+     $("#osnovica").html('');
+     $("#rabat").val('');
+     $("#kol").val('');
+     $("#iznos-stavke").val('');
+     $("#iznos-pdv").val('');
+
+
+     $('#pretraga-pdv').val('');
+     //$('#lista-pdv').empty();
+
+
+
 
        $.ajax({
           type: "GET",
@@ -319,9 +356,45 @@ $('#fakture').on( 'click', 'tr', function () {
                     "fakturaId": fakturaId
                     }
 
-                dodateStavkeFakture.push(data);
 
-                console.log(dodateStavkeFakture);
+                $.ajax({
+                         type: "POST",
+                         url: "api/stavka-fakture",
+                         data: JSON.stringify(data),
+                         contentType: "application/json",
+                         success: function (stavkaFakture) {
+                         console.log(stavkaFakture);
+                             //$('#add-faktura').modal('toggle');
+                             //location.reload(true); //reloads from server rather than browser cache
+                 //            alert(response['message']);
+                                $("#dodate-stavke-fakture").append('<tr>  <td>'+stavkaFakture.nazivRobe+
+                                                                   '</td> <td>'+stavkaFakture.kolicina+
+                                                                   '</td> <td>'+stavkaFakture.jedinicnaCena+
+                                                                   '</td> <td>'+stavkaFakture.rabat+
+                                                                    '</td> <td>'+stavkaFakture.osnovicaZaPDV+
+                                                                   '</td> <td>'+stavkaFakture.procenatPDV+
+                                                                   '</td> <td>'+stavkaFakture.iznosPDV+
+                                                                   '</td> <td>'+stavkaFakture.iznosStavke+
+                                                                   '</td> <td><button class="delete-stavka" stavka-id="'+stavkaFakture.id+
+                                                                   '">Delete</button>'+
+                                                                   '</td> </tr>');
+
+
+
+                         },
+                         error: function (err) {
+                             var json = err.responseJSON;
+                             alert(json['message']);
+                         }
+                     });
+
+                //dodateStavkeFakture.push(data);
+
+                //console.log(dodateStavkeFakture);
+
+
+
+
 
                 });
 
@@ -395,6 +468,33 @@ $('#fakture').on( 'click', 'tr', function () {
             });
         }
         });
+
+
+         $('#dodate-stavke-fakture').on( 'click', 'button.delete-stavka', function (e){
+           e.preventDefault();
+
+            if (confirm('Are you sure you want do delete this Stavka Fakture?')) {
+            var stavkaId = $(this).attr('stavka-id');
+            var row = $(this).closest('tr');
+
+
+           // console.log(stavkaId);
+                    $.ajax({
+                        type: 'DELETE',
+                        url: 'api/stavka-fakture/' + stavkaId,
+                        contentType: "application/json",
+                        success: function (response) {
+                        row.remove(); //reloads from server rather than browser cache
+                        },
+                        error: function (err) {
+                            alert("Can't delete this Stavka Fakture");
+                        }
+                    });
+               }
+               });
+
+
+
 
     } );
 

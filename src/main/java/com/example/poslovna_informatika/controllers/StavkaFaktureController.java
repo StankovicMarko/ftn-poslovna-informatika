@@ -32,6 +32,16 @@ public class StavkaFaktureController {
         this.robaService = robaService;
     }
 
+    @GetMapping(value="/faktura/{id}")
+    public ResponseEntity<List<StavkaFaktureDTO>> getFakturaItems(@PathVariable("id") long id) {
+        List<StavkaFakture> stavkaFaktures = stavkaFaktureService.findAllByFakturaId(id);
+        List<StavkaFaktureDTO> stavkaFaktureDTOS = new ArrayList<StavkaFaktureDTO>();
+        for (StavkaFakture sf : stavkaFaktures) {
+            stavkaFaktureDTOS.add(new StavkaFaktureDTO(sf));
+        }
+        return new ResponseEntity<List<StavkaFaktureDTO>>(stavkaFaktureDTOS, HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity<List<StavkaFaktureDTO>> getItems() {
         List<StavkaFakture> stavkaFaktures = stavkaFaktureService.findAll();
@@ -53,6 +63,12 @@ public class StavkaFaktureController {
         StavkaFakture sf = new StavkaFakture(stavkaFaktureDTO.getKolicina(), stavkaFaktureDTO.getJedinicnaCena(),
                 stavkaFaktureDTO.getRabat(), stavkaFaktureDTO.getOsnovicaZaPDV(), stavkaFaktureDTO.getProcenatPDV(),
                 stavkaFaktureDTO.getIznosPDV(), stavkaFaktureDTO.getIznosStavke(), r, f);
+
+        f.setOsnovica(f.getOsnovica()+stavkaFaktureDTO.getOsnovicaZaPDV());
+        f.setUkupanPDV(f.getUkupanPDV()+stavkaFaktureDTO.getIznosPDV());
+        f.setIznosZaPlacanje(f.getIznosZaPlacanje() + stavkaFaktureDTO.getIznosStavke());
+
+        f = fakturaService.save(f);
 
         sf = stavkaFaktureService.save(sf);
         return new ResponseEntity<StavkaFaktureDTO>(new StavkaFaktureDTO(sf), HttpStatus.CREATED);
@@ -92,6 +108,14 @@ public class StavkaFaktureController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable long id) {
         StavkaFakture sf = stavkaFaktureService.findOne(id);
+
+        Faktura f = fakturaService.findOne(sf.getFaktura().getId());
+        f.setOsnovica(f.getOsnovica()-sf.getOsnovicaZaPDV());
+        f.setUkupanPDV(f.getUkupanPDV()-sf.getIznosPDV());
+        f.setIznosZaPlacanje(f.getIznosZaPlacanje() - sf.getIznosStavke());
+
+        f = fakturaService.save(f);
+
         if (sf != null) {
             stavkaFaktureService.remove(id);
             return new ResponseEntity<Void>(HttpStatus.OK);
