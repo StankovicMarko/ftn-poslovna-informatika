@@ -25,7 +25,10 @@ public class StopaPdvDTO {
     }
 
     public StopaPdvDTO(StopaPDV stopaPDV) {
-        this(stopaPDV.getId(), stopaPDV.getProcenat(), stopaPDV.getDatumVazenja(), stopaPDV.getPdv().getId());
+        this(stopaPDV.getId(),
+                stopaPDV.getProcenat(),
+                stopaPDV.getDatumVazenja(),
+                stopaPDV.getPdv().getId());
     }
 
     public long getId() {

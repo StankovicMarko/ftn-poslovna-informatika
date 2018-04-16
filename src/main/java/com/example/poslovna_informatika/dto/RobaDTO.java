@@ -13,19 +13,19 @@ public class RobaDTO {
     private String naziv;
     private List<Long> stavkeCenovnikaIds;
     private List<Long> stavkaFaktureIds;
-    private long jediniceMereId;
+    private long jedinicaMereId;
     private long grupaRobeId;
 
     public RobaDTO() {
     }
 
     public RobaDTO(long id, String naziv, List<Long> stavkeCenovnikaIds, List<Long> stavkaFaktureIds,
-                   long jediniceMereId, long grupaRobeId) {
+                   long jedinicMereId, long grupaRobeId) {
         this.id = id;
         this.naziv = naziv;
         this.stavkeCenovnikaIds = stavkeCenovnikaIds;
         this.stavkaFaktureIds = stavkaFaktureIds;
-        this.jediniceMereId = jediniceMereId;
+        this.jedinicaMereId = jedinicaMereId;
         this.grupaRobeId = grupaRobeId;
     }
 
@@ -34,8 +34,8 @@ public class RobaDTO {
         this.naziv = roba.getNaziv();
         this.stavkeCenovnikaIds = makeStavkeCenovnikaIds(roba.getStavkeCenovnika());
         this.stavkaFaktureIds = makeStavkeFaktureIds(roba.getStavkaFakture());
-        this.jediniceMereId = roba.getJediniceMere().getId();
-        this.grupaRobeId = roba.getJediniceMere().getId();
+        this.jedinicaMereId = roba.getJedinicaMere().getId();
+        this.grupaRobeId = roba.getJedinicaMere().getId();
     }
 
     private List<Long> makeStavkeCenovnikaIds(List<StavkaCenovnika> stavkaCenovnika) {
@@ -78,12 +78,12 @@ public class RobaDTO {
         this.stavkaFaktureIds = stavkaFaktureIds;
     }
 
-    public long getJediniceMereId() {
-        return jediniceMereId;
+    public long getJedinicaMereId() {
+        return jedinicaMereId;
     }
 
-    public void setJediniceMereId(long jediniceMereId) {
-        this.jediniceMereId = jediniceMereId;
+    public void setJedinicaMereId(long jedinicaMereId) {
+        this.jedinicaMereId = jedinicaMereId;
     }
 
     public long getGrupaRobeId() {

@@ -22,7 +22,7 @@ public class Roba {
 
     @ManyToOne
     @JoinColumn(name = "jedinica_mere")
-    private JedinicaMere jediniceMere;
+    private JedinicaMere jedinicaMere;
 
     @ManyToOne
     @JoinColumn(name = "grupa_robe")
@@ -31,9 +31,9 @@ public class Roba {
     public Roba() {
     }
 
-    public Roba(String naziv, JedinicaMere jediniceMere, GrupaRobe grupaRobe) {
+    public Roba(String naziv, JedinicaMere jedinicaMere, GrupaRobe grupaRobe) {
         this.naziv = naziv;
-        this.jediniceMere = jediniceMere;
+        this.jedinicaMere = jedinicaMere;
         this.grupaRobe = grupaRobe;
         this.stavkeCenovnika = new ArrayList<>();
         this.stavkaFakture = new ArrayList<>();
@@ -71,12 +71,12 @@ public class Roba {
         this.stavkaFakture = stavkaFakture;
     }
 
-    public JedinicaMere getJediniceMere() {
-        return jediniceMere;
+    public JedinicaMere getJedinicaMere() {
+        return jedinicaMere;
     }
 
-    public void setJediniceMere(JedinicaMere jediniceMere) {
-        this.jediniceMere = jediniceMere;
+    public void setJedinicaMere(JedinicaMere jedinicaMere) {
+        this.jedinicaMere = jedinicaMere;
     }
 
     public GrupaRobe getGrupaRobe() {

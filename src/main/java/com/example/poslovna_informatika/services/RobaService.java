@@ -45,8 +45,8 @@ public class RobaService implements RobaServiceInterface {
     }
 
     @Override
-    public List<Roba> findAllByJediniceMereId(long jedinicaMereId) {
-        return robaRepository.findAllByJediniceMereId(jedinicaMereId);
+    public List<Roba> findAllByJedinicaMereId(long jedinicaMereId) {
+        return robaRepository.findAllByJedinicaMereId(jedinicaMereId);
     }
 
 

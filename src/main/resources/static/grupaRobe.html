@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.min.css">
+
+    <title>Poslovna Informatika | Grupa Robe</title>
+
+</head>
+
+<body>
+<div id="nav"></div>
+
+<div id="main" class="container">
+
+    <div class="dropdown">
+        <label for="lista-preduzeca">Lista Preduzeća</label>
+        <select class="form-control" id="lista-preduzeca">
+            <option value="" selected disabled hidden>Izaberi preduzeće</option>
+        </select>
+        <label for="lista-pdv">Lista PDV-a</label>
+        <select class="form-control" id="lista-pdv">
+            <option value="" selected disabled hidden>Izaberi PDV</option>
+        </select>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Naziv Grupe Robe</th>
+            </tr>
+        </thead>
+        <tbody id="grupe-robe">
+
+        </tbody>
+    </table>
+
+    <div id="add-grupa-robe" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Grupu Robe</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="grupa-robe-add-form" action="api/grupa-robe" method="post">
+                        <div class="form-group">
+
+
+                            <label for="grupa-robe-naziv-add" >Naziv grupe robe</label>
+                            <input id="grupa-robe-naziv-add" type="text" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="edit-grupa-robe" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Stavku Cenovnika</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="grupa-robe-edit-form" action="api/grupa-robe" method="put">
+                        <div class="form-group">
+
+                            <input id="grupa-robe-id  " type="hidden" class="form-control">
+
+                            <label for="grupa-robe-naziv-edit">Naziv grupe robe</label>
+                            <input id="grupa-robe-naziv-edit" type="text" class="form-control">
+
+                        </div>
+                        <br>
+                        <label>Roba</label>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">Naziv</th>
+
+                            </tr>
+                            </thead>
+                            <tbody id="roba">
+                            <tr>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <button type="submit" class="btn btn-default">Edit</button>
+                        <button type="submit" class="btn btn-default btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-grupa-robe"><span class="glyphicon glyphicon-plus"></span></button>
+
+
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/main.js"></script>
+<script src="js/grupaRobe.js"></script>
+<script src="js/bootstrap-toggle.min.js"></script>
+
+</body>
+</html>

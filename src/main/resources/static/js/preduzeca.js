@@ -63,6 +63,8 @@ $('#preduzeca-add-form').submit(function (e) {
 
     };
 
+
+
     $.ajax({
         type: "POST",
         url: "api/preduzece",
@@ -116,9 +118,16 @@ $('#preduzeca').on( 'click', 'tr', function () {
             type: "GET",
             url: "api/faktura/"+preduzeceId,
             dataType: "json",
+
             success: function (fakture) {
                    fakture.forEach(function (faktura) {
-                                           $('#faktura').append('<tr> <td>'+faktura.brojFakture+'</td> <td>'+faktura.datumFakture+'</td> <td>'+faktura.datumValute+'</td> <td>'+faktura.osnovica+'</td> <td>'+faktura.ukupanPdv+'</td> <td>'+faktura.iznosZaPlacanje+'</td> <td>'+faktura.status+'</td> </tr>');
+                                           $('#faktura').append('<tr> <td>'+faktura.brojFakture+
+                                           '</td> <td>'+faktura.datumFakture+
+                                           '</td> <td>'+faktura.datumValute+
+                                           '</td> <td>'+faktura.osnovica+
+                                           '</td> <td>'+faktura.ukupanPdv+
+                                           '</td> <td>'+faktura.iznosZaPlacanje+
+                                           '</td> <td>'+faktura.status+'</td> </tr>');
                                        });
                 }});
 $.ajax({
@@ -127,7 +136,8 @@ $.ajax({
       dataType: "json",
       success: function (grupeRobe) {
              grupeRobe.forEach(function (grupaRobe) {
-                                     $('#grupaRobe').append('<tr> <td>'+grupaRobe.id+'</td> <td>'+grupaRobe.naziv+'</td>  </tr>');
+                                     $('#grupaRobe').append('<tr> <td>'+grupaRobe.id+
+                                     '</td> <td>'+grupaRobe.naziv+'</td>  </tr>');
                                  });
           }});
 $.ajax({
@@ -137,13 +147,10 @@ $.ajax({
       success: function (poslovniPartneri) {
       //console.log(poslovniPartneri);
              poslovniPartneri.forEach(function (poslovniPartner) {
-                 $('#poslovniPartner').append('<tr> <td>' + poslovniPartner.naziv + '</td> <td>' + poslovniPartner.adresa + '</td> <td>' + poslovniPartner.vrsta + '</td>  </tr>');
+                 $('#poslovniPartner').append('<tr> <td>' + poslovniPartner.naziv +
+                 '</td> <td>' + poslovniPartner.adresa + '</td> <td>' + poslovniPartner.vrsta + '</td>  </tr>');
                                  });
           }});
-
-
-
-
 
 
     // mogucnost submita menjanja podatak i delete brisanja

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.min.css">
+
+    <title>Poslovna Informatika | Stavke Cenovnika</title>
+
+</head>
+
+<body>
+<div id="nav"></div>
+
+<div id="main" class="container">
+
+    <div class="dropdown">
+        <label for="lista-preduzeca">Lista Preduzeća</label>
+        <select class="form-control" id="lista-preduzeca">
+            <option value="" selected disabled hidden>Izaberi preduzece</option>
+        </select>
+        <label for="lista-cenovnika">Lista Cenovnika</label>
+        <select class="form-control" id="lista-cenovnika">
+            <option value="" selected disabled hidden>Izaberi datum važenja cenovnika</option>
+        </select>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Naziv Robe</th>
+                <th scope="col">Cena</th>
+            </tr>
+        </thead>
+        <tbody id="stavkeCenovnika">
+
+        </tbody>
+    </table>
+
+    <div id="add-stavkaCenovnika" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Stavku Cenovnika</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="stavkaCenovnika-add-form" action="api/stavka-cenovnika" method="post">
+                        <div class="form-group">
+
+                            <label for="listaRobe-add">Lista Robe</label>
+                            <select class="form-control" id="listaRobe-add">
+                                <option value="" selected disabled hidden>Izaberi robu</option>
+                            </select>
+
+                            <label for="stavkaCenovnika-cena-add" >Cena</label>
+                            <input id="stavkaCenovnika-cena-add" type="text" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="edit-stavkaCenovnika" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Stavku Cenovnika</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="stavkaCenovnika-edit-form" action="api/stavka-cenovnika" method="put">
+                        <div class="form-group">
+
+                            <input id="stavkaCenovnika-cena-id  " type="hidden" class="form-control">
+
+                            <!--<label for="listaRobe-edit">Lista Robe</label>-->
+                            <!--<select class="form-control" id="listaRobe-edit">-->
+                                <!--<option value="" selected disabled hidden>Izaberi robu</option>-->
+                            <!--</select>-->
+
+                            <label for="stavkaCenovnika-cena-edit">Cena</label>
+                            <input id="stavkaCenovnika-cena-edit" type="text" class="form-control">
+
+                        </div>
+                        <br>
+
+                        <button type="submit" class="btn btn-default">Edit</button>
+                        <button type="submit" class="btn btn-default btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-stavkaCenovnika"><span class="glyphicon glyphicon-plus"></span></button>
+
+
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/main.js"></script>
+<script src="js/stavkeCenovnika.js"></script>
+<script src="js/bootstrap-toggle.min.js"></script>
+
+</body>
+</html>

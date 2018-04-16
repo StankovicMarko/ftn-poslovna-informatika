@@ -16,7 +16,7 @@ public interface RobaServiceInterface {
 
     List<Roba> findAllByGrupaRobeId(long grupaRobeId);
 
-    List<Roba> findAllByJediniceMereId(long jedinicaMereId);
+    List<Roba> findAllByJedinicaMereId(long jedinicaMereId);
 
     Roba save(Roba roba);
 

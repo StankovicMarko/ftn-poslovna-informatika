@@ -73,4 +73,15 @@ public class GrupaRobe {
     public void setPdv(PDV pdv) {
         this.pdv = pdv;
     }
+
+    @Override
+    public String toString() {
+        return "GrupaRobe{" +
+                "id=" + id +
+                ", naziv='" + naziv + '\'' +
+                ", robe=" + robe +
+                ", preduzece=" + preduzece +
+                ", pdv=" + pdv +
+                '}';
+    }
 }

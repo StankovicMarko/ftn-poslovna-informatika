@@ -13,6 +13,6 @@ public interface RobaRepository extends JpaRepository<Roba, Long> {
 
     List<Roba> findAllByGrupaRobeId(long grupaRobeId);
 
-    List<Roba> findAllByJediniceMereId(long jedinicaMereId);
+    List<Roba> findAllByJedinicaMereId(long jedinicaMereId);
 
 }

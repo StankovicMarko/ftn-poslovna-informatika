@@ -1,44 +1,46 @@
-    var sveJedinice;
+    var sveStopePDVa;
 
 $(document).ready(function () {
 
-    loadJedinice();
+    loadStopePDVa();
 
 });
 
-function loadJedinice() {
+function loadStopePDVa() {
     $.ajax({
         type: "GET",
-        url: "api/jedinica-mere",
+        url: "api/stopa-pdv",
         dataType: "json",
-        success: function (jedinicaMere) {
-                sveJedinice=jedinicaMere;
-                jedinicaMere.forEach(function (jedinicaMere) {
-                    $('#jedinicaMere').append('<tr> <td>' + jedinicaMere.id+ '</td> <td>'+jedinicaMere.naziv+'</td></tr>');
+        success: function (stopaPdv) {
+                sveStopePDVa=stopaPdv;
+                stopaPdv.forEach(function (stopa) {
+                    $('#stope-pdv').append('<tr> <td style="display:none;">' + stopa.id+ '</td> <td>'+stopa.procenat+'</td> <td>'+stopa.datumVazenja+'</td></tr>');
                 });
             }
 
     });
 }
 
-$('#jedinicaMere-add-form').submit(function (e) {
+$('#stopa-pdv-add-form').submit(function (e) {
     e.preventDefault();
 
-    var naziv = $('#jedinicaMere-naziv-add').val();
+    var procenat = $('#stopa-pdv-procenat-add').val();
+    var datumVazenja = $('#stopa-pdv-datum-vazenja-add').val();
 
 
     var data = {
-        "naziv": naziv
+        "procenat": procenat,
+        "datumVazenja": datumVazenja
     };
 
     $.ajax({
         type: "POST",
-        url: "api/jedinica-mere/",
+        url: "api/stopa-pdv",
         data: JSON.stringify(data),
         contentType: "application/json",
         success: function (response) {
         console.log(response);
-            $('#add-jedinicaMere').modal('toggle');
+            $('#add-stopa-pdv').modal('toggle');
             location.reload(true); //reloads from server rather than browser cache
 //            alert(response['message']);
         },
@@ -50,30 +52,17 @@ $('#jedinicaMere-add-form').submit(function (e) {
 
 });
 
-$('#jedinicaMere').on( 'click', 'tr', function () {
-    var jedinicaMereId = $(this).children(':first').text();
-    $('#edit-jedinicaMere').modal('toggle');
+$('#stope-pdv').on( 'click', 'tr', function () {
+    var stopaPdvId = $(this).children(':first').text();
+    $('#edit-stopa-pdv').modal('toggle');
 
-    var jedinicaMere = sveJedinice.find(function(element) {
-                           return element.id == jedinicaMereId;
+    var stopaPdv = sveStopePDVa.find(function(element) {
+                           return element.id == stopaPdvId;
                          });
 
 
-    var naziv = $('#jedinicaMere-naziv-edit').val(jedinicaMere.naziv);
-    $("#roba").empty();
-
-     $.ajax({
-      type: "GET",
-      url: "api/roba/jedinica-mere/"+jedinicaMereId,
-      dataType: "json",
-      success: function (roba) {
-             roba.forEach(function (roba) {
-                                     $('#roba').append('<tr> <td>'+roba.naziv+'</td> </tr>');
-                                 });
-          }});
-
-
-
+    var procenat = $('#stopa-pdv-procenat-edit').val(stopaPdv.procenat);
+    var datumVazenja = $('#stopa-pdv-datum-vazenja-edit').val(stopaPdv.datumVazenja);
 
 
     // mogucnost submita menjanja podatak i delete brisanja

@@ -42,10 +42,20 @@ public class RobaController {
         return new ResponseEntity<List<RobaDTO>>(robaDTOS, HttpStatus.OK);
     }
 
+    @GetMapping(value="/grupa-robe/{id}")
+    public ResponseEntity<List<RobaDTO>> getItemsGrupaR(@PathVariable("id") long id) {
+        List<Roba> robas = robaService.findAllByGrupaRobeId(id);
+        List<RobaDTO> robaDTOS = new ArrayList<RobaDTO>();
+        for (Roba r : robas) {
+            robaDTOS.add(new RobaDTO(r));
+        }
+        return new ResponseEntity<List<RobaDTO>>(robaDTOS, HttpStatus.OK);
+    }
+
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<RobaDTO> saveItem(@RequestBody RobaDTO robaDTO) {
-        JedinicaMere jm = jedinicaMereService.findOne(robaDTO.getJediniceMereId());
+        JedinicaMere jm = jedinicaMereService.findOne(robaDTO.getJedinicaMereId());
         GrupaRobe gr = grupaRobeService.findOne(robaDTO.getGrupaRobeId());
 
 
@@ -65,12 +75,12 @@ public class RobaController {
             return new ResponseEntity<RobaDTO>(HttpStatus.BAD_REQUEST);
         }
 
-        JedinicaMere jm = jedinicaMereService.findOne(robaDTO.getJediniceMereId());
+        JedinicaMere jm = jedinicaMereService.findOne(robaDTO.getJedinicaMereId());
         GrupaRobe gr = grupaRobeService.findOne(robaDTO.getGrupaRobeId());
 
 
         r.setNaziv(robaDTO.getNaziv());
-        r.setJediniceMere(jm);
+        r.setJedinicaMere(jm);
         r.setGrupaRobe(gr);
 
         r = robaService.save(r);

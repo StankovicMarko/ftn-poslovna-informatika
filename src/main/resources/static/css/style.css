@@ -155,16 +155,23 @@ tr:after {
     width: 500px;
 }
 
-.float{
+.float, .float:focus{
     position:fixed;
     width:60px;
     height:60px;
     bottom:40px;
     right:40px;
-    background-color: #d6d6d6;
-    color: #939f9e;
+    background-color: #3c763d;
+    color: #fff;
     border-radius:50px;
     text-align:center;
+    transition: transform .2s;
+}
+
+.float:hover{
+    background-color:#3c763d;
+    color: #fff;
+    transform: scale(1.5);
 }
 
 .my-float{
@@ -195,3 +202,24 @@ min-width: 25px;
 .my-input>input{
 width: 75px;
 }
+
+
+
+/*.navbar-default .navbar-nav>.active>a{
+    background-color:#adb;
+        color: #fff;
+        font-weight: bold;
+}
+
+.navbar-default .navbar-nav>.active>a:focus{
+    background-color:#fff;
+    color:#adb;
+    font-weight: bold;
+}
+
+.navbar-default .navbar-nav>.active>a:hover{
+    background-color:#fff;
+    color: #adb;
+    font-weight: bold;
+}*/
+

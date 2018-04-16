@@ -1,7 +1,9 @@
 package com.example.poslovna_informatika.controllers;
 
+import com.example.poslovna_informatika.dto.GrupaRobeDTO;
 import com.example.poslovna_informatika.dto.StavkaCenovnikaDTO;
 import com.example.poslovna_informatika.model.Cenovnik;
+import com.example.poslovna_informatika.model.GrupaRobe;
 import com.example.poslovna_informatika.model.Roba;
 import com.example.poslovna_informatika.model.StavkaCenovnika;
 import com.example.poslovna_informatika.services.CenovnikService;
@@ -32,6 +34,19 @@ public class StavkaCenovnikaController {
         this.robaService = robaService;
     }
 
+//    @GetMapping(value = "/preduzece/{pred-id}/cenovnik/{cen-id}")
+//    public ResponseEntity<List<StavkaCenovnikaDTO>>  getItemsByCenovnik(@PathVariable("pred-id") long predId,
+//                                                                       @PathVariable("cen-id") long cenId) {
+//        List<StavkaCenovnika> stavkaCenovnikasPred = stavkaCenovnikaService.findAllByCenovnikId(predId);
+//        List<StavkaCenovnika> stavkaCenovnikasCen = stavkaCenovnikaService.findAllByCenovnikId(cenId);
+//        stavkaCenovnikasPred.retainAll(stavkaCenovnikasCen);
+//
+//        List<StavkaCenovnikaDTO> stavkaCenovnikaDTOS = new ArrayList<StavkaCenovnikaDTO>();
+//        for (StavkaCenovnika sc :  stavkaCenovnikasPred) {
+//            stavkaCenovnikaDTOS.add(new StavkaCenovnikaDTO(sc));
+//        }
+//        return new ResponseEntity<List<StavkaCenovnikaDTO>>(stavkaCenovnikaDTOS, HttpStatus.OK);
+//    }
 
     @GetMapping(value="/cenovnik/{id}")
     public ResponseEntity<List<StavkaCenovnikaDTO>> getItemsByCenovnik(@PathVariable("id") long id) {

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.min.css">
+
+    <title>Poslovna informatika | Stopa PDV-a</title>
+</head>
+    <div id="nav"></div>
+
+    <div id="main" class="container">
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Procenat PDV-a</th>
+                    <th scope="col">Datum važenja</th>
+                </tr>
+            </thead>
+            <tbody id="stope-pdv">
+            </tbody>
+        </table>
+
+        <div id="add-stopa-pdv" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add Stopu PDV-a</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="stopa-pdv-add-form" action="api/stopa-pdv" method="post">
+                            <div class="form-group">
+                                <label for="stopa-pdv-procenat-add">Procenat PDV-a</label>
+                                <select class="form-control" id="stopa-pdv-procenat-add">
+                                    <option value="" selected disabled hidden>Izaberi stopu PDV-a (%)</option>
+                                    <option>20</option>
+                                    <option>10</option>
+                                </select>
+
+                                <label for="stopa-pdv-datum-vazenja-add">Datum važenja dd-MM-yyyy</label>
+                                <input id="stopa-pdv-datum-vazenja-add" type="text" class="form-control">
+
+                            </div>
+                            <button type="submit" class="btn btn-default">Add</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div id="edit-stopa-pdv" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Edit stopu PDV-a</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="stopa-pdv-edit-form" action="api/stopa-pdv" method="put">
+                            <div class="form-group">
+
+                                <input id="stopa-pdv-id" type="hidden" class="form-control">
+
+                                <label for="stopa-pdv-procenat-edit">Procenat PDV-a</label>
+                                <select class="form-control" id="stopa-pdv-procenat-edit">
+                                    <option value="" selected disabled hidden>Izaberi stopu PDV-a (%)</option>
+                                    <option>20</option>
+                                    <option>10</option>
+                                </select>
+
+                                <label for="stopa-pdv-datum-vazenja-edit">Datum važenja dd-MM-yyyy</label>
+                                <input id="stopa-pdv-datum-vazenja-edit" type="text" class="form-control">
+
+                            </div>
+
+                            <button type="submit" class="btn btn-default">Edit</button>
+                            <button type="submit" class="btn btn-default btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-stopa-pdv">
+        <span class="glyphicon glyphicon-plus"></span>
+    </button>
+
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/stopaPdv.js"></script>
+    <script src="js/bootstrap-toggle.min.js"></script>
+
+<body>
+
+</body>
+</html>
