@@ -120,27 +120,36 @@ $('#preduzeca').on( 'click', 'tr', function () {
             dataType: "json",
             success: function (faktura) {
                    faktura.forEach(function (faktura) {
-                                           $('#faktura').append('<tr> <td>'+faktura.brojFakture+'</td> <td>'+faktura.datumFakture+'</td> <td>'+faktura.datumValute+'</td> <td>'+faktura.osnovica+'</td> <td>'+faktura.ukupanPDV+'</td> <td>'+faktura.iznosPlacanja+'</td> <td>'+faktura.statusFakture+'</td> </tr>');
+                                           $('#faktura').append('<tr> <td>'+faktura.brojFakture+
+                                           '</td><td>'+faktura.datumFakture+
+                                           '</td> <td>'+faktura.datumValute+
+                                           '</td><td>'+faktura.osnovica+
+                                           '</td> <td>'+faktura.ukupanPDV+
+                                           '</td> <td>'+faktura.iznosZaPlacanje+
+                                           '</td> <td>'+faktura.status+'</td> </tr>');
                                        });
                 }});
-$.ajax({
-      type: "GET",
-      url: "api/grupa-robe/"+preduzeceId,
-      dataType: "json",
-      success: function (grupeRobe) {
-             grupeRobe.forEach(function (grupaRobe) {
-                                     $('#grupaRobe').append('<tr> <td>'+grupaRobe.id+'</td> <td>'+grupaRobe.naziv+'</td>  </tr>');
-                                 });
-          }});
-$.ajax({
-      type: "GET",
-      url: "api/poslovni-partner/"+preduzeceId,
-      dataType: "json",
-      success: function (poslovniPartneri) {
-             poslovniPartneri.forEach(function (poslovniPartner) {
-                                     $('#poslovniPartner').append('<tr> <td>'+poslovniPartner.nazivPartnera+'</td> <td>'+poslovniPartner.adresa+'</td> <td>'+poslovniPartner.vsrtaPartnera+'</td>  </tr>');
-                                 });
-          }});
+      $.ajax({
+          type: "GET",
+          url: "api/grupa-robe/"+preduzeceId,
+          dataType: "json",
+          success: function (grupeRobe) {
+                 grupeRobe.forEach(function (grupaRobe) {
+                                         $('#grupaRobe').append('<tr> <td>'+grupaRobe.id+'</td> <td>'+grupaRobe.naziv+'</td>  </tr>');
+                                     });
+              }});
+
+      $.ajax({
+          type: "GET",
+          url: "api/poslovni-partner/"+preduzeceId,
+          dataType: "json",
+          success: function (poslovniPartneri) {
+                 poslovniPartneri.forEach(function (poslovniPartner) {
+                                         $('#poslovniPartner').append('<tr> <td>'+poslovniPartner.naziv+
+                                         '</td> <td>'+poslovniPartner.adresa+
+                                         '</td> <td>'+poslovniPartner.vrsta+'</td>  </tr>');
+                                     });
+              }});
 
 
 

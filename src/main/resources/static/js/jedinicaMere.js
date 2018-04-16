@@ -14,14 +14,12 @@ function loadJedinice() {
         success: function (jedinicaMere) {
                 sveJedinice=jedinicaMere;
                 jedinicaMere.forEach(function (jedinicaMere) {
-                    $('#jedinicaMere').append('<tr> <td style="display:none;">' + jedinicaMere.id+ '</td> <td>'+jedinicaMere.naziv+'</td></tr>');
+                    $('#jedinicaMere').append('<tr> <td>' + jedinicaMere.id+ '</td> <td>'+jedinicaMere.naziv+'</td></tr>');
                 });
             }
 
     });
 }
-
-
 
 $('#jedinicaMere-add-form').submit(function (e) {
     e.preventDefault();

@@ -1,16 +1,12 @@
 
-    var preduzeceId;
     var sviCenovnici;
     var svaPreduzeca;
+    var preduzeceId;
 
 
 $(document).ready(function () {
      loadPreduzeca();
-
-
-
 });
-
 
 
 function loadCenovnici(preduzeceId) {

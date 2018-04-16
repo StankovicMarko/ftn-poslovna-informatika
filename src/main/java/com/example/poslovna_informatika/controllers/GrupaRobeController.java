@@ -33,9 +33,34 @@ public class GrupaRobeController {
     }
 
 
+    @GetMapping(value = "/preduzece/{pred-id}/pdv/{pdv-id}")
+    public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobeByPredAndPdv(@PathVariable("pred-id") long predId,
+                                                                       @PathVariable("pdv-id") long pdvId) {
+        List<GrupaRobe> grupaRobesPred = grupaRobeService.findAllByPreduzeceId(predId);
+        List<GrupaRobe> grupaRobesPdv = grupaRobeService.findAllByPreduzeceId(pdvId);
+        grupaRobesPred.retainAll(grupaRobesPdv);
+
+        List<GrupaRobeDTO> grupaRobeDTOS = new ArrayList<GrupaRobeDTO>();
+        for (GrupaRobe gr : grupaRobesPred) {
+            grupaRobeDTOS.add(new GrupaRobeDTO(gr));
+        }
+        return new ResponseEntity<List<GrupaRobeDTO>>(grupaRobeDTOS, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobe(@PathVariable("id") long id) {
         List<GrupaRobe> grupaRobes = grupaRobeService.findAllByPreduzeceId(id);
+        List<GrupaRobeDTO> grupaRobeDTOS = new ArrayList<GrupaRobeDTO>();
+        for (GrupaRobe gr : grupaRobes) {
+            grupaRobeDTOS.add(new GrupaRobeDTO(gr));
+        }
+        return new ResponseEntity<List<GrupaRobeDTO>>(grupaRobeDTOS, HttpStatus.OK);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobeAll() {
+        List<GrupaRobe> grupaRobes = grupaRobeService.findAll();
+//        System.out.println(grupaRobes.get(0));
         List<GrupaRobeDTO> grupaRobeDTOS = new ArrayList<GrupaRobeDTO>();
         for (GrupaRobe gr : grupaRobes) {
             grupaRobeDTOS.add(new GrupaRobeDTO(gr));

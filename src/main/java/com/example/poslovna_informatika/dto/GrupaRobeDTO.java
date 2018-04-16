@@ -29,8 +29,8 @@ public class GrupaRobeDTO {
         this.id = grupaRobe.getId();
         this.naziv = grupaRobe.getNaziv();
         this.robeDTO = makeGrupaRobeDTO(grupaRobe.getRobe());
-        this.preduzeceId = grupaRobe.getPreduzece().getId();
-        this.pdvId = grupaRobe.getPdv().getId();
+//        this.preduzeceId = grupaRobe.getPreduzece().getId();
+//        this.pdvId = grupaRobe.getPdv().getId();
     }
 
     public long getId() {

@@ -40,10 +40,10 @@ function loadStopePDVa() {
     });
 }
 
-function loadGrupeRobe(pdvId) {
+function loadGrupeRobe(pdvId) { //+preduzeceId
     $.ajax({
         type: "GET",
-        url: "api/grupa-robe/"+pdvId,
+         url: "api/grupa-robe/preduzece/"+preduzeceId+"/pdv/"+pdvId,
         dataType: "json",
         success: function (grupaRobe) {
                 sveGrupeRobe=grupaRobe;
@@ -56,8 +56,9 @@ function loadGrupeRobe(pdvId) {
 
 $('#lista-preduzeca').on('change', function() {
 
- $('#lista-pdv').empty();
- $('#lista-pdv').append('<option value="" selected disabled hidden>Izaberi PDV</option>');
+     $('#lista-pdv').empty();
+     $('#lista-pdv').append('<option value="" selected disabled hidden>Izaberi PDV</option>');
+     $('#grupe-robe').empty();
 
      var preduzeceIdString = $(this).find(":selected").text();
      preduzeceId = preduzeceIdString.substr(0, preduzeceIdString.indexOf('.'));
@@ -104,7 +105,7 @@ $('#grupa-robe-add-form').submit(function (e) {
 
 });
 
-//DOVDE STIGLA, EDIT
+
 $('#grupe-robe').on( 'click', 'tr', function () {
     var grupaRobeId = $(this).children(':first').text();
     $('#edit-grupa-robe').modal('toggle');
@@ -112,7 +113,7 @@ $('#grupe-robe').on( 'click', 'tr', function () {
     var grupaRobe= sveGrupeRobe.find(function(element) {
             return element.id == grupaRobeId;
   });
-    //console.log(sveGrupeRobe);
+
 
     var nazivRobe = $('#grupa-robe-naziv-edit').val(grupaRobe.naziv);
 
@@ -127,7 +128,7 @@ $.ajax({
                                      $('#roba').append('<tr> <td>'+robe.id+'</td> <td>'+robe.naziv+'</td>  </tr>');
                                  });
           }});
-    // mogucnost submita menjanja podatak i delete brisanja
+
 
     $('#grupa-robe-edit-form').submit(function (e) {
         e.preventDefault();

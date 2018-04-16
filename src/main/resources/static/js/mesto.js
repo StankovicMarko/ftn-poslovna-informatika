@@ -65,6 +65,7 @@ $('#mesta').on( 'click', 'tr', function () {
     var grad = $('#mesto-grad-edit').val(mesto.grad);
     var drzava = $('#mesto-drzava-edit').val(mesto.drzava);
     $("#preduzeca").empty();
+    $("#poslovniPartner").empty();
 
      $.ajax({
       type: "GET",
@@ -72,11 +73,22 @@ $('#mesta').on( 'click', 'tr', function () {
       dataType: "json",
       success: function (preduzeca) {
              preduzeca.forEach(function (pred) {
-                                     $('#preduzeca').append('<tr> <td>'+pred.naziv+'</td> <td>'+pred.adresa+'</td> <td> ' +pred.pib + '</td> </tr>');
+                                     $('#preduzeca').append('<tr> <td>'+pred.naziv+
+                                     '</td> <td>'+pred.adresa+'</td> <td> ' +pred.pib + '</td> </tr>');
                                  });
           }});
 
-
+$.ajax({
+      type: "GET",
+      url: "api/poslovni-partner/"+preduzeceId,
+      dataType: "json",
+      success: function (poslovniPartneri) {
+             poslovniPartneri.forEach(function (poslovniPartner) {
+                                     $('#poslovniPartner').append('<tr> <td>'+poslovniPartner.naziv+
+                                            '</td> <td>'+poslovniPartner.adresa+
+                                            '</td> <td>'+poslovniPartner.vrsta+'</td>  </tr>');
+                                 });
+          }});
 
 
 

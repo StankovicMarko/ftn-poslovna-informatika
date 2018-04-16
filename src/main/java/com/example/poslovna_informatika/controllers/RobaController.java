@@ -41,6 +41,15 @@ public class RobaController {
         }
         return new ResponseEntity<List<RobaDTO>>(robaDTOS, HttpStatus.OK);
     }
+    @GetMapping(value="/grupa-robe/{id}")
+    public ResponseEntity<List<RobaDTO>> getItemsGrupaR(@PathVariable("id") long id) {
+        List<Roba> robas = robaService.findAllByGrupaRobeId(id);
+        List<RobaDTO> robaDTOS = new ArrayList<RobaDTO>();
+        for (Roba r : robas) {
+            robaDTOS.add(new RobaDTO(r));
+        }
+        return new ResponseEntity<List<RobaDTO>>(robaDTOS, HttpStatus.OK);
+    }
 
 
     @PostMapping(consumes = "application/json")

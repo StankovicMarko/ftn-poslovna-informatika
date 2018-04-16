@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-toggle.min.css">
+
+    <title>Poslovna Informatika | Roba</title>
+
+</head>
+
+<body>
+<div id="nav"></div>
+
+<div id="main" class="container">
+
+    <div class="dropdown">
+        <label for="lista-grupe-robe">Grupa robe</label>
+        <select class="form-control" id="lista-grupe-robe">
+            <option value="" selected disabled hidden>Izaberi grupu robe</option>
+        </select>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Naziv Robe</th>
+                <th scope="col">Jedinica Mere</th>
+            </tr>
+        </thead>
+        <tbody id="roba">
+
+        </tbody>
+    </table>
+
+    <div id="add-robu" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Robu</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="roba-add-form" action="api/roba" method="post">
+                        <div class="form-group">
+
+                            <label for="roba-naziv-add" >Naziv robe</label>
+                            <input id="roba-naziv-add" type="text" class="form-control">
+
+                            <label for="roba-jedinica-mere-add">Jedinica Mere</label>
+                            <select class="form-control" id="roba-jedinica-mere-add">
+                                <option value="" selected disabled hidden>Izaberi Jedinicu Mere</option>
+                            </select>
+
+                        </div>
+                        <button type="submit" class="btn btn-default">Add</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="edit-robu" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Robu</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="roba-edit-form" action="api/roba" method="put">
+                        <div class="form-group">
+
+                            <input id="roba-id  " type="hidden" class="form-control">
+
+                            <label for="roba-naziv-edit">Naziv robe</label>
+                            <input id="roba-naziv-edit" type="text" class="form-control">
+
+                            <label for="roba-jedinica-mere-edit">Jedinica Mere</label>
+                            <select class="form-control" id="roba-jedinica-mere-edit">
+                                <option value="" selected disabled hidden>Izaberi Jedinicu Mere</option>
+                            </select>
+
+                        </div>
+                        <br>
+                        <label>Cenovnik</label>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">Id Cenovnika</th>
+                                <th scope="col">Datum važenja</th>
+                            </tr>
+                            </thead>
+                            <tbody id="cenovnik">
+                            <tr></tr>
+                            </tbody>
+                        </table>
+
+                        <label>Faktura</label>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">Broj fakture</th>
+                                <th scope="col">Datum fakture</th>
+                                <th scope="col">Datum valute</th>
+                                <th scope="col">Osnovica</th>
+                                <th scope="col">Ukupan PDV</th>
+                                <th scope="col">Iznos za plaćanje</th>
+                                <th scope="col">Status fakture</th>
+                            </tr>
+                            </thead>
+                            <tbody id="faktura">
+                            <tr></tr>
+                            </tbody>
+                        </table>
+
+                        <button type="submit" class="btn btn-default">Edit</button>
+                        <button type="submit" class="btn btn-default btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-robu"><span class="glyphicon glyphicon-plus"></span></button>
+
+
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/main.js"></script>
+<script src="js/roba.js"></script>
+<script src="js/bootstrap-toggle.min.js"></script>
+
+</body>
+</html>
