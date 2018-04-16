@@ -132,9 +132,10 @@ $.ajax({
           }});
 $.ajax({
       type: "GET",
-      url: "api/poslovni-partner/"+preduzeceId,
+      url: "api/poslovni-partner/preduzece/"+preduzeceId,
       dataType: "json",
       success: function (poslovniPartneri) {
+      //console.log(poslovniPartneri);
              poslovniPartneri.forEach(function (poslovniPartner) {
                  $('#poslovniPartner').append('<tr> <td>' + poslovniPartner.naziv + '</td> <td>' + poslovniPartner.adresa + '</td> <td>' + poslovniPartner.vrsta + '</td>  </tr>');
                                  });
