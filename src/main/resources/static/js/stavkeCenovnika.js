@@ -1,15 +1,22 @@
 
     var sveStavkeCenovnika;
+
     var sviCenovnici;
+    var cenovnikId;
+
     var svaPreduzeca;
     var preduzeceId;
-    var cenovnikId;
+
+    var svaRoba;
+
+
+
 
 
 
 $(document).ready(function () {
      loadPreduzeca();
-//     loadStavkeCenovnika();
+    //loadRoba();
 
 });
 
@@ -49,27 +56,52 @@ function loadStavkeCenovnika(cenovnikId) {
         success: function (stavkeCenovnika) {
                 sveStavkeCenovnika=stavkeCenovnika;
                 stavkeCenovnika.forEach(function (stavke) {
-                    $('#stavkeCenovnika').append('<tr>  <td style="display:none;">' + stavkde.id+ '</td><td>' + stavkde.nazivRobe+ '</td> <td>'+stavke.cena+'</td> </tr>');
+                    $('#stavkeCenovnika').append('<tr>  <td style="display:none;">' + stavke.id+ '</td><td>' + stavke.nazivRobe+ '</td> <td>'+stavke.cena+'</td> </tr>');
                 });
             }
     });
 }
+// ucitaj svu robu, add padajuci meni
+function loadRoba() {
+    $.ajax({
+        type: "GET",
+        url: "api/roba",
+        dataType: "json",
+        success: function (robe) {
+                svaRoba=robe;
+                robe.forEach(function (roba) {
+                    $('#listaRobe-add').append('<option>' + roba.id+ '. '+roba.naziv+'</option>');
+                });
+            }
 
-$('#lista-preduzeca').on('change', function() {
-    $('#lista-cenovnika').empty();
-//    $('#lista-cenovnika').not(':first').empty();
+    });
+}
+
+$('#lista-preduzeca').on('change', function(e) {
+e.stopImmediatePropagation()
+        $('#lista-cenovnika').empty();
+        $('#lista-cenovnika').append('<option value="" selected disabled hidden>Izaberi datum važenja cenovnika</option>');
+        $('#stavkeCenovnika').empty();
 
      var preduzeceIdString = $(this).find(":selected").text();
      preduzeceId = preduzeceIdString.substr(0, preduzeceIdString.indexOf('.'));
       loadCenovnici(preduzeceId);
 });
 
-$('#lista-cenovnika').on('change', function() {
-//    $('#lista-cenovnika').find("option:gt(0)").remove();
+$('#lista-cenovnika').on('change', function(e) {
+e.stopImmediatePropagation()
+
+    $('#stavkeCenovnika').empty();
+    //$("#listaRobe-add").empty();
+        loadRoba();
 
      var cenovnikIdString = $(this).find(":selected").text();
      cenovnikId = cenovnikIdString.substr(0, cenovnikIdString.indexOf('.'));
+    //console.log(cenovnikId);
+
       loadStavkeCenovnika(cenovnikId);
+
+      //console.log(sveStavkeCenovnika);
 });
 
 $('#stavkaCenovnika-add-form').submit(function (e) {
@@ -77,6 +109,9 @@ $('#stavkaCenovnika-add-form').submit(function (e) {
 
 
     var cena = $('#stavkaCenovnika-cena-add').val();
+
+    var robaIdString = $('#listaRobe-add').find(":selected").text();
+    var robaId = robaIdString.substr(0, robaIdString.indexOf('.'));
 
     var data = {
         "cena": cena,
@@ -114,34 +149,37 @@ $('#stavkeCenovnika').on( 'click', 'tr', function () {
                          });
 
 
-    var cena = $('#stavkaCenovnika-cena-edit').val(cenovnik.cena);
+    var cena = $('#stavkaCenovnika-cena-edit').val(stavkaCenovnika.cena);
 //    $("#stavkeCenovnika").empty();
 
-     $.ajax({
-      type: "GET",
-      url: "api/stavka-cenovnika/cenovnik/"+cenovnikId,
-      dataType: "json",
-      success: function (cenovnika) {
-             cenovnika.forEach(function (cenovnik) {
-                                     $('#stavkeCenovnika').append('<tr> <td>'+cenovnik.nazivRobe+'</td> <td>'+cenovnik.cena+'</td> </tr>');
-                                 });
-          }});
+//     $.ajax({
+//      type: "GET",
+//      url: "api/stavka-cenovnika/cenovnik/"+cenovnikId,
+//      dataType: "json",
+//      success: function (cenovnika) {
+//             cenovnika.forEach(function (cenovnik) {
+//                                     $('#stavkeCenovnika').append('<tr> <td>'+cenovnik.nazivRobe+'</td> <td>'+cenovnik.cena+'</td> </tr>');
+//                                 });
+//          }});
 
 
     // mogucnost submita menjanja podatak i delete brisanja
 
-    $('#cenovnik-edit-form').submit(function (e) {
+    $('#stavkaCenovnika-edit-form').submit(function (e) {
         e.preventDefault();
 
 
-        var data = {
-            "datumVazenja": datumVazenja.val(),
-            "preduzeceId": preduzeceId
-        };
+         var data = {
+               "cena": cena.val(),
+               "cenovnikId" : cenovnikId,
+               "robaId": stavkaCenovnika.robaId
+           };
+
+           console.log(data);
 
         $.ajax({
             type: "PUT",
-            url: "api/cenovnik/"+cenovnikId,
+            url: "api/stavka-cenovnika/"+stavkaCenovnikaId,
             data: JSON.stringify(data),
             contentType: "application/json",
             success: function (response) {
@@ -159,19 +197,20 @@ $('#stavkeCenovnika').on( 'click', 'tr', function () {
     });
 
 
-    $('#cenovnik-edit-form').on( 'click', '.btn-danger', function (e){
+    $('#stavkaCenovnika-edit-form').on( 'click', '.btn-danger', function (e){
     e.preventDefault();
+    e.stopImmediatePropagation();
 
-     if (confirm('Are you sure you want do delete this Cenovnik?')) {
+     if (confirm('Are you sure you want do delete this Stavku Cenovnika?')) {
             $.ajax({
                 type: 'DELETE',
-                url: "api/cenovnik/" + cenovnikId,
+                url: "api/stavka-cenovnika/" + stavkaCenovnikaId,
                 contentType: "application/json",
                 success: function (response) {
                 location.reload(true); //reloads from server rather than browser cache
                 },
                 error: function (err) {
-                    alert("Can't delete Cenovnik that have Stavke Cenovnika");
+                    alert("Can't delete this Stavku Cenovnika");
                 }
             });
         }

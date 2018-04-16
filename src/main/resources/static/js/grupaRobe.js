@@ -40,7 +40,7 @@ function loadStopePDVa() {
     });
 }
 
-function loadGrupeRobe(pdvId) { //+preduzeceId
+function loadGrupeRobe(pdvId) {
     $.ajax({
         type: "GET",
          url: "api/grupa-robe/preduzece/"+preduzeceId+"/pdv/"+pdvId,
@@ -54,8 +54,8 @@ function loadGrupeRobe(pdvId) { //+preduzeceId
     });
 }
 
-$('#lista-preduzeca').on('change', function() {
-
+$('#lista-preduzeca').on('change', function(e) {
+e.stopImmediatePropagation()
      $('#lista-pdv').empty();
      $('#lista-pdv').append('<option value="" selected disabled hidden>Izaberi PDV</option>');
      $('#grupe-robe').empty();
@@ -66,7 +66,8 @@ $('#lista-preduzeca').on('change', function() {
 });
 
 
-$('#lista-pdv').on('change', function() {
+$('#lista-pdv').on('change', function(e) {
+e.stopImmediatePropagation()
     //$('#lista-pdv').find("option:gt(0)").remove();
     $('#grupe-robe').empty();
      var pdvIdString = $(this).find(":selected").text();
@@ -121,7 +122,7 @@ $('#grupe-robe').on( 'click', 'tr', function () {
 
 $.ajax({
       type: "GET",
-      url: "api/roba/"+grupaRobeId,
+      url: "api/roba/grupa-robe/"+grupaRobeId,
       dataType: "json",
       success: function (roba) {
              roba.forEach(function (robe) {
@@ -140,6 +141,10 @@ $.ajax({
             "pdvId": pdvId
 
         };
+
+        console.log(data);
+                console.log(grupaRobeId);
+
 
         $.ajax({
             type: "PUT",
