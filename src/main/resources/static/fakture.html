@@ -119,16 +119,18 @@
                         </tbody>
                     </table>
 
+                    <button type="submit" class="btn btn-default btn-primary">Add Stavka</button></>
+                    <button type="submit" class="btn btn-default btn-secondary">Calculate</button></>
 
-                    <table class="table table-hover">
+            <table class="table table-hover">
 
                         <thead>
                         <tr>
                             <th scope="col">Cenovnik</th>
-                            <th scope="col">Stavka Cenovnika</th>
+                            <th scope="col">Stavka Ceno.</th>
                             <th scope="col">Kolicina</th>
                             <th scope="col">Cena</th>
-                            <th scope="col">Rabat</th>
+                            <th scope="col">Rabat %</th>
                             <th scope="col">Osnovica za PDV</th>
                             <th scope="col">Procenat PDV</th>
                             <th scope="col">Iznos PDV</th>
@@ -142,15 +144,23 @@
                             <td class="my-input"><input id="pretraga-cenovnika" list="lista-cenovnika" >
                             <datalist id="lista-cenovnika">
                             </datalist> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td> </td>
-                            <td><button type="submit" class="btn btn-default btn-primary">Add Stavka</button></></td> </tr>
+                            <td class="my-input"><input id="pretraga-stavki" list="lista-stavki" >
+                                <datalist id="lista-stavki">
+                                </datalist> </td>
+                            <td class="my-input"><input id="kolicina" > </td>
+                            <td id="cena"> </td>
+                            <td class="my-input"><input id="rabat" > </td>
+                            <td id="osnovica"> </td>
+                            <td class="my-input"><input id="pretraga-pdv" list="lista-pdv" >
+                                <datalist id="lista-pdv">
+                                    <option value="1. Procenat: 10"></option>
+                                    <option value="2. Procenat: 20"></option>
+
+                                </datalist> </td>
+                            <td id="iznos-pdv"> </td>
+                            <td id="iznos-stavke"> </td>
+                            <!--<td></td>-->
+                        </tr>
 
                         </tbody>
                     </table>

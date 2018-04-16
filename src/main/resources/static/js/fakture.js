@@ -1,6 +1,10 @@
     var svaPreduzeca;
     var preduzeceId;
     var fakturePreduzeca;
+    var ucitaneStavke;
+    var stavkaId;
+    var cenovnikId;
+    var dodateStavkeFakture=[];
 
 
 
@@ -169,6 +173,7 @@ if(poslovniPartnerId.match(/^-{0,1}\d+$/) && poslovnaGodinaId.match(/^-{0,1}\d+$
 });
 
 $('#fakture').on( 'click', 'tr', function () {
+    dodateStavkeFakture=[];
     var fakturaId = $(this).children(':first').text();
     $('#edit-faktura').modal('toggle');
 
@@ -176,7 +181,7 @@ $('#fakture').on( 'click', 'tr', function () {
                            return element.id == fakturaId;
                          });
 
-console.log(faktura);
+//console.log(faktura);
 
     var id = $('#fakt-id').html(faktura.id);
     var broj = $('#fakt-br').html(faktura.brojFakture);
@@ -189,20 +194,139 @@ console.log(faktura);
     var partner = $('#fakt-partner').html(faktura.poslovniPartnerNaziv);
     var godina = $('#fakt-godina').html(faktura.poslovnaGodinaBroj);
 
+    $('#pretraga-cenovnika').val('');
+    $('#pretraga-stavki').val('');
+    $('#lista-cenovnika').empty();
+    $('#lista-stavki').empty();
+    $('#cena').text('');
 
        $.ajax({
           type: "GET",
-          url: "api/poslovna-godina/1",
+          url: "api/cenovnik/"+preduzeceId,
           dataType: "json",
-          success: function (poslovnaGodina) {
-                  $('#lista-godina').empty();
-                  $('#lista-godina').append('<option my-id="'+poslovnaGodina.id+'" value="' + poslovnaGodina.godina+ '"></option>');
+          success: function (cenovnici) {
+                 cenovnici.forEach(function (cenovnik) {
+                     $('#lista-cenovnika').append('<option value="' + cenovnik.id +
+                                                 '. ' + cenovnik.datumVazenja +'"></option>');
+                             });}});
+
+        $('#pretraga-cenovnika').on('input', function(e) {
+            e.stopImmediatePropagation();
+
+            $('#lista-stavki').empty();
+            $('#cena').text('');
+            $('#pretraga-stavki').val('');
+
+
+             var cenovnikString = this.value;
+             cenovnikId = cenovnikString.substr(0, cenovnikString.indexOf('.'));
+
+
+        if(cenovnikId.match(/^-{0,1}\d+$/)){
+
+            $.ajax({
+                      type: "GET",
+                      url: "api/stavka-cenovnika/cenovnik/"+cenovnikId,
+                      dataType: "json",
+                      success: function (stavke) {
+                              ucitaneStavke=stavke;
+                             stavke.forEach(function (stavka) {
+                                 $('#lista-stavki').append('<option value="' + stavka.id +
+                                                             '. ' + stavka.nazivRobe+'"></option>');
+                                         });}});
+             //$('#pretraga-stavki').val('');
+
+             }else{}});
+
+
+        $('#pretraga-stavki').on('input', function() {
+
+             var stavkaString = this.value;
+             stavkaId = stavkaString.substr(0, stavkaString.indexOf('.'));
+
+
+        if(stavkaId.match(/^-{0,1}\d+$/)){
+
+            var stavka = ucitaneStavke.find(function(element) {
+                                       return element.id == stavkaId;
+                                     });
+            $("#cena").html(stavka.cena)
+             }else{}});
+
+        $('.btn-secondary').on( 'click', function (e) {
+
+            e.stopImmediatePropagation();
+
+            var kol = parseInt($("#kolicina").val());
+            var r = parseInt($("#rabat").val());
+             var c = parseInt($("#cena").text());
+
+            var osn = kol * c * (100 - r) / 100;
+            $("#osnovica").html(osn);
+
+             var stopaPdvStr = $("#pretraga-pdv").val();
+             stopaId = stopaPdvStr.substr(0, stopaPdvStr.indexOf('.'));
+
+            var procenat;
+            if(stopaId == 1){
+            procenat=10;}else{
+            procenat=20;}
+
+            var izn = osn * procenat / 100
+            $("#iznos-pdv").html(izn);
+
+            var iznStav = osn+izn;
+            $("#iznos-stavke").html(iznStav);
+
+        });
+
+        $('.btn-primary').on( 'click', function (e) {
+
+                    e.stopImmediatePropagation();
+
+                    var kol = parseInt($("#kolicina").val());
+                    var r = parseInt($("#rabat").val());
+                     var c = parseInt($("#cena").text());
+
+                    var osn = kol * c * (100 - r) / 100;
+
+                     var stopaPdvStr = $("#pretraga-pdv").val();
+                     stopaId = stopaPdvStr.substr(0, stopaPdvStr.indexOf('.'));
+
+                    var procenat;
+                    if(stopaId == 1){
+                    procenat=10;}else{
+                    procenat=20;}
+
+                    var izn = osn * procenat / 100
+                    var iznStav = osn+izn;
+
+                    var stavka = ucitaneStavke.find(function(element) {
+                                                           return element.id == stavkaId;
+                                                         });
+
+                    var data = {
+                    "cenovnikId" :cenovnikId,
+                    "robaId": stavka.robaId,
+                    "preduzeceId": preduzeceId,
+                    "iznosStavke": iznStav,
+                    "iznosPDV": izn,
+                    "procenatPDV": procenat,
+                    "osnovicaZaPDV": osn,
+                    "rabat": r,
+                    "jedinicnaCena": c,
+                    "kolicina": kol,
+                    "fakturaId": fakturaId
+                    }
+
+                dodateStavkeFakture.push(data);
+
+                console.log(dodateStavkeFakture);
+
+                });
 
 
 
-              }
-
-                  });
 
 
 
