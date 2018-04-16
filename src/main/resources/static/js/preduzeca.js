@@ -136,7 +136,7 @@ $.ajax({
       dataType: "json",
       success: function (poslovniPartneri) {
              poslovniPartneri.forEach(function (poslovniPartner) {
-                                     $('#poslovniPartner').append('<tr> <td>'+poslovniPartner.nazivPartnera+'</td> <td>'+poslovniPartner.adresa+'</td> <td>'+poslovniPartner.vsrtaPartnera+'</td>  </tr>');
+                 $('#poslovniPartner').append('<tr> <td>' + poslovniPartner.naziv + '</td> <td>' + poslovniPartner.adresa + '</td> <td>' + poslovniPartner.vrsta + '</td>  </tr>');
                                  });
           }});
 

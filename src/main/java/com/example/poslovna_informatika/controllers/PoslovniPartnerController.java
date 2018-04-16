@@ -33,6 +33,16 @@ public class PoslovniPartnerController {
         this.mestoService = mestoService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<PoslovniPartnerDTO>> getAllPartners() {
+        List<PoslovniPartner> partners = poslovniPartnerService.findAll();
+        List<PoslovniPartnerDTO> partnersDTO = new ArrayList<PoslovniPartnerDTO>();
+        for (PoslovniPartner p : partners) {
+            partnersDTO.add(new PoslovniPartnerDTO(p));
+        }
+        return new ResponseEntity<List<PoslovniPartnerDTO>>(partnersDTO, HttpStatus.OK);
+    }
+
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<PoslovniPartnerDTO> getPartnere(@PathVariable("id") long id) {

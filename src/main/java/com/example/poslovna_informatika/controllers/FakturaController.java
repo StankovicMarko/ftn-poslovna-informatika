@@ -49,6 +49,15 @@ public class FakturaController {
         return new ResponseEntity<List<FakturaDTO>>(fakturaDTOS, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/partner/{id}")
+    public ResponseEntity<List<FakturaDTO>> getPartnerFakture(@PathVariable("id") long id) {
+        List<Faktura> fakture = fakturaService.findAllByPoslovniPartnerId(id);
+        List<FakturaDTO> fakturaDTOS = new ArrayList<FakturaDTO>();
+        for (Faktura f : fakture) {
+            fakturaDTOS.add(new FakturaDTO(f));
+        }
+        return new ResponseEntity<List<FakturaDTO>>(fakturaDTOS, HttpStatus.OK);
+    }
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<FakturaDTO> saveItem(@RequestBody FakturaDTO fakturaDTO) {
