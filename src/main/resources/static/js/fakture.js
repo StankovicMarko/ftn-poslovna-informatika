@@ -189,7 +189,8 @@ $('#fakture').on( 'click', 'tr', function () {
         success: function (stavkeFakture) {
             stavkeFakture.forEach(function (stavkaFakture){
 
-            $("#dodate-stavke-fakture").append('<tr>  <td>'+stavkaFakture.nazivRobe+
+            $("#dodate-stavke-fakture").append('<tr> <td><button class="delete-stavka" stavka-id="'+stavkaFakture.id+
+                '">Delete</button></td> <td>'+stavkaFakture.nazivRobe+
                   '</td> <td>'+stavkaFakture.kolicina+
                   '</td> <td>'+stavkaFakture.jedinicnaCena+
                   '</td> <td>'+stavkaFakture.rabat+
@@ -197,8 +198,6 @@ $('#fakture').on( 'click', 'tr', function () {
                   '</td> <td>'+stavkaFakture.procenatPDV+
                   '</td> <td>'+stavkaFakture.iznosPDV+
                   '</td> <td>'+stavkaFakture.iznosStavke+
-                   '</td> <td><button class="delete-stavka" stavka-id="'+stavkaFakture.id+
-                  '">Delete</button>'+
                   '</td> </tr>');
             });
             }
@@ -367,17 +366,16 @@ $('#fakture').on( 'click', 'tr', function () {
                              //$('#add-faktura').modal('toggle');
                              //location.reload(true); //reloads from server rather than browser cache
                  //            alert(response['message']);
-                                $("#dodate-stavke-fakture").append('<tr>  <td>'+stavkaFakture.nazivRobe+
-                                                                   '</td> <td>'+stavkaFakture.kolicina+
-                                                                   '</td> <td>'+stavkaFakture.jedinicnaCena+
-                                                                   '</td> <td>'+stavkaFakture.rabat+
-                                                                    '</td> <td>'+stavkaFakture.osnovicaZaPDV+
-                                                                   '</td> <td>'+stavkaFakture.procenatPDV+
-                                                                   '</td> <td>'+stavkaFakture.iznosPDV+
-                                                                   '</td> <td>'+stavkaFakture.iznosStavke+
-                                                                   '</td> <td><button class="delete-stavka" stavka-id="'+stavkaFakture.id+
-                                                                   '">Delete</button>'+
-                                                                   '</td> </tr>');
+                                $("#dodate-stavke-fakture").append('<tr> <td><button class="delete-stavka" stavka-id="'+stavkaFakture.id+
+                                                                   '">Delete</button></td> <td>'+stavkaFakture.nazivRobe+
+                                                                     '</td> <td>'+stavkaFakture.kolicina+
+                                                                     '</td> <td>'+stavkaFakture.jedinicnaCena+
+                                                                     '</td> <td>'+stavkaFakture.rabat+
+                                                                      '</td> <td>'+stavkaFakture.osnovicaZaPDV+
+                                                                     '</td> <td>'+stavkaFakture.procenatPDV+
+                                                                     '</td> <td>'+stavkaFakture.iznosPDV+
+                                                                     '</td> <td>'+stavkaFakture.iznosStavke+
+                                                                     '</td> </tr>');
 
 
 
@@ -452,7 +450,9 @@ $('#fakture').on( 'click', 'tr', function () {
 
 
     $('#edit-faktura').on( 'click', '.btn-danger', function (e){
-    e.preventDefault();
+
+        e.stopImmediatePropagation();
+        e.preventDefault();
 
      if (confirm('Are you sure you want do delete this Faktura?')) {
             $.ajax({

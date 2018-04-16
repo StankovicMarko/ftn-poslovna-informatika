@@ -1,14 +1,8 @@
 package com.example.poslovna_informatika.controllers;
 
 import com.example.poslovna_informatika.dto.FakturaDTO;
-import com.example.poslovna_informatika.model.Faktura;
-import com.example.poslovna_informatika.model.PoslovnaGodina;
-import com.example.poslovna_informatika.model.PoslovniPartner;
-import com.example.poslovna_informatika.model.Preduzece;
-import com.example.poslovna_informatika.services.FakturaService;
-import com.example.poslovna_informatika.services.PoslovnaGodinaService;
-import com.example.poslovna_informatika.services.PoslovniPartnerService;
-import com.example.poslovna_informatika.services.PreduzeceService;
+import com.example.poslovna_informatika.model.*;
+import com.example.poslovna_informatika.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,16 +21,22 @@ public class FakturaController {
     private PreduzeceService preduzeceService;
     private PoslovnaGodinaService poslovnaGodinaService;
     private PoslovniPartnerService poslovniPartnerService;
+    private StavkaFaktureService stavkaFaktureService;
 
 
     @Autowired
     public FakturaController(FakturaService fakturaService, PreduzeceService preduzeceService,
-                             PoslovnaGodinaService poslovnaGodinaService, PoslovniPartnerService poslovniPartnerService) {
+                             PoslovnaGodinaService poslovnaGodinaService, PoslovniPartnerService poslovniPartnerService,
+                             StavkaFaktureService stavkaFaktureService) {
         this.fakturaService = fakturaService;
         this.preduzeceService = preduzeceService;
         this.poslovnaGodinaService = poslovnaGodinaService;
         this.poslovniPartnerService = poslovniPartnerService;
+        this.stavkaFaktureService = stavkaFaktureService;
     }
+
+
+
 
 
     @GetMapping(value = "/{id}")
@@ -100,6 +100,12 @@ public class FakturaController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable long id) {
         Faktura f = fakturaService.findOne(id);
+        List<StavkaFakture> stavkaFaktures = stavkaFaktureService.findAllByFakturaId(id);
+        for (StavkaFakture st: stavkaFaktures) {
+            stavkaFaktureService.remove(st.getId());
+            
+        }
+
         if (f != null) {
             fakturaService.remove(id);
             return new ResponseEntity<Void>(HttpStatus.OK);
