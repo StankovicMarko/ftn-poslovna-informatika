@@ -116,9 +116,9 @@ $('#preduzeca').on( 'click', 'tr', function () {
             type: "GET",
             url: "api/faktura/"+preduzeceId,
             dataType: "json",
-            success: function (faktura) {
-                   faktura.forEach(function (faktura) {
-                                           $('#faktura').append('<tr> <td>'+faktura.brojFakture+'</td> <td>'+faktura.datumFakture+'</td> <td>'+faktura.datumValute+'</td> <td>'+faktura.osnovica+'</td> <td>'+faktura.ukupanPDV+'</td> <td>'+faktura.iznosPlacanja+'</td> <td>'+faktura.statusFakture+'</td> </tr>');
+            success: function (fakture) {
+                   fakture.forEach(function (faktura) {
+                                           $('#faktura').append('<tr> <td>'+faktura.brojFakture+'</td> <td>'+faktura.datumFakture+'</td> <td>'+faktura.datumValute+'</td> <td>'+faktura.osnovica+'</td> <td>'+faktura.ukupanPdv+'</td> <td>'+faktura.iznosZaPlacanje+'</td> <td>'+faktura.status+'</td> </tr>');
                                        });
                 }});
 $.ajax({
@@ -127,7 +127,7 @@ $.ajax({
       dataType: "json",
       success: function (grupeRobe) {
              grupeRobe.forEach(function (grupaRobe) {
-                                     $('#grupaRobe').append('<tr> <td>'+grupaRobe.id+'</td> <td>'+grupaRobe.nazivGrupe+'</td>  </tr>');
+                                     $('#grupaRobe').append('<tr> <td>'+grupaRobe.id+'</td> <td>'+grupaRobe.naziv+'</td>  </tr>');
                                  });
           }});
 $.ajax({
