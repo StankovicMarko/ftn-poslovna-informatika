@@ -1,15 +1,14 @@
 package com.example.poslovna_informatika.services;
 
 
-import com.example.poslovna_informatika.model.GrupaRobe;
+import com.example.poslovna_informatika.dto.PoslovnaGodinaDTO;
 import com.example.poslovna_informatika.model.PoslovnaGodina;
-import com.example.poslovna_informatika.repositories.PdvRepository;
 import com.example.poslovna_informatika.repositories.PoslovnaGodinaRepository;
-import com.example.poslovna_informatika.serviceInterfaces.PdvServiceInterface;
 import com.example.poslovna_informatika.serviceInterfaces.PoslovnaGodinaServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,7 +28,7 @@ public class PoslovnaGodinaService implements PoslovnaGodinaServiceInterface {
     }
 
     @Override
-    public PoslovnaGodina findOne(long id){
+    public PoslovnaGodina findOne(long id) {
         return poslovnaGodinaRepository.findOne(id);
     }
 
@@ -54,4 +53,39 @@ public class PoslovnaGodinaService implements PoslovnaGodinaServiceInterface {
     }
 
 
+    public List<PoslovnaGodinaDTO> getAllPoslovnaGodina() {
+        List<PoslovnaGodina> poslovnaGodinas = findAll();
+        List<PoslovnaGodinaDTO> poslovnaGodinaDTOS = new ArrayList<PoslovnaGodinaDTO>();
+        for (PoslovnaGodina pg : poslovnaGodinas) {
+            poslovnaGodinaDTOS.add(new PoslovnaGodinaDTO(pg));
+        }
+
+        return poslovnaGodinaDTOS;
+    }
+
+    public PoslovnaGodinaDTO savePoslovnaGodina(PoslovnaGodinaDTO poslovnaGodinaDTO) {
+        PoslovnaGodina pg = new PoslovnaGodina(poslovnaGodinaDTO.getGodina(), poslovnaGodinaDTO.isZakljucena());
+        return new PoslovnaGodinaDTO(save(pg));
+    }
+
+    public PoslovnaGodinaDTO updatePoslovnaGodina(PoslovnaGodinaDTO poslovnaGodinaDTO, long id) {
+        PoslovnaGodina pg = findOne(id);
+
+        if (pg == null) {
+            return null;
+        }
+        pg.setGodina(poslovnaGodinaDTO.getGodina());
+        pg.setZakljucena(poslovnaGodinaDTO.isZakljucena());
+
+        return new PoslovnaGodinaDTO(save(pg));
+    }
+
+    public boolean deletePoslovnaGodina(long id) {
+        PoslovnaGodina pg = findOne(id);
+        if (pg != null) {
+            remove(id);
+            return true;
+        }
+        return false;
+    }
 }

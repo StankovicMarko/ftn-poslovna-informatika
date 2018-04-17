@@ -1,14 +1,12 @@
 package com.example.poslovna_informatika.controllers;
 
 import com.example.poslovna_informatika.dto.PdvDTO;
-import com.example.poslovna_informatika.model.PDV;
 import com.example.poslovna_informatika.services.PdvService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,50 +24,33 @@ public class PdvController {
 
     @GetMapping
     public ResponseEntity<List<PdvDTO>> getPdvs() {
-        List<PDV> pdvs = pdvService.findAll();
-        List<PdvDTO> pdvDTOS = new ArrayList<PdvDTO>();
-        for (PDV pdv : pdvs) {
-            pdvDTOS.add(new PdvDTO(pdv));
-        }
-        return new ResponseEntity<List<PdvDTO>>(pdvDTOS, HttpStatus.OK);
+        return new ResponseEntity<>(pdvService.getAllPdvs(), HttpStatus.OK);
     }
 
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PdvDTO> saveItem(@RequestBody PdvDTO pdvDTO) {
-        PDV pdv = new PDV(pdvDTO.getNaziv());
-
-        pdv = pdvService.save(pdv);
-
-        return new ResponseEntity<PdvDTO>(new PdvDTO(pdv), HttpStatus.CREATED);
-
+        return new ResponseEntity<>(pdvService.savePdvDto(pdvDTO), HttpStatus.CREATED);
     }
 
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<PdvDTO> updateItem(@RequestBody PdvDTO pdvDTO,
                                              @PathVariable("id") long id) {
-        PDV pdv = pdvService.findOne(id);
+        PdvDTO pdv = pdvService.updatePdv(pdvDTO, id);
 
-        if (pdv == null) {
-            return new ResponseEntity<PdvDTO>(HttpStatus.BAD_REQUEST);
-        }
-        pdv.setNaziv(pdvDTO.getNaziv());
+        if (pdv == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        pdv = pdvService.save(pdv);
-
-        return new ResponseEntity<PdvDTO>(new PdvDTO(pdv), HttpStatus.OK);
+        return new ResponseEntity<>(pdv, HttpStatus.OK);
     }
 
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable long id) {
-        PDV pdv = pdvService.findOne(id);
-        if (pdv != null) {
-            pdvService.remove(id);
-            return new ResponseEntity<Void>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
+        if (pdvService.deletePdv(id))
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
