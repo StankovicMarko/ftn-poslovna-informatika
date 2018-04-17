@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,59 +23,41 @@ public class PoslovnaGodinaController {
     }
 
 
-    @GetMapping(value="/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<PoslovnaGodinaDTO> getPoslGodine(@PathVariable("id") long id) {
         PoslovnaGodina poslovnaGodina = poslovnaGodinaService.findOne(id);
-        PoslovnaGodinaDTO poslovnaGodinaDTO = new PoslovnaGodinaDTO(poslovnaGodina);
-        return new ResponseEntity<PoslovnaGodinaDTO>(poslovnaGodinaDTO, HttpStatus.OK);
+        return new ResponseEntity<>(new PoslovnaGodinaDTO(poslovnaGodina), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<PoslovnaGodinaDTO>> getPoslGodine() {
-        List<PoslovnaGodina> poslovnaGodinas = poslovnaGodinaService.findAll();
-        List<PoslovnaGodinaDTO> poslovnaGodinaDTOS = new ArrayList<PoslovnaGodinaDTO>();
-        for (PoslovnaGodina pg : poslovnaGodinas) {
-            poslovnaGodinaDTOS.add(new PoslovnaGodinaDTO(pg));
-        }
-        return new ResponseEntity<List<PoslovnaGodinaDTO>>(poslovnaGodinaDTOS, HttpStatus.OK);
+        return new ResponseEntity<>(poslovnaGodinaService.getAllPoslovnaGodina(), HttpStatus.OK);
     }
 
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PoslovnaGodinaDTO> saveItem(@RequestBody PoslovnaGodinaDTO poslovnaGodinaDTO) {
-        PoslovnaGodina pg = new PoslovnaGodina(poslovnaGodinaDTO.getGodina(), poslovnaGodinaDTO.isZakljucena());
-
-        pg = poslovnaGodinaService.save(pg);
-        return new ResponseEntity<PoslovnaGodinaDTO>(new PoslovnaGodinaDTO(pg), HttpStatus.CREATED);
-
+        return new ResponseEntity<>(poslovnaGodinaService.savePoslovnaGodina(poslovnaGodinaDTO), HttpStatus.CREATED);
     }
 
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<PoslovnaGodinaDTO> updateItem(@RequestBody PoslovnaGodinaDTO poslovnaGodinaDTO,
                                                         @PathVariable("id") long id) {
-        PoslovnaGodina pg = poslovnaGodinaService.findOne(id);
+        PoslovnaGodinaDTO pg = poslovnaGodinaService.updatePoslovnaGodina(poslovnaGodinaDTO, id);
 
-        if (pg == null) {
-            return new ResponseEntity<PoslovnaGodinaDTO>(HttpStatus.BAD_REQUEST);
-        }
-        pg.setGodina(poslovnaGodinaDTO.getGodina());
-        pg.setZakljucena(poslovnaGodinaDTO.isZakljucena());
+        if (pg == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        pg = poslovnaGodinaService.save(pg);
-
-        return new ResponseEntity<PoslovnaGodinaDTO>(new PoslovnaGodinaDTO(pg), HttpStatus.OK);
+        return new ResponseEntity<>(pg, HttpStatus.OK);
     }
 
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable long id) {
-        PoslovnaGodina pg = poslovnaGodinaService.findOne(id);
-        if (pg != null) {
-            poslovnaGodinaService.remove(id);
-            return new ResponseEntity<Void>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
+        if (poslovnaGodinaService.deletePoslovnaGodina(id))
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
