@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,48 +25,32 @@ public class JedinicaMereController {
 
     @GetMapping
     public ResponseEntity<List<JedinicaMereDTO>> getJediniceMere() {
-        List<JedinicaMere> jediniceMera = jedinicaMereService.findAll();
-        List<JedinicaMereDTO> jedinicaMereDTOS = new ArrayList<JedinicaMereDTO>();
-        for (JedinicaMere jm : jediniceMera) {
-            jedinicaMereDTOS.add(new JedinicaMereDTO(jm));
-        }
-        return new ResponseEntity<List<JedinicaMereDTO>>(jedinicaMereDTOS, HttpStatus.OK);
+        return new ResponseEntity<>(jedinicaMereService.getAllJedinicaMere(), HttpStatus.OK);
     }
 
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<JedinicaMere> saveItem(@RequestBody JedinicaMere jedinicaMere) {
-        JedinicaMere jm = new JedinicaMere(jedinicaMere.getNaziv());
-        jedinicaMereService.save(jm);
-        return new ResponseEntity<JedinicaMere>(jm, HttpStatus.CREATED);
+        return new ResponseEntity<>(jedinicaMereService.saveJedinicaMere(jedinicaMere), HttpStatus.CREATED);
     }
 
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<JedinicaMereDTO> updateItem(@RequestBody JedinicaMereDTO jedinicaMereDTO,
                                                       @PathVariable("id") long id) {
-        JedinicaMere jm = jedinicaMereService.findOne(id);
+        JedinicaMereDTO jm = jedinicaMereService.updateJedinicaMere(jedinicaMereDTO, id);
+        if (jm == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        if (jm == null) {
-            return new ResponseEntity<JedinicaMereDTO>(HttpStatus.BAD_REQUEST);
-        }
-
-        jm.setNaziv(jedinicaMereDTO.getNaziv());
-
-        jm = jedinicaMereService.save(jm);
-
-        return new ResponseEntity<JedinicaMereDTO>(new JedinicaMereDTO(jm), HttpStatus.OK);
+        return new ResponseEntity<>(jm, HttpStatus.OK);
     }
 
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable long id) {
-        JedinicaMere jm = jedinicaMereService.findOne(id);
-        if (jm != null) {
-            jedinicaMereService.remove(id);
-            return new ResponseEntity<Void>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
+        if (jedinicaMereService.deleteJedinicaMere(id))
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
