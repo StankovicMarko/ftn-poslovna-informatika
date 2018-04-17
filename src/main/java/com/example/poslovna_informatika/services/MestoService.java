@@ -1,14 +1,13 @@
 package com.example.poslovna_informatika.services;
 
-import com.example.poslovna_informatika.model.JedinicaMere;
+import com.example.poslovna_informatika.dto.MestoDTO;
 import com.example.poslovna_informatika.model.Mesto;
-import com.example.poslovna_informatika.repositories.JedinicaMereRepository;
 import com.example.poslovna_informatika.repositories.MestoRepository;
-import com.example.poslovna_informatika.serviceInterfaces.JedinicaMereServiceInterface;
 import com.example.poslovna_informatika.serviceInterfaces.MestoServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,7 +27,7 @@ public class MestoService implements MestoServiceInterface {
     }
 
     @Override
-    public Mesto findOne(long mestoId){
+    public Mesto findOne(long mestoId) {
         return mestoRepository.findOne(mestoId);
     }
 
@@ -53,4 +52,34 @@ public class MestoService implements MestoServiceInterface {
     }
 
 
+    public List<MestoDTO> getAllMesta() {
+        List<Mesto> mesta = findAll();
+        List<MestoDTO> mestoDTOS = new ArrayList<>();
+        for (Mesto m : mesta) {
+            mestoDTOS.add(new MestoDTO(m));
+        }
+        return mestoDTOS;
+    }
+
+    public MestoDTO updateMesto(MestoDTO mestoDTO, long id) {
+        Mesto m = findOne(id);
+
+        if (m == null) {
+            return null;
+        }
+        m.setDrzava(mestoDTO.getDrzava());
+        m.setGrad(mestoDTO.getGrad());
+
+        m = save(m);
+        return new MestoDTO(m);
+    }
+
+    public boolean deleteMesto(long id) {
+        Mesto m = findOne(id);
+        if (m != null) {
+            remove(id);
+            return true;
+        }
+        return false;
+    }
 }
