@@ -1,5 +1,6 @@
 package com.example.poslovna_informatika.services;
 
+import com.example.poslovna_informatika.dto.PreduzeceDTO;
 import com.example.poslovna_informatika.model.Mesto;
 import com.example.poslovna_informatika.model.Preduzece;
 import com.example.poslovna_informatika.repositories.PreduzeceRepository;
@@ -7,16 +8,19 @@ import com.example.poslovna_informatika.serviceInterfaces.PreduzeceServiceInterf
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PreduzeceService implements PreduzeceServiceInterface {
 
     private PreduzeceRepository preduzeceRepository;
+    private MestoService mestoService;
 
     @Autowired
-    public PreduzeceService(PreduzeceRepository preduzeceRepository) {
+    public PreduzeceService(PreduzeceRepository preduzeceRepository, MestoService mestoService) {
         this.preduzeceRepository = preduzeceRepository;
+        this.mestoService = mestoService;
     }
 
     @Override
@@ -25,7 +29,7 @@ public class PreduzeceService implements PreduzeceServiceInterface {
     }
 
     @Override
-    public Preduzece findOne(long preduzeceId){
+    public Preduzece findOne(long preduzeceId) {
         return preduzeceRepository.findOne(preduzeceId);
     }
 
@@ -67,5 +71,66 @@ public class PreduzeceService implements PreduzeceServiceInterface {
     @Override
     public void remove(long id) {
         preduzeceRepository.delete(id);
+    }
+
+    public List<PreduzeceDTO> getPreduzeceByMesto(long id) {
+        List<Preduzece> preduzeca = findAllByMestoId(id);
+        List<PreduzeceDTO> preduzecaDTO = new ArrayList<>();
+        for (Preduzece p : preduzeca) {
+            preduzecaDTO.add(new PreduzeceDTO(p));
+        }
+        return preduzecaDTO;
+    }
+
+    public List<PreduzeceDTO> getAllPreduzeca() {
+        List<Preduzece> preduzeca = findAll();
+        List<PreduzeceDTO> preduzecaDTO = new ArrayList<>();
+        for (Preduzece p : preduzeca) {
+            preduzecaDTO.add(new PreduzeceDTO(p));
+        }
+        return preduzecaDTO;
+    }
+
+    public PreduzeceDTO savePreduzece(PreduzeceDTO preduzeceDTO) {
+        Mesto mesto = mestoService.findOne(preduzeceDTO.getMestoId());
+
+        Preduzece p = new Preduzece(preduzeceDTO.getNaziv(), preduzeceDTO.getAdresa(),
+                preduzeceDTO.getPib(), preduzeceDTO.getTelefon(), preduzeceDTO.getEmail(),
+                preduzeceDTO.getLogoPath(), mesto);
+        p = save(p);
+
+        return new PreduzeceDTO(p);
+    }
+
+    public PreduzeceDTO updatePreduzece(PreduzeceDTO preduzeceDTO, long id) {
+        Preduzece p = findOne(id);
+
+        if (p == null) {
+            return null;
+        }
+
+        Mesto mesto = mestoService.findOne(preduzeceDTO.getMestoId());
+
+        p.setNaziv(preduzeceDTO.getNaziv());
+        p.setAdresa(preduzeceDTO.getAdresa());
+        p.setPib(preduzeceDTO.getPib());
+        p.setTelefon(preduzeceDTO.getTelefon());
+        p.setEmail(preduzeceDTO.getEmail());
+        p.setLogoPath(preduzeceDTO.getLogoPath());
+        p.setMesto(mesto);
+
+        p = save(p);
+
+        return new PreduzeceDTO(p);
+    }
+
+    public boolean deletePreduzece(long id) {
+        Preduzece p = findOne(id);
+        if (p != null) {
+            remove(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
