@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,46 +25,32 @@ public class MestoController {
 
     @GetMapping
     public ResponseEntity<List<MestoDTO>> getMesta() {
-        List<Mesto> mesta = mestoService.findAll();
-        List<MestoDTO> mestoDTOS = new ArrayList<MestoDTO>();
-        for (Mesto m : mesta) {
-            mestoDTOS.add(new MestoDTO(m));
-        }
-        return new ResponseEntity<List<MestoDTO>>(mestoDTOS, HttpStatus.OK);
+        return new ResponseEntity<>(mestoService.getAllMesta(), HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Mesto> saveItem(@RequestBody Mesto mesto) {
-        Mesto m = mestoService.save(mesto);
-        return new ResponseEntity<Mesto>(m, HttpStatus.CREATED);
+        return new ResponseEntity<>(mestoService.save(mesto), HttpStatus.CREATED);
     }
 
 
     @PutMapping(value = "/{id}", consumes = "application/json")
     public ResponseEntity<MestoDTO> updateItem(@RequestBody MestoDTO mestoDTO,
                                                @PathVariable("id") long id) {
-        Mesto m = mestoService.findOne(id);
+        MestoDTO m = mestoService.updateMesto(mestoDTO, id);
 
-        if (m == null) {
-            return new ResponseEntity<MestoDTO>(HttpStatus.BAD_REQUEST);
-        }
-        m.setDrzava(mestoDTO.getDrzava());
-        m.setGrad(mestoDTO.getGrad());
+        if (m == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        m = mestoService.save(m);
-
-        return new ResponseEntity<MestoDTO>(new MestoDTO(m), HttpStatus.OK);
+        return new ResponseEntity<>(m, HttpStatus.OK);
     }
 
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteItem(@PathVariable long id) {
-        Mesto m = mestoService.findOne(id);
-        if (m != null) {
-            mestoService.remove(id);
-            return new ResponseEntity<Void>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-        }
+        if (mestoService.deleteMesto(id))
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
