@@ -63,12 +63,21 @@ public class GrupaRobeService implements GrupaRobeServiceInterface {
     }
 
     public List<GrupaRobeDTO> getGrupaRobeByPredAndPdv(long predId, long pdvId) {
-        List<GrupaRobe> grupaRobesPred = findAllByPreduzeceId(predId);
-        List<GrupaRobe> grupaRobesPdv = findAllByPreduzeceId(pdvId);
-        grupaRobesPred.retainAll(grupaRobesPdv);
+        List<GrupaRobe> grupaRoba = grupaRobeRepository.findAllByPreduzeceIdAndPdvId(predId, pdvId);
 
         List<GrupaRobeDTO> grupaRobeDTOS = new ArrayList<>();
-        for (GrupaRobe gr : grupaRobesPred) {
+        for (GrupaRobe gr : grupaRoba) {
+            grupaRobeDTOS.add(new GrupaRobeDTO(gr));
+        }
+
+        return grupaRobeDTOS;
+    }
+
+    public List<GrupaRobeDTO> getGrupaRobeByPred(long predId) {
+        List<GrupaRobe> grupaRoba = grupaRobeRepository.findAllByPreduzeceId(predId);
+
+        List<GrupaRobeDTO> grupaRobeDTOS = new ArrayList<>();
+        for (GrupaRobe gr : grupaRoba) {
             grupaRobeDTOS.add(new GrupaRobeDTO(gr));
         }
 

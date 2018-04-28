@@ -15,4 +15,5 @@ public interface GrupaRobeRepository extends JpaRepository<GrupaRobe, Long> {
 
     List<GrupaRobe> findAllByPdvId(long pdvId);
 
+    List<GrupaRobe> findAllByPreduzeceIdAndPdvId(long predId, long pdvId);
 }
