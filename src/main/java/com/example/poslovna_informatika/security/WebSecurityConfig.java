@@ -23,9 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/",
-                        "/register",
-                        "/templates/navigation.html").permitAll()
+                .antMatchers("/", "/register", "/templates/navigation.html").permitAll()
                 .antMatchers("/api/preduzece").hasAuthority("administrator")
                 .anyRequest().authenticated()
                 .and()
@@ -34,14 +32,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/*.html", "/fonts/**");
     }
 }

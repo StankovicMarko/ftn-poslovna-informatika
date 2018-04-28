@@ -35,8 +35,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             Preduzece creds = new ObjectMapper().readValue(request.getInputStream(), Preduzece.class);
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(creds.getEmail(),
-                    creds.getPassword(), new ArrayList<>());
+            Authentication authentication =
+                    new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(),
+                            new ArrayList<>());
 
             return authenticationManager.authenticate(authentication);
 
@@ -65,8 +66,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .compact();
 
         response.addHeader(Constants.HEADER, Constants.TOKEN_PREFIX + token);
-//        if (role.equals("administrator")){
-//            response.addHeader("Location", "/admin.html");
-//        }
+        if (role.equals("administrator")) {
+            response.addHeader("Location", "/preduzece.html");
+        } else {
+            response.addHeader("Locatoin", "/fakture.html");
+        }
     }
 }
