@@ -19,12 +19,15 @@ public class RobaService implements RobaServiceInterface {
     private RobaRepository robaRepository;
     private JedinicaMereService jedinicaMereService;
     private GrupaRobeService grupaRobeService;
+    private PreduzeceService preduzeceService;
 
     @Autowired
-    public RobaService(RobaRepository robaRepository, JedinicaMereService jedinicaMereService, GrupaRobeService grupaRobeService) {
+    public RobaService(RobaRepository robaRepository, JedinicaMereService jedinicaMereService,
+                       GrupaRobeService grupaRobeService, PreduzeceService preduzeceService) {
         this.robaRepository = robaRepository;
         this.jedinicaMereService = jedinicaMereService;
         this.grupaRobeService = grupaRobeService;
+        this.preduzeceService = preduzeceService;
     }
 
     @Override
@@ -67,6 +70,22 @@ public class RobaService implements RobaServiceInterface {
 
     public List<RobaDTO> getAllItems() {
         List<Roba> robas = findAll();
+        List<RobaDTO> robaDTOS = new ArrayList<>();
+        for (Roba r : robas) {
+            robaDTOS.add(new RobaDTO(r));
+        }
+        return robaDTOS;
+    }
+
+    public List<RobaDTO> getAllItemsByPreduzeceId(long predId) {
+        List<GrupaRobe> grupaRobes = grupaRobeService.findAllByPreduzeceId(predId);
+
+        List<Roba> robas = new ArrayList<>();
+
+        for (GrupaRobe gr : grupaRobes) {
+            robas.addAll(findAllByGrupaRobeId(gr.getId()));
+        }
+
         List<RobaDTO> robaDTOS = new ArrayList<>();
         for (Roba r : robas) {
             robaDTOS.add(new RobaDTO(r));
