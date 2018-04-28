@@ -1,5 +1,6 @@
 package com.example.poslovna_informatika.security;
 
+import com.example.poslovna_informatika.repositories.PreduzeceRepository;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,10 +16,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PreduzeceRepository preduzeceRepository;
 
-    public WebSecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurityConfig(UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder, PreduzeceRepository preduzeceRepository) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.preduzeceRepository = preduzeceRepository;
     }
 
     @Override
@@ -30,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/preduzece").hasAuthority("administrator")
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), preduzeceRepository))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

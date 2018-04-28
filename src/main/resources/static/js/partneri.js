@@ -1,19 +1,35 @@
 var sviPartneri;
 var svaMesta;
+var token;
+var preduzeceId;
 
 $(document).ready(function () {
 
+    token = localStorage.getItem('token');
+    preduzeceId = localStorage.getItem("preduzeceId");
+
+    if (!token) {
+        window.location.replace("/index.html");
+    }
+
     loadPartneri();
-    loadPreduzeca();
     loadMesta();
 
 });
 
 function loadPartneri() {
+    var url = "api/poslovni-partner";
+    if (preduzeceId != 1) {
+        url = "api/poslovni-partner/preduzece/" + preduzeceId;
+    }
+
     $.ajax({
         type: "GET",
-        url: "api/poslovni-partner",
+        url: url,
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (partneri) {
             sviPartneri = partneri;
             partneri.forEach(function (partner) {
@@ -29,25 +45,13 @@ function loadMesta() {
         type: "GET",
         url: "api/mesto",
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (mesta) {
             svaMesta = mesta;
             mesta.forEach(function (mesto) {
                 $('#lista-mesta-add').append('<option>' + mesto.id + '. ' + mesto.drzava + ', ' + mesto.grad + '</option>');
-            });
-        }
-
-    });
-}
-
-function loadPreduzeca() {
-    $.ajax({
-        type: "GET",
-        url: "api/preduzece",
-        dataType: "json",
-        success: function (preduzeca) {
-            sviPartneri = preduzeca;
-            preduzeca.forEach(function (preduzece) {
-                $('#partner-preduzece-add').append('<option>' + preduzece.id + '. ' + preduzece.naziv + '</option>');
             });
         }
 
@@ -60,12 +64,8 @@ $('#partner-add-form').submit(function (e) {
     var naziv = $('#partner-naziv-add').val();
     var adresa = $('#partner-adresa-add').val();
     var vrsta = $('#partner-vrsta-add').val();
-    var preduzeceIdString = $('#partner-preduzece-add').find(":selected").text();
     var mestoIdString = $('#lista-mesta-add').find(":selected").text();
-
-    var preduzeceId = preduzeceIdString.substr(0, preduzeceIdString.indexOf('.'));
     var mestoId = mestoIdString.substr(0, mestoIdString.indexOf('.'));
-
 
     var data = {
         "naziv": naziv,
@@ -80,6 +80,9 @@ $('#partner-add-form').submit(function (e) {
         url: "api/poslovni-partner",
         data: JSON.stringify(data),
         contentType: "application/json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (response) {
             console.log(response);
             $('#add-partner').modal('toggle');
@@ -113,12 +116,15 @@ $('#partneri').on('click', 'tr', function () {
         type: "GET",
         url: "api/faktura/partner/" + partnerId,
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (faktura) {
             faktura.forEach(function (faktura) {
                 $('#faktura').append('<tr> <td>' + faktura.brojFakture + '</td> <td>' + faktura.datumFakture +
-                                '</td> <td>' + faktura.datumValute + '</td> <td>' + faktura.osnovica +
-                                '</td> <td>' + faktura.ukupanPdv + '</td> <td>' + faktura.iznosZaPlacanje +
-                                '</td> <td>' + faktura.status + '</td> </tr>');
+                    '</td> <td>' + faktura.datumValute + '</td> <td>' + faktura.osnovica +
+                    '</td> <td>' + faktura.ukupanPdv + '</td> <td>' + faktura.iznosZaPlacanje +
+                    '</td> <td>' + faktura.status + '</td> </tr>');
             });
         }
     });
@@ -141,6 +147,9 @@ $('#partneri').on('click', 'tr', function () {
             url: "api/poslovni-partner/" + partnerId,
             data: JSON.stringify(data),
             contentType: "application/json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", token);
+            },
             success: function (response) {
                 console.log(response);
                 $('#edit-partner').modal('toggle');
@@ -163,6 +172,9 @@ $('#partneri').on('click', 'tr', function () {
                 type: 'DELETE',
                 url: 'api/poslovni-partner/' + partnerId,
                 contentType: "application/json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", token);
+                },
                 success: function (response) {
                     location.reload(true); //reloads from server rather than browser cache
                 },

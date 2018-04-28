@@ -1,6 +1,7 @@
 package com.example.poslovna_informatika.security;
 
 import com.example.poslovna_informatika.model.Preduzece;
+import com.example.poslovna_informatika.repositories.PreduzeceRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -22,11 +23,12 @@ import java.util.Date;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final PreduzeceRepository preduzeceRepository;
 
-    JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+    JwtAuthenticationFilter(AuthenticationManager authenticationManager, PreduzeceRepository preduzeceRepository) {
         this.authenticationManager = authenticationManager;
+        this.preduzeceRepository = preduzeceRepository;
     }
-
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
@@ -65,7 +67,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .signWith(SignatureAlgorithm.HS512, Constants.SECRET.getBytes())
                 .compact();
 
+        Preduzece preduzece = preduzeceRepository.findByEmail(userDetails.getUsername());
+
         response.addHeader(Constants.HEADER, Constants.TOKEN_PREFIX + token);
+        response.addHeader("PredId", String.valueOf(preduzece.getId()));
         if (role.equals("administrator")) {
             response.addHeader("Location", "/preduzece.html");
         } else {

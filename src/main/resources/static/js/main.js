@@ -39,10 +39,10 @@ $("#login-form").submit(function (e) {
         success: function (data, textStatus, request) {
             var token = request.getResponseHeader("Authorization");
             var location = request.getResponseHeader("Location");
+            var preduzeceId = request.getResponseHeader("PredId");
 
             localStorage.setItem("token", token);
-
-            console.log("lokejshn: " + location);
+            localStorage.setItem("preduzeceId", preduzeceId);
 
             if (location) {
                 window.location.replace(location);
