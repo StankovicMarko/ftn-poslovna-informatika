@@ -54,6 +54,16 @@ public class CenovnikService implements CenovnikServiceInterface {
         cenovnikRepository.delete(id);
     }
 
+    public List<CenovnikDTO> getCenovniciDTO() {
+        List<Cenovnik> cenovnici = findAll();
+        List<CenovnikDTO> cenovniciDTOS = new ArrayList<CenovnikDTO>();
+        for (Cenovnik c : cenovnici) {
+            cenovniciDTOS.add(new CenovnikDTO(c));
+        }
+
+        return cenovniciDTOS;
+    }
+
     public List<CenovnikDTO> getCenovniciDTObyId(long id) {
         List<Cenovnik> cenovnici = findAllByPreduzeceId(id);
         List<CenovnikDTO> cenovniciDTOS = new ArrayList<CenovnikDTO>();

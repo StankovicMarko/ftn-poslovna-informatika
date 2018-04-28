@@ -20,6 +20,10 @@ public class CenovnikController {
         this.cenovnikService = cenovnikService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<CenovnikDTO>> getCenovnici() {
+        return new ResponseEntity<>(cenovnikService.getCenovniciDTO(), HttpStatus.OK);
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<List<CenovnikDTO>> getCenovnici(@PathVariable("id") long id) {

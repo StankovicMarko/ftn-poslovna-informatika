@@ -15,21 +15,12 @@
 
 <div id="main" class="container">
 
-    <div class="dropdown">
-        <label for="lista-preduzeca">Lista Preduzeća</label>
-        <select class="form-control" id="lista-preduzeca">
-            <option value="" selected disabled hidden>Izaberi preduzece</option>
-
-
-        </select>
-    </div>
-
     <table class="table table-hover">
         <thead>
-            <tr>
-                <th scope="col">Id Cenovnika</th>
-                <th scope="col">Datum Važenja</th>
-            </tr>
+        <tr>
+            <th scope="col">Id Cenovnika</th>
+            <th scope="col">Datum Važenja</th>
+        </tr>
         </thead>
         <tbody id="cenovnici">
 
@@ -47,7 +38,7 @@
                 <div class="modal-body">
                     <form id="cenovnik-add-form" action="api/cenovnik" method="post">
                         <div class="form-group">
-                            <label for="cenovnik-datumVazenja-add" >Datum Važenja dd-MM-yyyy</label>
+                            <label for="cenovnik-datumVazenja-add">Datum Važenja dd-MM-yyyy</label>
                             <input id="cenovnik-datumVazenja-add" type="text" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-default">Add</button>
@@ -103,13 +94,10 @@
     </div>
 
 
-
-
-
-
 </div>
 
-<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-cenovnik"><span class="glyphicon glyphicon-plus"></span></button>
+<button class="btn btn-default float my-float" data-toggle="modal" data-target="#add-cenovnik"><span
+        class="glyphicon glyphicon-plus"></span></button>
 
 
 <script src="js/jquery-3.2.1.js"></script>
