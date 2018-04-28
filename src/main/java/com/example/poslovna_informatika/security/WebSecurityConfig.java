@@ -24,7 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/",
-                        "/register").permitAll()
+                        "/register",
+                        "/templates/navigation.html").permitAll()
                 .antMatchers("/api/preduzece").hasAuthority("administrator")
                 .anyRequest().authenticated()
                 .and()

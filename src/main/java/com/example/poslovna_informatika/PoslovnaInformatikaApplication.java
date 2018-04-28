@@ -38,7 +38,11 @@ public class PoslovnaInformatikaApplication implements CommandLineRunner {
                 bCryptPasswordEncoder().encode("admin"),
                 "", mesto, "administrator");
 
-        mestoService.save(mesto);
-        preduzeceRepository.save(preduzece);
+        try {
+            mestoService.save(mesto);
+            preduzeceRepository.save(preduzece);
+        } catch (Exception ex) {
+            ex.getMessage();
+        }
     }
 }
