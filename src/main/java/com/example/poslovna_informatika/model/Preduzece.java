@@ -23,11 +23,17 @@ public class Preduzece {
     @Column(length = 10)
     private String telefon;
 
-    @Column
+    @Column(nullable = false, length = 50, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     @Column
     private String logoPath;
+
+    @Column(nullable = false)
+    private String tip;
 
     @OneToMany
     private List<GrupaRobe> grupeRoba;
@@ -46,6 +52,22 @@ public class Preduzece {
     private Mesto mesto;
 
     public Preduzece() {
+    }
+
+    public Preduzece(String naziv, String adresa, int pib, String telefon, String email, String password, String logoPath, Mesto mesto, String tip) {
+        this.naziv = naziv;
+        this.adresa = adresa;
+        this.pib = pib;
+        this.telefon = telefon;
+        this.email = email;
+        this.password = password;
+        this.logoPath = logoPath;
+        this.tip = tip;
+        this.mesto = mesto;
+        this.grupeRoba = new ArrayList<>();
+        this.fakture = new ArrayList<>();
+        this.poslovniPartneri = new ArrayList<>();
+        this.cenovnici = new ArrayList<>();
     }
 
     public Preduzece(String naziv, String adresa, int pib, String telefon, String email, String logoPath, Mesto mesto) {
@@ -110,12 +132,28 @@ public class Preduzece {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getLogoPath() {
         return logoPath;
     }
 
     public void setLogoPath(String logoPath) {
         this.logoPath = logoPath;
+    }
+
+    public String getTip() {
+        return tip;
+    }
+
+    public void setTip(String tip) {
+        this.tip = tip;
     }
 
     public List<GrupaRobe> getGrupeRoba() {
