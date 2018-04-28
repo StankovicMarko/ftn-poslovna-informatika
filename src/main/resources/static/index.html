@@ -51,27 +51,34 @@
                                     </div>
                                 </div>
                             </form>
-                            <form id="register-form" action="/register" method="post" role="form"
+                            <form id="register-form" action="/api/preduzece" method="post" role="form"
                                   style="display: none;">
                                 <div class="form-group">
-                                    <input type="text" name="firstname" id="firstname" tabindex="1" class="form-control"
-                                           placeholder="First Name" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="lastname" id="lastname" tabindex="1" class="form-control"
-                                           placeholder="Last Name" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="username" id="username-reg" tabindex="1"
-                                           class="form-control" placeholder="Username" value="">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="password" id="password-reg" tabindex="2"
-                                           class="form-control" placeholder="Password">
-                                </div>
-                                <div class="form-group">
-                                    <input type="password" name="confirm-password" id="confirm-password" tabindex="2"
-                                           class="form-control" placeholder="Confirm Password">
+                                    <label for="preduzeca-naziv">Naziv</label>
+                                    <input id="preduzeca-naziv" type="text" class="form-control">
+
+                                    <label for="preduzeca-adresa">Adresa</label>
+                                    <input id="preduzeca-adresa" type="text" class="form-control">
+
+                                    <label for="preduzeca-pib">PIB</label>
+                                    <input id="preduzeca-pib" type="text" class="form-control">
+
+                                    <label for="preduzeca-telefon">Telefon</label>
+                                    <input id="preduzeca-telefon" type="text" class="form-control">
+
+                                    <label for="preduzeca-email">E-mail</label>
+                                    <input id="preduzeca-email" type="text" class="form-control">
+
+                                    <label for="preduzeca-password">Password</label>
+                                    <input id="preduzeca-password" type="password" class="form-control">
+
+                                    <label for="preduzeca-logo-add">Logo</label>
+                                    <input id="preduzeca-logo-add" type="text" class="form-control">
+
+                                    <label for="lista-mesta">Lista Mesta</label>
+                                    <select class="form-control" id="lista-mesta">
+
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">

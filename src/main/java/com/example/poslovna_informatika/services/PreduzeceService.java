@@ -6,6 +6,7 @@ import com.example.poslovna_informatika.model.Preduzece;
 import com.example.poslovna_informatika.repositories.PreduzeceRepository;
 import com.example.poslovna_informatika.serviceInterfaces.PreduzeceServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,11 +17,13 @@ public class PreduzeceService implements PreduzeceServiceInterface {
 
     private PreduzeceRepository preduzeceRepository;
     private MestoService mestoService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public PreduzeceService(PreduzeceRepository preduzeceRepository, MestoService mestoService) {
+    public PreduzeceService(PreduzeceRepository preduzeceRepository, MestoService mestoService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.preduzeceRepository = preduzeceRepository;
         this.mestoService = mestoService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -94,9 +97,11 @@ public class PreduzeceService implements PreduzeceServiceInterface {
     public PreduzeceDTO savePreduzece(PreduzeceDTO preduzeceDTO) {
         Mesto mesto = mestoService.findOne(preduzeceDTO.getMestoId());
 
+        String password = bCryptPasswordEncoder.encode(preduzeceDTO.getPassword());
+
         Preduzece p = new Preduzece(preduzeceDTO.getNaziv(), preduzeceDTO.getAdresa(),
                 preduzeceDTO.getPib(), preduzeceDTO.getTelefon(), preduzeceDTO.getEmail(),
-                preduzeceDTO.getLogoPath(), mesto);
+                password, preduzeceDTO.getLogoPath(), mesto, "other");
         p = save(p);
 
         return new PreduzeceDTO(p);
@@ -116,6 +121,7 @@ public class PreduzeceService implements PreduzeceServiceInterface {
         p.setPib(preduzeceDTO.getPib());
         p.setTelefon(preduzeceDTO.getTelefon());
         p.setEmail(preduzeceDTO.getEmail());
+        p.setPassword(bCryptPasswordEncoder.encode(preduzeceDTO.getPassword()));
         p.setLogoPath(preduzeceDTO.getLogoPath());
         p.setMesto(mesto);
 

@@ -69,7 +69,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         if (role.equals("administrator")) {
             response.addHeader("Location", "/preduzece.html");
         } else {
-            response.addHeader("Locatoin", "/fakture.html");
+            response.addHeader("Location", "/fakture.html");
         }
     }
 }

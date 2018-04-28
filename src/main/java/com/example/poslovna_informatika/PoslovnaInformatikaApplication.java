@@ -2,8 +2,8 @@ package com.example.poslovna_informatika;
 
 import com.example.poslovna_informatika.model.Mesto;
 import com.example.poslovna_informatika.model.Preduzece;
+import com.example.poslovna_informatika.repositories.PreduzeceRepository;
 import com.example.poslovna_informatika.services.MestoService;
-import com.example.poslovna_informatika.services.PreduzeceService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,10 +13,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @SpringBootApplication
 public class PoslovnaInformatikaApplication implements CommandLineRunner {
 
-    private PreduzeceService preduzeceRepository;
+    private PreduzeceRepository preduzeceRepository;
     private MestoService mestoService;
 
-    public PoslovnaInformatikaApplication(PreduzeceService preduzeceRepository, MestoService mestoService) {
+    public PoslovnaInformatikaApplication(PreduzeceRepository preduzeceRepository, MestoService mestoService) {
         this.preduzeceRepository = preduzeceRepository;
         this.mestoService = mestoService;
     }
