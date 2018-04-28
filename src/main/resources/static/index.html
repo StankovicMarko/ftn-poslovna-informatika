@@ -103,5 +103,19 @@
 <script src="js/main.js"></script>
 <script src="js/bootstrap-toggle.min.js"></script>
 
+<script>
+    $.ajax({
+        type: "GET",
+        url: "api/mesto",
+        dataType: "json",
+        success: function (mesta) {
+            svaMesta = mesta;
+            mesta.forEach(function (mesto) {
+                $('#lista-mesta').append('<option>' + mesto.id + '. ' + mesto.drzava + ', ' + mesto.grad + '</option>');
+            });
+        }
+    });
+</script>
+
 </body>
 </html>

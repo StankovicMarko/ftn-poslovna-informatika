@@ -97,6 +97,16 @@ public class PoslovniPartnerService implements PoslovniPartnerServiceInterface {
         return poslovniPartnerDTOS;
     }
 
+    public List<PoslovniPartnerDTO> getPartnerByPreduzeceAndMesto(long preduzeceId, long mestoId) {
+        List<PoslovniPartner> poslovniPartners =
+                poslovniPartnerRepository.findAllByPreduzeceIdAndMestoId(preduzeceId, mestoId);
+        List<PoslovniPartnerDTO> poslovniPartnerDTOS = new ArrayList<>();
+        for (PoslovniPartner pp : poslovniPartners) {
+            poslovniPartnerDTOS.add(new PoslovniPartnerDTO(pp));
+        }
+        return poslovniPartnerDTOS;
+    }
+
     public PoslovniPartnerDTO savePoslovniPartner(PoslovniPartnerDTO poslovniPartnerDTO) {
         Preduzece preduzece = preduzeceService.findOne(poslovniPartnerDTO.getPreduzeceId());
         Mesto mesto = mestoService.findOne(poslovniPartnerDTO.getMestoId());

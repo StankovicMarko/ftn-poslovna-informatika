@@ -15,8 +15,6 @@ $(function () {
         $(this).addClass('active');
         e.preventDefault();
     });
-
-    loadMesta();
 });
 
 
@@ -95,17 +93,3 @@ $("#register-form").submit(function (e) {
         }
     })
 });
-
-function loadMesta() {
-    $.ajax({
-        type: "GET",
-        url: "api/mesto",
-        dataType: "json",
-        success: function (mesta) {
-            svaMesta = mesta;
-            mesta.forEach(function (mesto) {
-                $('#lista-mesta').append('<option>' + mesto.id + '. ' + mesto.drzava + ', ' + mesto.grad + '</option>');
-            });
-        }
-    });
-}

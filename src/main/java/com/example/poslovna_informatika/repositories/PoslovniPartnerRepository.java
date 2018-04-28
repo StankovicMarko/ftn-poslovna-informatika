@@ -19,4 +19,5 @@ public interface PoslovniPartnerRepository extends JpaRepository<PoslovniPartner
 
     List<PoslovniPartner> findAllByPreduzeceId(long preduzeceId);
 
+    List<PoslovniPartner> findAllByPreduzeceIdAndMestoId(long preduzeceId, long mestoId);
 }
