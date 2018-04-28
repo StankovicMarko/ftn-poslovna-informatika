@@ -1,12 +1,10 @@
 package com.example.poslovna_informatika;
 
-import com.example.poslovna_informatika.model.Mesto;
-import com.example.poslovna_informatika.model.PDV;
-import com.example.poslovna_informatika.model.Preduzece;
-import com.example.poslovna_informatika.model.StopaPDV;
+import com.example.poslovna_informatika.model.*;
 import com.example.poslovna_informatika.repositories.PreduzeceRepository;
 import com.example.poslovna_informatika.services.MestoService;
 import com.example.poslovna_informatika.services.PdvService;
+import com.example.poslovna_informatika.services.PoslovnaGodinaService;
 import com.example.poslovna_informatika.services.StopaPdvService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -23,15 +21,18 @@ public class PoslovnaInformatikaApplication implements CommandLineRunner {
     private MestoService mestoService;
     private PdvService pdvService;
     private StopaPdvService stopaPdvService;
+    private PoslovnaGodinaService poslovnaGodinaService;
 
     public PoslovnaInformatikaApplication(PreduzeceRepository preduzeceRepository,
                                           MestoService mestoService,
                                           PdvService pdvService,
-                                          StopaPdvService stopaPdvService) {
+                                          StopaPdvService stopaPdvService,
+                                          PoslovnaGodinaService poslovnaGodinaService) {
         this.preduzeceRepository = preduzeceRepository;
         this.mestoService = mestoService;
         this.pdvService = pdvService;
         this.stopaPdvService = stopaPdvService;
+        this.poslovnaGodinaService = poslovnaGodinaService;
     }
 
     public static void main(String[] args) {
@@ -45,6 +46,7 @@ public class PoslovnaInformatikaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... strings) {
+        PoslovnaGodina poslovnaGodina = new PoslovnaGodina(2018, false);
         PDV pdv = new PDV("Obican");
         StopaPDV stopaPDV = new StopaPDV(20, new Date(), pdv);
         Mesto mesto = new Mesto("NS", "Srbija");
@@ -54,6 +56,7 @@ public class PoslovnaInformatikaApplication implements CommandLineRunner {
                 "", mesto, "administrator");
 
         try {
+            poslovnaGodinaService.save(poslovnaGodina);
             pdvService.save(pdv);
             stopaPdvService.save(stopaPDV);
             mestoService.save(mesto);

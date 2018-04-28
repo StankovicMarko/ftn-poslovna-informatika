@@ -106,6 +106,15 @@ public class FakturaService implements FakturaServiceInterface {
     }
 
 
+    public List<FakturaDTO> getFakture() {
+        List<Faktura> fakture = findAll();
+        List<FakturaDTO> fakturaDTOS = new ArrayList<>();
+        for (Faktura f : fakture) {
+            fakturaDTOS.add(new FakturaDTO(f));
+        }
+        return fakturaDTOS;
+    }
+
     public List<FakturaDTO> getFaktureByPreduzeceId(long id) {
         List<Faktura> fakture = findAllByPreduzeceId(id);
         List<FakturaDTO> fakturaDTOS = new ArrayList<>();
