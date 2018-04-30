@@ -1,207 +1,207 @@
-    var svaPreduzeca;
-    var preduzeceId;
-    var fakturePreduzeca;
-    var ucitaneStavke;
-    var stavkaId;
-    var cenovnikId;
-    var dodateStavkeFakture=[];
-
+var svaPreduzeca;
+var preduzeceId;
+var fakturePreduzeca;
+var ucitaneStavke;
+var stavkaId;
+var cenovnikId;
+var dodateStavkeFakture = [];
+var token;
 
 
 $(document).ready(function () {
 
-    loadPreduzeca();
+    token = localStorage.getItem('token');
+    preduzeceId = localStorage.getItem("preduzeceId");
 
+    if (!token) {
+        window.location.replace("/index.html");
+    }
 
+    loadFakture()
 });
 
-function loadPreduzeca() {
-    $.ajax({
-        type: "GET",
-        url: "api/preduzece",
-        dataType: "json",
-        success: function (preduzeca) {
-                svaPreduzeca=preduzeca;
-                preduzeca.forEach(function (preduzece) {
-                    $('#lista-preduzeca').append('<option value="' + preduzece.id +
-                    '. ' + preduzece.naziv +
-                    ', PIB: ' + preduzece.pib +'"></option>');
-                });
-            }
+$('#pretraga-preduzeca').on('input', function () {
 
-    });
-}
+    var preduzeceIdString = this.value;
 
-$('#pretraga-preduzeca').on('input', function() {
+    preduzeceId = preduzeceIdString.substr(0, preduzeceIdString.indexOf('.'));
 
-     var preduzeceIdString = this.value;
+    if (preduzeceId.match(/^-{0,1}\d+$/)) {
+        $('#pretraga-partnera').val("");
+        $('#pretraga-godina').val("");
+        loadFakture(preduzeceId);
+    }
+    else {
 
 
-
-     preduzeceId = preduzeceIdString.substr(0, preduzeceIdString.indexOf('.'));
-
-
-if(preduzeceId.match(/^-{0,1}\d+$/)){
-    $('#pretraga-partnera').val("");
-     $('#pretraga-godina').val("");
-     loadFakture(preduzeceId);}
-     else{
-
-
-
-     }
-
+    }
 
 
 });
 
 
-function loadFakture(preduzeceIdu) {
+function loadFakture() {
+    var url = "api/faktura";
+    if (preduzeceId != 1) {
+        url = "api/faktura/" + preduzeceId;
+    }
+
     $.ajax({
         type: "GET",
-        url: "api/faktura/"+preduzeceId,
+        url: url,
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (fakture) {
-        fakturePreduzeca = fakture;
-                fakture.forEach(function (faktura) {
-                    $('#fakture').append('<tr> <td style="display:none;">' + faktura.id+
-                                        '</td> <td>'+faktura.brojFakture+
-                                        '</td> <td>'+faktura.datumFakture+
-                                        '</td> <td>'+faktura.datumValute+
-                                        '</td> <td>'+faktura.osnovica+
-                                        '</td> <td>'+faktura.ukupanPdv+
-                                        '</td> <td>'+faktura.iznosZaPlacanje+
-                                        '</td> <td>'+faktura.status+
-                                        '</td> <td>'+faktura.poslovniPartnerNaziv+
-                                        '</td> <td>'+faktura.poslovnaGodinaBroj+
-                                        '</td> </tr>');
-                });
-            }
+            fakturePreduzeca = fakture;
+            fakture.forEach(function (faktura) {
+                $('#fakture').append('<tr> <td style="display:none;">' + faktura.id +
+                    '</td> <td>' + faktura.brojFakture +
+                    '</td> <td>' + faktura.datumFakture +
+                    '</td> <td>' + faktura.datumValute +
+                    '</td> <td>' + faktura.osnovica +
+                    '</td> <td>' + faktura.ukupanPdv +
+                    '</td> <td>' + faktura.iznosZaPlacanje +
+                    '</td> <td>' + faktura.status +
+                    '</td> <td>' + faktura.poslovniPartnerNaziv +
+                    '</td> <td>' + faktura.poslovnaGodinaBroj +
+                    '</td> </tr>');
+            });
+        }
 
     });
 }
 
 $('#btn-add-faktura').click(function (e) {
-    if (preduzeceId){
+    if (preduzeceId) {
         $('#add-faktura').modal('toggle');
 
         $.ajax({
-                      type: "GET",
-                      url: "api/poslovni-partner/preduzece/"+preduzeceId,
-                      dataType: "json",
-                      success: function (poslovniPartneri) {
-                              $('#lista-partnera').empty();
+            type: "GET",
+            url: "api/poslovni-partner/preduzece/" + preduzeceId,
+            dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", token);
+            },
+            success: function (poslovniPartneri) {
+                $('#lista-partnera').empty();
 
 
-                               poslovniPartneri.forEach(function (partner) {
-                                        $('#lista-partnera').append('<option value="' + partner.id +
-                                                                    '. ' + partner.naziv +
-                                                                    ', Adresa: ' + partner.adresa +
-                                                                    ', Vrsta: ' + partner.vrsta +'"></option>');
-                                                });
-                                            }});
+                poslovniPartneri.forEach(function (partner) {
+                    $('#lista-partnera').append('<option value="' + partner.id +
+                        '. ' + partner.naziv +
+                        ', Adresa: ' + partner.adresa +
+                        ', Vrsta: ' + partner.vrsta + '"></option>');
+                });
+            }
+        });
 
 
         $.ajax({
-                   type: "GET",
-                   url: "api/poslovna-godina/1",
-                   dataType: "json",
-                   success: function (poslovnaGodina) {
-                           $('#lista-godina').empty();
-                           $('#lista-godina').append('<option my-id="'+poslovnaGodina.id+'" value="' + poslovnaGodina.godina+ '"></option>');
+            type: "GET",
+            url: "api/poslovna-godina/1",
+            dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", token);
+            },
+            success: function (poslovnaGodina) {
+                $('#lista-godina').empty();
+                $('#lista-godina').append('<option my-id="' + poslovnaGodina.id + '" value="' + poslovnaGodina.godina + '"></option>');
 
 
+            }
 
-                       }
-
-               });
-
+        });
 
 
-
-
-
-    }else{
-        alert("Choose Preduzece");} });
+    } else {
+        alert("Choose Preduzece");
+    }
+});
 
 
 $('#faktura-add-form').submit(function (e) {
     e.preventDefault();
 
-    var partnerString= $('#pretraga-partnera').val();
+    var partnerString = $('#pretraga-partnera').val();
     poslovniPartnerId = partnerString.substr(0, partnerString.indexOf('.'));
 
     var poslovnaGodinaId = $('#pretraga-godina').val();
 
 
-if(poslovniPartnerId.match(/^-{0,1}\d+$/) && poslovnaGodinaId.match(/^-{0,1}\d+$/)){
+    if (poslovniPartnerId.match(/^-{0,1}\d+$/) && poslovnaGodinaId.match(/^-{0,1}\d+$/)) {
 
-     var data = {
-         "preduzeceId" : preduzeceId,
-         "poslovniPartnerId": poslovniPartnerId,
-         "status": "st",
-         "poslovnaGodinaId": 1
-     };
+        var data = {
+            "preduzeceId": preduzeceId,
+            "poslovniPartnerId": poslovniPartnerId,
+            "status": "st",
+            "poslovnaGodinaId": 1
+        };
 
-     console.log(data);
+        console.log(data);
 
-     $.ajax({
-         type: "POST",
-         url: "api/faktura",
-         data: JSON.stringify(data),
-         contentType: "application/json",
-         success: function (response) {
-         console.log(response);
-             $('#add-faktura').modal('toggle');
-             location.reload(true); //reloads from server rather than browser cache
- //            alert(response['message']);
-         },
-         error: function (err) {
-             var json = err.responseJSON;
-             alert(json['message']);
-         }
-     });
-
-
-
-     }
-     else{}
+        $.ajax({
+            type: "POST",
+            url: "api/faktura",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", token);
+            },
+            success: function (response) {
+                console.log(response);
+                $('#add-faktura').modal('toggle');
+                location.reload(true); //reloads from server rather than browser cache
+                //            alert(response['message']);
+            },
+            error: function (err) {
+                var json = err.responseJSON;
+                alert(json['message']);
+            }
+        });
 
 
+    }
+    else {
+    }
 
 
 });
 
-$('#fakture').on( 'click', 'tr', function () {
-    dodateStavkeFakture=[];
+$('#fakture').on('click', 'tr', function () {
+    dodateStavkeFakture = [];
     var fakturaId = $(this).children(':first').text();
     $('#edit-faktura').modal('toggle');
 
-    var faktura = fakturePreduzeca.find(function(element) {
-                           return element.id == fakturaId;
-                         });
+    var faktura = fakturePreduzeca.find(function (element) {
+        return element.id == fakturaId;
+    });
 
-     $('#dodate-stavke-fakture').empty();
-     $.ajax({
+    $('#dodate-stavke-fakture').empty();
+    $.ajax({
         type: "GET",
-        url: "api/stavka-fakture/faktura/"+fakturaId,
+        url: "api/stavka-fakture/faktura/" + fakturaId,
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (stavkeFakture) {
-            stavkeFakture.forEach(function (stavkaFakture){
+            stavkeFakture.forEach(function (stavkaFakture) {
 
-            $("#dodate-stavke-fakture").append('<tr> <td><button class="delete-stavka" stavka-id="'+stavkaFakture.id+
-                '">Delete</button></td> <td>'+stavkaFakture.nazivRobe+
-                  '</td> <td>'+stavkaFakture.kolicina+
-                  '</td> <td>'+stavkaFakture.jedinicnaCena+
-                  '</td> <td>'+stavkaFakture.rabat+
-                   '</td> <td>'+stavkaFakture.osnovicaZaPDV+
-                  '</td> <td>'+stavkaFakture.procenatPDV+
-                  '</td> <td>'+stavkaFakture.iznosPDV+
-                  '</td> <td>'+stavkaFakture.iznosStavke+
-                  '</td> </tr>');
+                $("#dodate-stavke-fakture").append('<tr> <td><button class="delete-stavka" stavka-id="' + stavkaFakture.id +
+                    '">Delete</button></td> <td>' + stavkaFakture.nazivRobe +
+                    '</td> <td>' + stavkaFakture.kolicina +
+                    '</td> <td>' + stavkaFakture.jedinicnaCena +
+                    '</td> <td>' + stavkaFakture.rabat +
+                    '</td> <td>' + stavkaFakture.osnovicaZaPDV +
+                    '</td> <td>' + stavkaFakture.procenatPDV +
+                    '</td> <td>' + stavkaFakture.iznosPDV +
+                    '</td> <td>' + stavkaFakture.iznosStavke +
+                    '</td> </tr>');
             });
-            }
-        });
+        }
+    });
 
 //console.log(faktura);
 
@@ -221,185 +221,195 @@ $('#fakture').on( 'click', 'tr', function () {
     $('#lista-cenovnika').empty();
     $('#lista-stavki').empty();
     $('#cena').text('');
-     $("#dodate-stavke-fakture").empty();
+    $("#dodate-stavke-fakture").empty();
 
-     $("#osnovica").html('');
-     $("#rabat").val('');
-     $("#kol").val('');
-     $("#iznos-stavke").val('');
-     $("#iznos-pdv").val('');
-
-
-     $('#pretraga-pdv').val('');
-     //$('#lista-pdv').empty();
+    $("#osnovica").html('');
+    $("#rabat").val('');
+    $("#kol").val('');
+    $("#iznos-stavke").val('');
+    $("#iznos-pdv").val('');
 
 
+    $('#pretraga-pdv').val('');
+    //$('#lista-pdv').empty();
 
 
-       $.ajax({
-          type: "GET",
-          url: "api/cenovnik/"+preduzeceId,
-          dataType: "json",
-          success: function (cenovnici) {
-                 cenovnici.forEach(function (cenovnik) {
-                     $('#lista-cenovnika').append('<option value="' + cenovnik.id +
-                                                 '. ' + cenovnik.datumVazenja +'"></option>');
-                             });}});
+    $.ajax({
+        type: "GET",
+        url: "api/cenovnik/" + preduzeceId,
+        dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
+        success: function (cenovnici) {
+            cenovnici.forEach(function (cenovnik) {
+                $('#lista-cenovnika').append('<option value="' + cenovnik.id +
+                    '. ' + cenovnik.datumVazenja + '"></option>');
+            });
+        }
+    });
 
-        $('#pretraga-cenovnika').on('input', function(e) {
-            e.stopImmediatePropagation();
+    $('#pretraga-cenovnika').on('input', function (e) {
+        e.stopImmediatePropagation();
 
-            $('#lista-stavki').empty();
-            $('#cena').text('');
-            $('#pretraga-stavki').val('');
-
-
-             var cenovnikString = this.value;
-             cenovnikId = cenovnikString.substr(0, cenovnikString.indexOf('.'));
+        $('#lista-stavki').empty();
+        $('#cena').text('');
+        $('#pretraga-stavki').val('');
 
 
-        if(cenovnikId.match(/^-{0,1}\d+$/)){
+        var cenovnikString = this.value;
+        cenovnikId = cenovnikString.substr(0, cenovnikString.indexOf('.'));
+
+
+        if (cenovnikId.match(/^-{0,1}\d+$/)) {
 
             $.ajax({
-                      type: "GET",
-                      url: "api/stavka-cenovnika/cenovnik/"+cenovnikId,
-                      dataType: "json",
-                      success: function (stavke) {
-                              ucitaneStavke=stavke;
-                             stavke.forEach(function (stavka) {
-                                 $('#lista-stavki').append('<option value="' + stavka.id +
-                                                             '. ' + stavka.nazivRobe+'"></option>');
-                                         });}});
-             //$('#pretraga-stavki').val('');
+                type: "GET",
+                url: "api/stavka-cenovnika/cenovnik/" + cenovnikId,
+                dataType: "json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", token);
+                },
+                success: function (stavke) {
+                    ucitaneStavke = stavke;
+                    stavke.forEach(function (stavka) {
+                        $('#lista-stavki').append('<option value="' + stavka.id +
+                            '. ' + stavka.nazivRobe + '"></option>');
+                    });
+                }
+            });
+            //$('#pretraga-stavki').val('');
 
-             }else{}});
+        } else {
+        }
+    });
 
 
-        $('#pretraga-stavki').on('input', function() {
+    $('#pretraga-stavki').on('input', function () {
 
-             var stavkaString = this.value;
-             stavkaId = stavkaString.substr(0, stavkaString.indexOf('.'));
+        var stavkaString = this.value;
+        stavkaId = stavkaString.substr(0, stavkaString.indexOf('.'));
 
 
-        if(stavkaId.match(/^-{0,1}\d+$/)){
+        if (stavkaId.match(/^-{0,1}\d+$/)) {
 
-            var stavka = ucitaneStavke.find(function(element) {
-                                       return element.id == stavkaId;
-                                     });
+            var stavka = ucitaneStavke.find(function (element) {
+                return element.id == stavkaId;
+            });
             $("#cena").html(stavka.cena)
-             }else{}});
+        } else {
+        }
+    });
 
-        $('.btn-secondary').on( 'click', function (e) {
+    $('.btn-secondary').on('click', function (e) {
 
-            e.stopImmediatePropagation();
+        e.stopImmediatePropagation();
 
-            var kol = parseInt($("#kolicina").val());
-            var r = parseInt($("#rabat").val());
-             var c = parseInt($("#cena").text());
+        var kol = parseInt($("#kolicina").val());
+        var r = parseInt($("#rabat").val());
+        var c = parseInt($("#cena").text());
 
-            var osn = kol * c * (100 - r) / 100;
-            $("#osnovica").html(osn);
+        var osn = kol * c * (100 - r) / 100;
+        $("#osnovica").html(osn);
 
-             var stopaPdvStr = $("#pretraga-pdv").val();
-             stopaId = stopaPdvStr.substr(0, stopaPdvStr.indexOf('.'));
+        var stopaPdvStr = $("#pretraga-pdv").val();
+        stopaId = stopaPdvStr.substr(0, stopaPdvStr.indexOf('.'));
 
-            var procenat;
-            if(stopaId == 1){
-            procenat=10;}else{
-            procenat=20;}
+        var procenat;
+        if (stopaId == 1) {
+            procenat = 10;
+        } else {
+            procenat = 20;
+        }
 
-            var izn = osn * procenat / 100
-            $("#iznos-pdv").html(izn);
+        var izn = osn * procenat / 100
+        $("#iznos-pdv").html(izn);
 
-            var iznStav = osn+izn;
-            $("#iznos-stavke").html(iznStav);
+        var iznStav = osn + izn;
+        $("#iznos-stavke").html(iznStav);
 
+    });
+
+    $('.btn-primary').on('click', function (e) {
+
+        e.stopImmediatePropagation();
+
+        var kol = parseInt($("#kolicina").val());
+        var r = parseInt($("#rabat").val());
+        var c = parseInt($("#cena").text());
+
+        var osn = kol * c * (100 - r) / 100;
+
+        var stopaPdvStr = $("#pretraga-pdv").val();
+        stopaId = stopaPdvStr.substr(0, stopaPdvStr.indexOf('.'));
+
+        var procenat;
+        if (stopaId == 1) {
+            procenat = 10;
+        } else {
+            procenat = 20;
+        }
+
+        var izn = osn * procenat / 100
+        var iznStav = osn + izn;
+
+        var stavka = ucitaneStavke.find(function (element) {
+            return element.id == stavkaId;
         });
 
-        $('.btn-primary').on( 'click', function (e) {
-
-                    e.stopImmediatePropagation();
-
-                    var kol = parseInt($("#kolicina").val());
-                    var r = parseInt($("#rabat").val());
-                     var c = parseInt($("#cena").text());
-
-                    var osn = kol * c * (100 - r) / 100;
-
-                     var stopaPdvStr = $("#pretraga-pdv").val();
-                     stopaId = stopaPdvStr.substr(0, stopaPdvStr.indexOf('.'));
-
-                    var procenat;
-                    if(stopaId == 1){
-                    procenat=10;}else{
-                    procenat=20;}
-
-                    var izn = osn * procenat / 100
-                    var iznStav = osn+izn;
-
-                    var stavka = ucitaneStavke.find(function(element) {
-                                                           return element.id == stavkaId;
-                                                         });
-
-                    var data = {
-                    "cenovnikId" :cenovnikId,
-                    "robaId": stavka.robaId,
-                    "preduzeceId": preduzeceId,
-                    "iznosStavke": iznStav,
-                    "iznosPDV": izn,
-                    "procenatPDV": procenat,
-                    "osnovicaZaPDV": osn,
-                    "rabat": r,
-                    "jedinicnaCena": c,
-                    "kolicina": kol,
-                    "fakturaId": fakturaId
-                    }
+        var data = {
+            "cenovnikId": cenovnikId,
+            "robaId": stavka.robaId,
+            "preduzeceId": preduzeceId,
+            "iznosStavke": iznStav,
+            "iznosPDV": izn,
+            "procenatPDV": procenat,
+            "osnovicaZaPDV": osn,
+            "rabat": r,
+            "jedinicnaCena": c,
+            "kolicina": kol,
+            "fakturaId": fakturaId
+        }
 
 
-                $.ajax({
-                         type: "POST",
-                         url: "api/stavka-fakture",
-                         data: JSON.stringify(data),
-                         contentType: "application/json",
-                         success: function (stavkaFakture) {
-                         console.log(stavkaFakture);
-                             //$('#add-faktura').modal('toggle');
-                             //location.reload(true); //reloads from server rather than browser cache
-                 //            alert(response['message']);
-                                $("#dodate-stavke-fakture").append('<tr> <td><button class="delete-stavka" stavka-id="'+stavkaFakture.id+
-                                                                   '">Delete</button></td> <td>'+stavkaFakture.nazivRobe+
-                                                                     '</td> <td>'+stavkaFakture.kolicina+
-                                                                     '</td> <td>'+stavkaFakture.jedinicnaCena+
-                                                                     '</td> <td>'+stavkaFakture.rabat+
-                                                                      '</td> <td>'+stavkaFakture.osnovicaZaPDV+
-                                                                     '</td> <td>'+stavkaFakture.procenatPDV+
-                                                                     '</td> <td>'+stavkaFakture.iznosPDV+
-                                                                     '</td> <td>'+stavkaFakture.iznosStavke+
-                                                                     '</td> </tr>');
+        $.ajax({
+            type: "POST",
+            url: "api/stavka-fakture",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", token);
+            },
+            success: function (stavkaFakture) {
+                console.log(stavkaFakture);
+                //$('#add-faktura').modal('toggle');
+                //location.reload(true); //reloads from server rather than browser cache
+                //            alert(response['message']);
+                $("#dodate-stavke-fakture").append('<tr> <td><button class="delete-stavka" stavka-id="' + stavkaFakture.id +
+                    '">Delete</button></td> <td>' + stavkaFakture.nazivRobe +
+                    '</td> <td>' + stavkaFakture.kolicina +
+                    '</td> <td>' + stavkaFakture.jedinicnaCena +
+                    '</td> <td>' + stavkaFakture.rabat +
+                    '</td> <td>' + stavkaFakture.osnovicaZaPDV +
+                    '</td> <td>' + stavkaFakture.procenatPDV +
+                    '</td> <td>' + stavkaFakture.iznosPDV +
+                    '</td> <td>' + stavkaFakture.iznosStavke +
+                    '</td> </tr>');
 
 
+            },
+            error: function (err) {
+                var json = err.responseJSON;
+                alert(json['message']);
+            }
+        });
 
-                         },
-                         error: function (err) {
-                             var json = err.responseJSON;
-                             alert(json['message']);
-                         }
-                     });
+        //dodateStavkeFakture.push(data);
 
-                //dodateStavkeFakture.push(data);
-
-                //console.log(dodateStavkeFakture);
-
+        //console.log(dodateStavkeFakture);
 
 
-
-
-                });
-
-
-
-
-
+    });
 
 
 //    $("#preduzeca").empty();
@@ -449,53 +459,57 @@ $('#fakture').on( 'click', 'tr', function () {
 //    });
 
 
-    $('#edit-faktura').on( 'click', '.btn-danger', function (e){
+    $('#edit-faktura').on('click', '.btn-danger', function (e) {
 
         e.stopImmediatePropagation();
         e.preventDefault();
 
-     if (confirm('Are you sure you want do delete this Faktura?')) {
+        if (confirm('Are you sure you want do delete this Faktura?')) {
             $.ajax({
                 type: 'DELETE',
                 url: 'api/faktura/' + fakturaId,
                 contentType: "application/json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", token);
+                },
                 success: function (response) {
-                location.reload(true); //reloads from server rather than browser cache
+                    location.reload(true); //reloads from server rather than browser cache
                 },
                 error: function (err) {
                     alert("Can't delete this Faktura");
                 }
             });
         }
-        });
+    });
 
 
-         $('#dodate-stavke-fakture').on( 'click', 'button.delete-stavka', function (e){
-           e.preventDefault();
+    $('#dodate-stavke-fakture').on('click', 'button.delete-stavka', function (e) {
+        e.preventDefault();
 
-            if (confirm('Are you sure you want do delete this Stavka Fakture?')) {
+        if (confirm('Are you sure you want do delete this Stavka Fakture?')) {
             var stavkaId = $(this).attr('stavka-id');
             var row = $(this).closest('tr');
 
 
-           // console.log(stavkaId);
-                    $.ajax({
-                        type: 'DELETE',
-                        url: 'api/stavka-fakture/' + stavkaId,
-                        contentType: "application/json",
-                        success: function (response) {
-                        row.remove(); //reloads from server rather than browser cache
-                        },
-                        error: function (err) {
-                            alert("Can't delete this Stavka Fakture");
-                        }
-                    });
-               }
-               });
+            // console.log(stavkaId);
+            $.ajax({
+                type: 'DELETE',
+                url: 'api/stavka-fakture/' + stavkaId,
+                contentType: "application/json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", token);
+                },
+                success: function (response) {
+                    row.remove(); //reloads from server rather than browser cache
+                },
+                error: function (err) {
+                    alert("Can't delete this Stavka Fakture");
+                }
+            });
+        }
+    });
 
 
-
-
-    } );
+});
 
 //TODO prikaz loga firme (jos jedan td koji ce biti limitrane velicine

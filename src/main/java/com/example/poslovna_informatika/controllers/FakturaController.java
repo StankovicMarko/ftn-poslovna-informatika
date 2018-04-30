@@ -20,6 +20,10 @@ public class FakturaController {
         this.fakturaService = fakturaService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<FakturaDTO>> getAllFakture() {
+        return new ResponseEntity<>(fakturaService.getFakture(), HttpStatus.OK);
+    }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<List<FakturaDTO>> getFakture(@PathVariable("id") long id) {

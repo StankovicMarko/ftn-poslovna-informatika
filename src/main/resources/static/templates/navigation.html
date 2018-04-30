@@ -23,10 +23,17 @@
                 <li class="active"><a href="/stavkeCenovnika.html">Stavke Cenovnika</a></li>
                 <li class="active"><a href="/roba.html">Roba</a></li>
                 <li class="active"><a href="/grupaRobe.html">Grupa Robe</a></li>
-
+                <li class="active"><a id="logout" href="#">Logout</a></li>
             </ul>
 
 
         </div><!-- /.navbar-collapse -->
     </div>
 </nav>
+
+<script>
+    $('#logout').click(function () {
+        localStorage.removeItem("token");
+        window.location.replace("/")
+    });
+</script>

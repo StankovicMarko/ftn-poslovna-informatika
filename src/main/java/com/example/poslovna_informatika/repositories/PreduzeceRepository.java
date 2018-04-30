@@ -13,6 +13,8 @@ public interface PreduzeceRepository extends JpaRepository<Preduzece, Long> {
 
     Preduzece findByPib(int pib);
 
+    Preduzece findByEmail(String email);
+
     List<Preduzece> findAllByAdresa(String adresa);
 
     List<Preduzece> findAllByTelefon(String telefon);

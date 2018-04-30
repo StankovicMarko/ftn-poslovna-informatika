@@ -1,10 +1,17 @@
-    var svaPreduzeca;
-    var svaMesta;
+var svaPreduzeca;
+var svaMesta;
+var token;
 
 $(document).ready(function () {
 
-     loadPreduzeca();
-     loadMesta();
+    token = localStorage.getItem('token');
+
+    if (!token) {
+        window.location.replace("/index.html");
+    }
+
+    loadPreduzeca();
+    loadMesta();
 
 });
 
@@ -13,13 +20,15 @@ function loadPreduzeca() {
         type: "GET",
         url: "api/preduzece",
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (preduzeca) {
-                svaPreduzeca=preduzeca;
-                preduzeca.forEach(function (preduzece) {
-                    $('#preduzeca').append('<tr> <td style="display:none;">' + preduzece.id+ '</td> <td>'+preduzece.naziv+'</td> <td>'+preduzece.adresa+'</td> <td>'+preduzece.pib+'</td> <td>'+preduzece.telefon+'</td> <td>'+preduzece.email+'</td> <td>'+preduzece.logoPath+'</td> </tr>');
-                });
-            }
-
+            svaPreduzeca = preduzeca;
+            preduzeca.forEach(function (preduzece) {
+                $('#preduzeca').append('<tr> <td style="display:none;">' + preduzece.id + '</td> <td>' + preduzece.naziv + '</td> <td>' + preduzece.adresa + '</td> <td>' + preduzece.pib + '</td> <td>' + preduzece.telefon + '</td> <td>' + preduzece.email + '</td> <td>' + preduzece.logoPath + '</td> </tr>');
+            });
+        }
     });
 }
 
@@ -28,12 +37,15 @@ function loadMesta() {
         type: "GET",
         url: "api/mesto",
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (mesta) {
-                svaMesta=mesta;
-                mesta.forEach(function (mesto) {
-                    $('#lista-mesta').append('<option>'+mesto.id+'. '+mesto.drzava+', '+mesto.grad+'</option>');
-                });
-            }
+            svaMesta = mesta;
+            mesta.forEach(function (mesto) {
+                $('#lista-mesta').append('<option>' + mesto.id + '. ' + mesto.drzava + ', ' + mesto.grad + '</option>');
+            });
+        }
 
     });
 }
@@ -64,14 +76,16 @@ $('#preduzeca-add-form').submit(function (e) {
     };
 
 
-
     $.ajax({
         type: "POST",
         url: "api/preduzece",
         data: JSON.stringify(data),
         contentType: "application/json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (response) {
-        console.log(response);
+            console.log(response);
             $('#add-preduzeca').modal('toggle');
             location.reload(true); //reloads from server rather than browser cache
 //            alert(response['message']);
@@ -84,13 +98,13 @@ $('#preduzeca-add-form').submit(function (e) {
 
 });
 
-$('#preduzeca').on( 'click', 'tr', function () {
+$('#preduzeca').on('click', 'tr', function () {
     var preduzeceId = $(this).children(':first').text();
     $('#edit-preduzeca').modal('toggle');
 
-    var preduzece = svaPreduzeca.find(function(element) {
-                           return element.id == preduzeceId;
-                         });
+    var preduzece = svaPreduzeca.find(function (element) {
+        return element.id == preduzeceId;
+    });
 
 
     var naziv = $('#preduzeca-naziv-edit').val(preduzece.naziv);
@@ -105,52 +119,67 @@ $('#preduzeca').on( 'click', 'tr', function () {
     $("#grupaRobe").empty();
     $("#poslovniPartner").empty();
 
-     $.ajax({
-      type: "GET",
-      url: "api/cenovnik/"+preduzeceId,
-      dataType: "json",
-      success: function (cenovnici) {
-             cenovnici.forEach(function (cenovnik) {
-                                     $('#cenovnik').append('<tr> <td>'+cenovnik.id+'</td> <td>'+cenovnik.datumVazenja+'</td>  </tr>');
-                                 });
-          }});
-      $.ajax({
-            type: "GET",
-            url: "api/faktura/"+preduzeceId,
-            dataType: "json",
-
-            success: function (fakture) {
-                   fakture.forEach(function (faktura) {
-                                           $('#faktura').append('<tr> <td>'+faktura.brojFakture+
-                                           '</td> <td>'+faktura.datumFakture+
-                                           '</td> <td>'+faktura.datumValute+
-                                           '</td> <td>'+faktura.osnovica+
-                                           '</td> <td>'+faktura.ukupanPdv+
-                                           '</td> <td>'+faktura.iznosZaPlacanje+
-                                           '</td> <td>'+faktura.status+'</td> </tr>');
-                                       });
-                }});
-$.ajax({
-      type: "GET",
-      url: "api/grupa-robe/"+preduzeceId,
-      dataType: "json",
-      success: function (grupeRobe) {
-             grupeRobe.forEach(function (grupaRobe) {
-                                     $('#grupaRobe').append('<tr> <td>'+grupaRobe.id+
-                                     '</td> <td>'+grupaRobe.naziv+'</td>  </tr>');
-                                 });
-          }});
-$.ajax({
-      type: "GET",
-      url: "api/poslovni-partner/preduzece/"+preduzeceId,
-      dataType: "json",
-      success: function (poslovniPartneri) {
-      //console.log(poslovniPartneri);
-             poslovniPartneri.forEach(function (poslovniPartner) {
-                 $('#poslovniPartner').append('<tr> <td>' + poslovniPartner.naziv +
-                 '</td> <td>' + poslovniPartner.adresa + '</td> <td>' + poslovniPartner.vrsta + '</td>  </tr>');
-                                 });
-          }});
+    $.ajax({
+        type: "GET",
+        url: "api/cenovnik/" + preduzeceId,
+        dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
+        success: function (cenovnici) {
+            cenovnici.forEach(function (cenovnik) {
+                $('#cenovnik').append('<tr> <td>' + cenovnik.id + '</td> <td>' + cenovnik.datumVazenja + '</td>  </tr>');
+            });
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: "api/faktura/" + preduzeceId,
+        dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
+        success: function (fakture) {
+            fakture.forEach(function (faktura) {
+                $('#faktura').append('<tr> <td>' + faktura.brojFakture +
+                    '</td> <td>' + faktura.datumFakture +
+                    '</td> <td>' + faktura.datumValute +
+                    '</td> <td>' + faktura.osnovica +
+                    '</td> <td>' + faktura.ukupanPdv +
+                    '</td> <td>' + faktura.iznosZaPlacanje +
+                    '</td> <td>' + faktura.status + '</td> </tr>');
+            });
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: "api/grupa-robe/" + preduzeceId,
+        dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
+        success: function (grupeRobe) {
+            grupeRobe.forEach(function (grupaRobe) {
+                $('#grupaRobe').append('<tr> <td>' + grupaRobe.id +
+                    '</td> <td>' + grupaRobe.naziv + '</td>  </tr>');
+            });
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: "api/poslovni-partner/preduzece/" + preduzeceId,
+        dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
+        success: function (poslovniPartneri) {
+            //console.log(poslovniPartneri);
+            poslovniPartneri.forEach(function (poslovniPartner) {
+                $('#poslovniPartner').append('<tr> <td>' + poslovniPartner.naziv +
+                    '</td> <td>' + poslovniPartner.adresa + '</td> <td>' + poslovniPartner.vrsta + '</td>  </tr>');
+            });
+        }
+    });
 
 
     // mogucnost submita menjanja podatak i delete brisanja
@@ -160,25 +189,28 @@ $.ajax({
 
 
         var data = {
-             "naziv": naziv.val(),
-             "adresa": adresa.val(),
-             "pib": pib.val(),
-             "telefon": telefon.val(),
-             "email": email.val(),
-             "logoPath": logo.val(),
-             "mestoId": preduzece.mestoId
+            "naziv": naziv.val(),
+            "adresa": adresa.val(),
+            "pib": pib.val(),
+            "telefon": telefon.val(),
+            "email": email.val(),
+            "logoPath": logo.val(),
+            "mestoId": preduzece.mestoId
         };
 
         $.ajax({
             type: "PUT",
-            url: "api/preduzece/"+preduzeceId,
+            url: "api/preduzece/" + preduzeceId,
             data: JSON.stringify(data),
             contentType: "application/json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", token);
+            },
             success: function (response) {
-            console.log(response);
+                console.log(response);
                 $('#edit-preduzeca').modal('toggle');
                 location.reload(true); //reloads from server rather than browser cache
-    //            alert(response['message']);
+                //            alert(response['message']);
             },
             error: function (err) {
                 var json = err.responseJSON;
@@ -189,15 +221,18 @@ $.ajax({
     });
 
 
-    $('#preduzeca-edit-form').on( 'click', '.btn-danger', function (e){
-    e.preventDefault();
-    if (confirm('Are you sure you want do delete this Preduzece?')) {
+    $('#preduzeca-edit-form').on('click', '.btn-danger', function (e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want do delete this Preduzece?')) {
             $.ajax({
                 type: 'DELETE',
                 url: 'api/preduzece/' + preduzeceId,
                 contentType: "application/json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", token);
+                },
                 success: function (response) {
-                location.reload(true); //reloads from server rather than browser cache
+                    location.reload(true); //reloads from server rather than browser cache
                 },
                 error: function (err) {
                     alert("Can't delete Preduzeće that have Fakturu");
@@ -205,8 +240,8 @@ $.ajax({
             });
         }
 
-        });
+    });
 
-    } );
+});
 
 //TODO prikaz loga firme (jos jedan td koji ce biti limitrane velicine

@@ -33,6 +33,11 @@ public class RobaController {
         return new ResponseEntity<>(robaService.getAllItems(), HttpStatus.OK);
     }
 
+    @GetMapping("/preduzece/{id}")
+    public ResponseEntity<List<RobaDTO>> getRobaByPreduzeceId(@PathVariable("id") long id) {
+        return new ResponseEntity<>(robaService.getAllItemsByPreduzeceId(id), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/grupa-robe/{id}")
     public ResponseEntity<List<RobaDTO>> getItemsGrupaR(@PathVariable("id") long id) {
         return new ResponseEntity<>(robaService.getRobaByGrupa(id), HttpStatus.OK);

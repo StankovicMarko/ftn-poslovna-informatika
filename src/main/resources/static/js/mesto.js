@@ -1,6 +1,15 @@
-    var svaMesta;
+var svaMesta;
+var token;
+var preduzeceId;
 
 $(document).ready(function () {
+
+    token = localStorage.getItem('token');
+    preduzeceId = localStorage.getItem("preduzeceId");
+
+    if (!token) {
+        window.location.replace("/index.html");
+    }
 
     loadMesta();
 
@@ -11,16 +20,18 @@ function loadMesta() {
         type: "GET",
         url: "api/mesto",
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (mesta) {
-                svaMesta=mesta;
-                mesta.forEach(function (mesto) {
-                    $('#mesta').append('<tr> <td style="display:none;">' + mesto.id+ '</td> <td>'+mesto.grad+'</td> <td>'+mesto.drzava+'</td> </tr>');
-                });
-            }
+            svaMesta = mesta;
+            mesta.forEach(function (mesto) {
+                $('#mesta').append('<tr> <td style="display:none;">' + mesto.id + '</td> <td>' + mesto.grad + '</td> <td>' + mesto.drzava + '</td> </tr>');
+            });
+        }
 
     });
 }
-
 
 
 $('#mesto-add-form').submit(function (e) {
@@ -39,8 +50,11 @@ $('#mesto-add-form').submit(function (e) {
         url: "api/mesto",
         data: JSON.stringify(data),
         contentType: "application/json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (response) {
-        console.log(response);
+            console.log(response);
             $('#add-mesto').modal('toggle');
             location.reload(true); //reloads from server rather than browser cache
 //            alert(response['message']);
@@ -53,50 +67,40 @@ $('#mesto-add-form').submit(function (e) {
 
 });
 
-$('#mesta').on( 'click', 'tr', function () {
+$('#mesta').on('click', 'tr', function () {
     var mestoId = $(this).children(':first').text();
     $('#edit-mesto').modal('toggle');
 
-    var mesto = svaMesta.find(function(element) {
-                           return element.id == mestoId;
-                         });
-
+    var mesto = svaMesta.find(function (element) {
+        return element.id == mestoId;
+    });
 
     var grad = $('#mesto-grad-edit').val(mesto.grad);
     var drzava = $('#mesto-drzava-edit').val(mesto.drzava);
     $("#preduzeca").empty();
     $("#poslovniPartner").empty();
 
-     $.ajax({
-      type: "GET",
-      url: "api/preduzece/mesto/"+mestoId,
-      dataType: "json",
-      success: function (preduzeca) {
-             preduzeca.forEach(function (pred) {
-                                     $('#preduzeca').append('<tr> <td>'+pred.naziv+
-                                     '</td> <td>'+pred.adresa+'</td> <td> ' +pred.pib + '</td> </tr>');
-                                 });
-          }});
-
-$.ajax({
-      type: "GET",
-      url: "api/poslovni-partner/"+preduzeceId,
-      dataType: "json",
-      success: function (poslovniPartneri) {
-             poslovniPartneri.forEach(function (poslovniPartner) {
-                                     $('#poslovniPartner').append('<tr> <td>'+poslovniPartner.naziv+
-                                            '</td> <td>'+poslovniPartner.adresa+
-                                            '</td> <td>'+poslovniPartner.vrsta+'</td>  </tr>');
-                                 });
-          }});
-
+    $.ajax({
+        type: "GET",
+        url: "api/poslovni-partner/preduzece/" + preduzeceId + "/mesto/" + mestoId,
+        dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
+        success: function (poslovniPartneri) {
+            poslovniPartneri.forEach(function (poslovniPartner) {
+                $('#poslovniPartner').append('<tr> <td>' + poslovniPartner.naziv +
+                    '</td> <td>' + poslovniPartner.adresa +
+                    '</td> <td>' + poslovniPartner.vrsta + '</td>  </tr>');
+            });
+        }
+    });
 
 
     // mogucnost submita menjanja podatak i delete brisanja
 
     $('#mesto-edit-form').submit(function (e) {
         e.preventDefault();
-
 
         var data = {
             "grad": grad.val(),
@@ -105,14 +109,17 @@ $.ajax({
 
         $.ajax({
             type: "PUT",
-            url: "api/mesto/"+mestoId,
+            url: "api/mesto/" + mestoId,
             data: JSON.stringify(data),
             contentType: "application/json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", token);
+            },
             success: function (response) {
-            console.log(response);
+                console.log(response);
                 $('#edit-mesto').modal('toggle');
                 location.reload(true); //reloads from server rather than browser cache
-    //            alert(response['message']);
+                //            alert(response['message']);
             },
             error: function (err) {
                 var json = err.responseJSON;
@@ -123,24 +130,27 @@ $.ajax({
     });
 
 
-    $('#mesto-edit-form').on( 'click', '.btn-danger', function (e){
-    e.preventDefault();
+    $('#mesto-edit-form').on('click', '.btn-danger', function (e) {
+        e.preventDefault();
 
-     if (confirm('Are you sure you want do delete this Mesto?')) {
+        if (confirm('Are you sure you want do delete this Mesto?')) {
             $.ajax({
                 type: 'DELETE',
                 url: 'api/mesto/' + mestoId,
                 contentType: "application/json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", token);
+                },
                 success: function (response) {
-                location.reload(true); //reloads from server rather than browser cache
+                    location.reload(true); //reloads from server rather than browser cache
                 },
                 error: function (err) {
                     alert("Can't delete Mesto that have Preduzeca");
                 }
             });
         }
-        });
+    });
 
-    } );
+});
 
 //TODO prikaz loga firme (jos jedan td koji ce biti limitrane velicine

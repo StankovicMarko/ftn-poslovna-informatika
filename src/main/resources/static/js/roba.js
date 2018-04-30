@@ -1,18 +1,23 @@
-
-    var svaRoba;
-
-   // var sveGrupeRobe;
-    var grupaRobeId;
-
-    //var sveJedinice;
-    //var jediniceMereId;
-
-
+// var sveGrupeRobe;
+//var sveJedinice;
+//var jediniceMereId;
+var svaRoba;
+var grupaRobeId;
+var token;
+var preduzeceId;
 
 
 $(document).ready(function () {
-     loadGrupeRobe();
-     loadJedinice();
+
+    token = localStorage.getItem('token');
+    preduzeceId = localStorage.getItem("preduzeceId");
+
+    if (!token) {
+        window.location.replace("/index.html");
+    }
+
+    loadGrupeRobe();
+    loadJedinice();
 
 });
 
@@ -20,14 +25,16 @@ $(document).ready(function () {
 function loadGrupeRobe() {
     $.ajax({
         type: "GET",
-        url: "api/grupa-robe",
+        url: "api/grupa-robe/preduzece/" + preduzeceId,
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (grupaRobe) {
-                //sveGrupeRobe=grupaRobe
-                grupaRobe.forEach(function (grupa) {
-                    $('#lista-grupe-robe').append('<option>' + grupa.id+ '. ' + grupa.naziv+ '</option>' );
-                });
-            }
+            grupaRobe.forEach(function (grupa) {
+                $('#lista-grupe-robe').append('<option>' + grupa.id + '. ' + grupa.naziv + '</option>');
+            });
+        }
     });
 }
 
@@ -36,12 +43,15 @@ function loadJedinice() {
         type: "GET",
         url: "api/jedinica-mere",
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (jediniceMere) {
-                //sveJedinice=jediniceMere;
-                jediniceMere.forEach(function (jedinicaMere) {
-                    $('#roba-jedinica-mere-add').append('<option>' + jedinicaMere.id+ '. '+jedinicaMere.naziv+'</option>');
-                });
-            }
+            //sveJedinice=jediniceMere;
+            jediniceMere.forEach(function (jedinicaMere) {
+                $('#roba-jedinica-mere-add').append('<option>' + jedinicaMere.id + '. ' + jedinicaMere.naziv + '</option>');
+            });
+        }
 
     });
 }
@@ -49,24 +59,27 @@ function loadJedinice() {
 function loadRoba(grupaRobeId) {
     $.ajax({
         type: "GET",
-        url: "api/roba/grupa-robe/"+grupaRobeId,
+        url: "api/roba/grupa-robe/" + grupaRobeId,
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (robe) {
-               svaRoba=robe;
-                robe.forEach(function (roba) {
-                    $('#roba').append('<tr> <td style="display:none;">' + roba.id+'</td><td>' + roba.naziv+'</td><td>' + roba.jedinicaMereId+ '</td> </tr>');
-                });
-            }
+            svaRoba = robe;
+            robe.forEach(function (roba) {
+                $('#roba').append('<tr> <td style="display:none;">' + roba.id + '</td><td>' + roba.naziv + '</td><td>' + roba.jedinicaMereId + '</td> </tr>');
+            });
+        }
     });
 }
 
 
-$('#lista-grupe-robe').on('change', function() {
-     $('#roba').empty();
+$('#lista-grupe-robe').on('change', function () {
+    $('#roba').empty();
 
-     var grupaRobeIdString = $(this).find(":selected").text();
-     grupaRobeId = grupaRobeIdString.substr(0, grupaRobeIdString.indexOf('.'));
-      loadRoba(grupaRobeId);
+    var grupaRobeIdString = $(this).find(":selected").text();
+    grupaRobeId = grupaRobeIdString.substr(0, grupaRobeIdString.indexOf('.'));
+    loadRoba(grupaRobeId);
 });
 
 $('#roba-add-form').submit(function (e) {
@@ -89,8 +102,11 @@ $('#roba-add-form').submit(function (e) {
         url: "api/roba",
         data: JSON.stringify(data),
         contentType: "application/json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (response) {
-        console.log(response);
+            console.log(response);
             $('#add-robu').modal('toggle');
             location.reload(true); //reloads from server rather than browser cache
 //            alert(response['message']);
@@ -104,14 +120,14 @@ $('#roba-add-form').submit(function (e) {
 });
 
 
-$('#roba').on( 'click', 'tr', function () {
+$('#roba').on('click', 'tr', function () {
     var robaId = $(this).children(':first').text(); //robaId
     var jedinicaMereId = $(this).find(':nth-child(3)').text();
     $('#edit-robu').modal('toggle');
 
-    var roba= svaRoba.find(function(element) {
-            return element.id == robaId; //robaId
-  });
+    var roba = svaRoba.find(function (element) {
+        return element.id == robaId; //robaId
+    });
     //console.log(sveGrupeRobe);
 
     var nazivRobe = $('#roba-naziv-edit').val(roba.naziv);
@@ -166,14 +182,17 @@ $('#roba').on( 'click', 'tr', function () {
 
         $.ajax({
             type: "PUT",
-            url: "api/roba/"+robaId,
+            url: "api/roba/" + robaId,
             data: JSON.stringify(data),
             contentType: "application/json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", token);
+            },
             success: function (response) {
-            //console.log(response);
+                //console.log(response);
                 $('#edit-robu').modal('toggle');
                 location.reload(true); //reloads from server rather than browser cache
-    //            alert(response['message']);
+                //            alert(response['message']);
             },
             error: function (err) {
                 var json = err.responseJSON;
@@ -184,24 +203,27 @@ $('#roba').on( 'click', 'tr', function () {
     });
 
 
-    $('#roba-edit-form').on( 'click', '.btn-danger', function (e){
-    e.preventDefault();
+    $('#roba-edit-form').on('click', '.btn-danger', function (e) {
+        e.preventDefault();
 
-     if (confirm('Are you sure you want do delete this Robu?')) {
+        if (confirm('Are you sure you want do delete this Robu?')) {
             $.ajax({
                 type: 'DELETE',
-                url: "api/roba/"+robaId,
+                url: "api/roba/" + robaId,
                 contentType: "application/json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", token);
+                },
                 success: function (response) {
-                location.reload(true); //reloads from server rather than browser cache
+                    location.reload(true); //reloads from server rather than browser cache
                 },
                 error: function (err) {
                     alert("Can't delete Robu that have Fakturu i Cenovnik");
                 }
             });
         }
-        });
+    });
 
-    } );
+});
 
 //TODO prikaz loga firme (jos jedan td koji ce biti limitrane velicine

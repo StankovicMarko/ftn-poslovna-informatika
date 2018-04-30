@@ -1,9 +1,6 @@
 package com.example.poslovna_informatika.dto;
 
-import com.example.poslovna_informatika.model.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import com.example.poslovna_informatika.model.Preduzece;
 
 public class PreduzeceDTO {
 
@@ -13,6 +10,7 @@ public class PreduzeceDTO {
     private int pib;
     private String telefon;
     private String email;
+    private String password;
     private String logoPath;
     private long mestoId;
 
@@ -21,13 +19,14 @@ public class PreduzeceDTO {
     }
 
     public PreduzeceDTO(long id, String naziv, String adresa, int pib, String telefon, String email,
-                        String logoPath, long mestoId) {
+                        String password, String logoPath, long mestoId) {
         this.id = id;
         this.naziv = naziv;
         this.adresa = adresa;
         this.pib = pib;
         this.telefon = telefon;
         this.email = email;
+        this.password = password;
         this.logoPath = logoPath;
         this.mestoId = mestoId;
     }
@@ -90,6 +89,14 @@ public class PreduzeceDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getLogoPath() {

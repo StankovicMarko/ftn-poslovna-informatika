@@ -28,6 +28,11 @@ public class GrupaRobeController {
         return new ResponseEntity<>(grupaRobeService.getGrupaRobeByPredAndPdv(predId, pdvId), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/preduzece/{pred-id}")
+    public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobeByPred(@PathVariable("pred-id") long predId) {
+        return new ResponseEntity<>(grupaRobeService.getGrupaRobeByPred(predId), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobeById(@PathVariable("id") long id) {
         return new ResponseEntity<>(grupaRobeService.getAllGrupaRobeById(id), HttpStatus.OK);

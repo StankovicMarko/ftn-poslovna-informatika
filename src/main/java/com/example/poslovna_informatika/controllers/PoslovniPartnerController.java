@@ -36,6 +36,12 @@ public class PoslovniPartnerController {
         return new ResponseEntity<>(poslovniPartnerService.getPartnersByPreduzece(id), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/preduzece/{preduzeceId}/mesto/{mestoId}")
+    public ResponseEntity<List<PoslovniPartnerDTO>> getPartnereByPreduzeceAndMesto(@PathVariable("preduzeceId") long preduzeceId,
+                                                                                   @PathVariable("mestoId") long mestoId) {
+        return new ResponseEntity<>(poslovniPartnerService
+                .getPartnerByPreduzeceAndMesto(preduzeceId, mestoId), HttpStatus.OK);
+    }
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PoslovniPartnerDTO> saveItem(@RequestBody PoslovniPartnerDTO poslovniPartnerDTO) {

@@ -1,62 +1,51 @@
-
-    var sviCenovnici;
-    var svaPreduzeca;
-    var preduzeceId;
-
+var sviCenovnici;
+var token;
+var preduzeceId;
 
 $(document).ready(function () {
-     loadPreduzeca();
+
+    token = localStorage.getItem('token');
+    preduzeceId = localStorage.getItem("preduzeceId");
+
+    if (!token) {
+        window.location.replace("/index.html");
+    }
+
+    loadCenovnici()
 });
 
 
-function loadCenovnici(preduzeceId) {
+function loadCenovnici() {
+    var url = "api/cenovnik";
+    if (preduzeceId != 1) {
+        url = "api/cenovnik/" + preduzeceId;
+    }
+
     $.ajax({
         type: "GET",
-        url: "api/cenovnik/"+preduzeceId,
+        url: url,
         dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (cenovnik) {
-                sviCenovnici=cenovnik;
-                cenovnik.forEach(function (cenovnik) {
-                    $('#cenovnici').append('<tr> <td>' + cenovnik.id+ '</td> <td>'+cenovnik.datumVazenja+'</td> </tr>');
-                });
-            }
+            sviCenovnici = cenovnik;
+            cenovnik.forEach(function (cenovnik) {
+                $('#cenovnici').append('<tr> <td>' + cenovnik.id + '</td> <td>' + cenovnik.datumVazenja + '</td> </tr>');
+            });
+        }
     });
 }
 
-function loadPreduzeca() {
-    $.ajax({
-        type: "GET",
-        url: "api/preduzece",
-        dataType: "json",
-        success: function (preduzeca) {
-                svaPreduzeca=preduzeca;
-                preduzeca.forEach(function (preduzece) {
-                    $('#lista-preduzeca').append('<option>'+preduzece.id+'. '+preduzece.naziv+'</option>');
-                });
-            }
-
-    });
-}
-
-$('#lista-preduzeca').on('change', function() {
-    $('#cenovnici').empty();
-
-     var preduzeceIdString = $(this).find(":selected").text();
-     preduzeceId = preduzeceIdString.substr(0, preduzeceIdString.indexOf('.'));
-      loadCenovnici(preduzeceId);
-
-
-});
 
 $('#cenovnik-add-form').submit(function (e) {
     e.preventDefault();
-
 
     var datumVazenja = $('#cenovnik-datumVazenja-add').val();
 
     var data = {
         "datumVazenja": datumVazenja,
-        "preduzeceId" : preduzeceId
+        "preduzeceId": preduzeceId
     };
 
     console.log(data);
@@ -66,8 +55,11 @@ $('#cenovnik-add-form').submit(function (e) {
         url: "api/cenovnik",
         data: JSON.stringify(data),
         contentType: "application/json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
         success: function (response) {
-        console.log(response);
+            console.log(response);
             $('#add-cenovnik').modal('toggle');
             location.reload(true); //reloads from server rather than browser cache
 //            alert(response['message']);
@@ -80,34 +72,37 @@ $('#cenovnik-add-form').submit(function (e) {
 
 });
 
-$('#cenovnici').on( 'click', 'tr', function () {
+$('#cenovnici').on('click', 'tr', function () {
     var cenovnikId = $(this).children(':first').text();
     $('#edit-cenovnik').modal('toggle');
 
-    var cenovnik = sviCenovnici.find(function(element) {
-                           return element.id == cenovnikId;
-                         });
+    var cenovnik = sviCenovnici.find(function (element) {
+        return element.id == cenovnikId;
+    });
 
 
     var datumVazenja = $('#cenovnik-datumVazenja-edit').val(cenovnik.datumVazenja);
     $("#stavkeCenovnika").empty();
 
-     $.ajax({
-      type: "GET",
-      url: "api/stavka-cenovnika/cenovnik/"+cenovnikId,
-      dataType: "json",
-      success: function (cenovnika) {
-             cenovnika.forEach(function (cenovnik) {
-                                     $('#stavkeCenovnika').append('<tr> <td>'+cenovnik.nazivRobe+'</td> <td>'+cenovnik.cena+'</td> </tr>');
-                                 });
-          }});
+    $.ajax({
+        type: "GET",
+        url: "api/stavka-cenovnika/cenovnik/" + cenovnikId,
+        dataType: "json",
+        beforeSend: function (request) {
+            request.setRequestHeader("Authorization", token);
+        },
+        success: function (cenovnika) {
+            cenovnika.forEach(function (cenovnik) {
+                $('#stavkeCenovnika').append('<tr> <td>' + cenovnik.nazivRobe + '</td> <td>' + cenovnik.cena + '</td> </tr>');
+            });
+        }
+    });
 
 
     // mogucnost submita menjanja podatak i delete brisanja
 
     $('#cenovnik-edit-form').submit(function (e) {
         e.preventDefault();
-
 
         var data = {
             "datumVazenja": datumVazenja.val(),
@@ -116,14 +111,17 @@ $('#cenovnici').on( 'click', 'tr', function () {
 
         $.ajax({
             type: "PUT",
-            url: "api/cenovnik/"+cenovnikId,
+            url: "api/cenovnik/" + cenovnikId,
             data: JSON.stringify(data),
             contentType: "application/json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", token);
+            },
             success: function (response) {
-            console.log(response);
+                console.log(response);
                 $('#edit-cenovnik').modal('toggle');
                 location.reload(true); //reloads from server rather than browser cache
-    //            alert(response['message']);
+                //            alert(response['message']);
             },
             error: function (err) {
                 var json = err.responseJSON;
@@ -134,24 +132,27 @@ $('#cenovnici').on( 'click', 'tr', function () {
     });
 
 
-    $('#cenovnik-edit-form').on( 'click', '.btn-danger', function (e){
-    e.preventDefault();
+    $('#cenovnik-edit-form').on('click', '.btn-danger', function (e) {
+        e.preventDefault();
 
-     if (confirm('Are you sure you want do delete this Cenovnik?')) {
+        if (confirm('Are you sure you want do delete this Cenovnik?')) {
             $.ajax({
                 type: 'DELETE',
                 url: 'api/cenovnik/' + cenovnikId,
                 contentType: "application/json",
+                beforeSend: function (request) {
+                    request.setRequestHeader("Authorization", token);
+                },
                 success: function (response) {
-                location.reload(true); //reloads from server rather than browser cache
+                    location.reload(true); //reloads from server rather than browser cache
                 },
                 error: function (err) {
                     alert("Can't delete Cenovnik that have Stavke Cenovnika");
                 }
             });
         }
-        });
+    });
 
-    } );
+});
 
 //TODO prikaz loga firme (jos jedan td koji ce biti limitrane velicine
