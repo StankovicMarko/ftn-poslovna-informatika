@@ -5,6 +5,8 @@ import com.example.poslovna_informatika.model.*;
 import com.example.poslovna_informatika.repositories.FakturaRepository;
 import com.example.poslovna_informatika.serviceInterfaces.FakturaServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,8 +36,8 @@ public class FakturaService implements FakturaServiceInterface {
     }
 
     @Override
-    public List<Faktura> findAll() {
-        return fakturaRepository.findAll();
+    public Page<Faktura> findAll(Pageable pageable) {
+        return fakturaRepository.findAll(pageable);
 
     }
 
@@ -80,8 +82,8 @@ public class FakturaService implements FakturaServiceInterface {
     }
 
     @Override
-    public List<Faktura> findAllByPreduzeceId(long preduzeceId) {
-        return fakturaRepository.findAllByPreduzeceId(preduzeceId);
+    public Page<Faktura> findAllByPreduzeceId(long preduzeceId, Pageable pageable) {
+        return fakturaRepository.findAllByPreduzeceId(preduzeceId, pageable);
     }
 
     @Override
@@ -106,8 +108,8 @@ public class FakturaService implements FakturaServiceInterface {
     }
 
 
-    public List<FakturaDTO> getFakture() {
-        List<Faktura> fakture = findAll();
+    public List<FakturaDTO> getFakture(Pageable pageable) {
+        Page<Faktura> fakture = findAll(pageable);
         List<FakturaDTO> fakturaDTOS = new ArrayList<>();
         for (Faktura f : fakture) {
             fakturaDTOS.add(new FakturaDTO(f));
@@ -115,8 +117,8 @@ public class FakturaService implements FakturaServiceInterface {
         return fakturaDTOS;
     }
 
-    public List<FakturaDTO> getFaktureByPreduzeceId(long id) {
-        List<Faktura> fakture = findAllByPreduzeceId(id);
+    public List<FakturaDTO> getFaktureByPreduzeceId(long id, Pageable pageable) {
+        Page<Faktura> fakture = findAllByPreduzeceId(id, pageable);
         List<FakturaDTO> fakturaDTOS = new ArrayList<>();
         for (Faktura f : fakture) {
             fakturaDTOS.add(new FakturaDTO(f));
