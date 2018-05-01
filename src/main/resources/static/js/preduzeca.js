@@ -1,8 +1,10 @@
 var svaPreduzeca;
 var svaMesta;
 var token;
+var page_number;
 
 $(document).ready(function () {
+    page_number = 0;
 
     token = localStorage.getItem('token');
 
@@ -10,15 +12,18 @@ $(document).ready(function () {
         window.location.replace("/index.html");
     }
 
-    loadPreduzeca();
+    loadPreduzeca(page_number);
     loadMesta();
 
 });
 
-function loadPreduzeca() {
+function loadPreduzeca(page) {
+    $("#preduzeca").empty();
+    $("#page_number").text(page);
+
     $.ajax({
         type: "GET",
-        url: "api/preduzece",
+        url: "api/preduzece?size=3&page=" + page,
         dataType: "json",
         beforeSend: function (request) {
             request.setRequestHeader("Authorization", token);
@@ -48,6 +53,18 @@ function loadMesta() {
         }
 
     });
+}
+
+function onLeftArrowClick() {
+    if (page_number > 0) {
+        page_number -= 1;
+        loadPreduzeca(page_number);
+    }
+}
+
+function onRightArrowClick() {
+    page_number += 1;
+    loadPreduzeca(page_number);
 }
 
 $('#preduzeca-add-form').submit(function (e) {
