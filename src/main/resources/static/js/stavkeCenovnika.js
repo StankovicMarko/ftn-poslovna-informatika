@@ -5,6 +5,7 @@ var svaPreduzeca;
 var preduzeceId;
 var svaRoba;
 var token;
+var page_number = 0;
 
 
 $(document).ready(function () {
@@ -42,10 +43,13 @@ function loadCenovnici() {
     });
 }
 
-function loadStavkeCenovnika(cenovnikId) {
+function loadStavkeCenovnika(cenovnikId, page) {
+    $("#stavkeCenovnika").empty();
+    $("#page_number").text(page);
+
     $.ajax({
         type: "GET",
-        url: "api/stavka-cenovnika/cenovnik/" + cenovnikId,
+        url: "api/stavka-cenovnika/cenovnik/" + cenovnikId + "?size=3&page=" + page,
         dataType: "json",
         beforeSend: function (request) {
             request.setRequestHeader("Authorization", token);
@@ -65,7 +69,7 @@ function loadRoba() {
     if (preduzeceId != 1) {
         url = "api/roba/preduzece/" + preduzeceId;
     }
-    
+
     $.ajax({
         type: "GET",
         url: url,
@@ -83,6 +87,18 @@ function loadRoba() {
     });
 }
 
+function onLeftArrowClick() {
+    if (page_number > 0) {
+        page_number -= 1;
+        loadStavkeCenovnika(cenovnikId, page_number);
+    }
+}
+
+function onRightArrowClick() {
+    page_number += 1;
+    loadStavkeCenovnika(cenovnikId, page_number);
+}
+
 $('#lista-cenovnika').on('change', function (e) {
     e.stopImmediatePropagation()
 
@@ -94,7 +110,7 @@ $('#lista-cenovnika').on('change', function (e) {
     cenovnikId = cenovnikIdString.substr(0, cenovnikIdString.indexOf('.'));
     //console.log(cenovnikId);
 
-    loadStavkeCenovnika(cenovnikId);
+    loadStavkeCenovnika(cenovnikId, page_number);
 
     //console.log(sveStavkeCenovnika);
 });

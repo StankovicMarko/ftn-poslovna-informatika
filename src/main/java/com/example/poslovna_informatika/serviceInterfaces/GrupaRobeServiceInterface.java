@@ -1,21 +1,20 @@
 package com.example.poslovna_informatika.serviceInterfaces;
 
-import com.example.poslovna_informatika.model.Cenovnik;
-import com.example.poslovna_informatika.model.Faktura;
 import com.example.poslovna_informatika.model.GrupaRobe;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.Date;
 import java.util.List;
 
 public interface GrupaRobeServiceInterface {
 
-    List<GrupaRobe> findAll();
+    Page<GrupaRobe> findAll(Pageable pageable);
 
     GrupaRobe findOne(long id);
 
     GrupaRobe findByNaziv(String naziv);
 
-    List<GrupaRobe> findAllByPreduzeceId(long preduzeceId);
+    Page<GrupaRobe> findAllByPreduzeceId(long preduzeceId, Pageable pageable);
 
     List<GrupaRobe> findAllByPdvId(long pdvId);
 

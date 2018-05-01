@@ -5,6 +5,7 @@ var svaRoba;
 var grupaRobeId;
 var token;
 var preduzeceId;
+var page_number = 0;
 
 
 $(document).ready(function () {
@@ -56,10 +57,13 @@ function loadJedinice() {
     });
 }
 
-function loadRoba(grupaRobeId) {
+function loadRoba(grupaRobeId, page) {
+    $("#roba").empty();
+    $("#page_number").text(page);
+
     $.ajax({
         type: "GET",
-        url: "api/roba/grupa-robe/" + grupaRobeId,
+        url: "api/roba/grupa-robe/" + grupaRobeId + "?size=3&page=" + page,
         dataType: "json",
         beforeSend: function (request) {
             request.setRequestHeader("Authorization", token);
@@ -73,13 +77,24 @@ function loadRoba(grupaRobeId) {
     });
 }
 
+function onLeftArrowClick() {
+    if (page_number > 0) {
+        page_number -= 1;
+        loadRoba(grupaRobeId, page_number);
+    }
+}
+
+function onRightArrowClick() {
+    page_number += 1;
+    loadRoba(grupaRobeId, page_number);
+}
 
 $('#lista-grupe-robe').on('change', function () {
     $('#roba').empty();
 
     var grupaRobeIdString = $(this).find(":selected").text();
     grupaRobeId = grupaRobeIdString.substr(0, grupaRobeIdString.indexOf('.'));
-    loadRoba(grupaRobeId);
+    loadRoba(grupaRobeId, page_number);
 });
 
 $('#roba-add-form').submit(function (e) {

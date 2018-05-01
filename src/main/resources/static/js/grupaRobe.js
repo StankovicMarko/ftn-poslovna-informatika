@@ -3,7 +3,7 @@ var sveStopePDVa;
 var pdvId;
 var token;
 var preduzeceId;
-
+var page_number = 0;
 
 $(document).ready(function () {
 
@@ -34,7 +34,10 @@ function loadStopePDVa() {
     });
 }
 
-function loadGrupeRobe(pdvId) {
+function loadGrupeRobe(pdvId, page) {
+    $("#grupe-robe").empty();
+    $("#page_number").text(page);
+
     var url = "api/grupa-robe";
     if (preduzeceId != 1) {
         url = "api/grupa-robe/preduzece/" + preduzeceId + "/pdv/" + pdvId;
@@ -42,7 +45,7 @@ function loadGrupeRobe(pdvId) {
 
     $.ajax({
         type: "GET",
-        url: url,
+        url: url + "?size=3&page=" + page,
         dataType: "json",
         beforeSend: function (request) {
             request.setRequestHeader("Authorization", token);
@@ -56,6 +59,17 @@ function loadGrupeRobe(pdvId) {
     });
 }
 
+function onLeftArrowClick() {
+    if (page_number > 0) {
+        page_number -= 1;
+        loadGrupeRobe(pdvId, page_number);
+    }
+}
+
+function onRightArrowClick() {
+    page_number += 1;
+    loadGrupeRobe(pdvId, page_number);
+}
 
 $('#lista-pdv').on('change', function (e) {
     e.stopImmediatePropagation()
@@ -63,7 +77,7 @@ $('#lista-pdv').on('change', function (e) {
     $('#grupe-robe').empty();
     var pdvIdString = $(this).find(":selected").text();
     pdvId = pdvIdString.substr(0, pdvIdString.indexOf('.'));
-    loadGrupeRobe(pdvId);
+    loadGrupeRobe(pdvId, page_number);
 });
 
 $('#grupa-robe-add-form').submit(function (e) {

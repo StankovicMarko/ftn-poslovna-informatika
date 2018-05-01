@@ -7,6 +7,8 @@ import com.example.poslovna_informatika.model.Preduzece;
 import com.example.poslovna_informatika.repositories.GrupaRobeRepository;
 import com.example.poslovna_informatika.serviceInterfaces.GrupaRobeServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,8 +29,8 @@ public class GrupaRobeService implements GrupaRobeServiceInterface {
     }
 
     @Override
-    public List<GrupaRobe> findAll() {
-        return grupaRobeRepository.findAll();
+    public Page<GrupaRobe> findAll(Pageable pageable) {
+        return grupaRobeRepository.findAll(pageable);
 
     }
 
@@ -43,8 +45,8 @@ public class GrupaRobeService implements GrupaRobeServiceInterface {
     }
 
     @Override
-    public List<GrupaRobe> findAllByPreduzeceId(long preduzeceId) {
-        return grupaRobeRepository.findAllByPreduzeceId(preduzeceId);
+    public Page<GrupaRobe> findAllByPreduzeceId(long preduzeceId, Pageable pageable) {
+        return grupaRobeRepository.findAllByPreduzeceId(preduzeceId, pageable);
     }
 
     @Override
@@ -62,8 +64,8 @@ public class GrupaRobeService implements GrupaRobeServiceInterface {
         grupaRobeRepository.delete(id);
     }
 
-    public List<GrupaRobeDTO> getGrupaRobeByPredAndPdv(long predId, long pdvId) {
-        List<GrupaRobe> grupaRoba = grupaRobeRepository.findAllByPreduzeceIdAndPdvId(predId, pdvId);
+    public List<GrupaRobeDTO> getGrupaRobeByPredAndPdv(long predId, long pdvId, Pageable pageable) {
+        Page<GrupaRobe> grupaRoba = grupaRobeRepository.findAllByPreduzeceIdAndPdvId(predId, pdvId, pageable);
 
         List<GrupaRobeDTO> grupaRobeDTOS = new ArrayList<>();
         for (GrupaRobe gr : grupaRoba) {
@@ -73,8 +75,8 @@ public class GrupaRobeService implements GrupaRobeServiceInterface {
         return grupaRobeDTOS;
     }
 
-    public List<GrupaRobeDTO> getGrupaRobeByPred(long predId) {
-        List<GrupaRobe> grupaRoba = grupaRobeRepository.findAllByPreduzeceId(predId);
+    public List<GrupaRobeDTO> getGrupaRobeByPred(long predId, Pageable pageable) {
+        Page<GrupaRobe> grupaRoba = grupaRobeRepository.findAllByPreduzeceId(predId, pageable);
 
         List<GrupaRobeDTO> grupaRobeDTOS = new ArrayList<>();
         for (GrupaRobe gr : grupaRoba) {
@@ -84,12 +86,12 @@ public class GrupaRobeService implements GrupaRobeServiceInterface {
         return grupaRobeDTOS;
     }
 
-    public List<GrupaRobeDTO> getAllGrupaRobeById(long id) {
-        List<GrupaRobe> grupaRobes;
+    public List<GrupaRobeDTO> getAllGrupaRobeById(long id, Pageable pageable) {
+        Page<GrupaRobe> grupaRobes;
         if (id == 0) {
-            grupaRobes = findAll();
+            grupaRobes = findAll(pageable);
         } else {
-            grupaRobes = findAllByPreduzeceId(id);
+            grupaRobes = findAllByPreduzeceId(id, pageable);
         }
         List<GrupaRobeDTO> grupaRobeDTOS = new ArrayList<>();
         for (GrupaRobe gr : grupaRobes) {
@@ -98,8 +100,8 @@ public class GrupaRobeService implements GrupaRobeServiceInterface {
         return grupaRobeDTOS;
     }
 
-    public List<GrupaRobeDTO> getAllGrupaRobe() {
-        return getAllGrupaRobeById(0);
+    public List<GrupaRobeDTO> getAllGrupaRobe(Pageable pageable) {
+        return getAllGrupaRobeById(0, pageable);
     }
 
     public GrupaRobeDTO saveGrupaRobeDto(GrupaRobeDTO grupaRobeDTO) {

@@ -3,10 +3,12 @@ package com.example.poslovna_informatika.controllers;
 import com.example.poslovna_informatika.dto.PreduzeceDTO;
 import com.example.poslovna_informatika.services.PreduzeceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -29,8 +31,12 @@ public class PreduzeceController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PreduzeceDTO>> getPreduzeca() {
-        return new ResponseEntity<>(preduzeceService.getAllPreduzeca(), HttpStatus.OK);
+    public ResponseEntity<List<PreduzeceDTO>> getPreduzeca(Principal principal, Pageable pageable) {
+        String email = principal.getName();
+        if (!email.equals("admin@email.com")) {
+            return new ResponseEntity<>(preduzeceService.getPreduzeceByEmail(email), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(preduzeceService.getAllPreduzeca(pageable), HttpStatus.OK);
     }
 
 

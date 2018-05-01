@@ -3,6 +3,7 @@ package com.example.poslovna_informatika.controllers;
 import com.example.poslovna_informatika.dto.FakturaDTO;
 import com.example.poslovna_informatika.services.FakturaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +22,13 @@ public class FakturaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FakturaDTO>> getAllFakture() {
-        return new ResponseEntity<>(fakturaService.getFakture(), HttpStatus.OK);
+    public ResponseEntity<List<FakturaDTO>> getAllFakture(Pageable pageable) {
+        return new ResponseEntity<>(fakturaService.getFakture(pageable), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<List<FakturaDTO>> getFakture(@PathVariable("id") long id) {
-        return new ResponseEntity<>(fakturaService.getFaktureByPreduzeceId(id), HttpStatus.OK);
+    public ResponseEntity<List<FakturaDTO>> getFakture(@PathVariable("id") long id, Pageable pageable) {
+        return new ResponseEntity<>(fakturaService.getFaktureByPreduzeceId(id, pageable), HttpStatus.OK);
     }
 
     @GetMapping(value = "/partner/{id}")

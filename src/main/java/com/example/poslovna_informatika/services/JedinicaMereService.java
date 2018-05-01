@@ -5,6 +5,8 @@ import com.example.poslovna_informatika.model.JedinicaMere;
 import com.example.poslovna_informatika.repositories.JedinicaMereRepository;
 import com.example.poslovna_informatika.serviceInterfaces.JedinicaMereServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,9 +23,8 @@ public class JedinicaMereService implements JedinicaMereServiceInterface {
     }
 
     @Override
-    public List<JedinicaMere> findAll() {
-        return jedinicaMereRepository.findAll();
-
+    public Page<JedinicaMere> findAll(Pageable pageable) {
+        return jedinicaMereRepository.findAll(pageable);
     }
 
     @Override
@@ -48,8 +49,8 @@ public class JedinicaMereService implements JedinicaMereServiceInterface {
     }
 
 
-    public List<JedinicaMereDTO> getAllJedinicaMere() {
-        List<JedinicaMere> jediniceMera = findAll();
+    public List<JedinicaMereDTO> getAllJedinicaMere(Pageable pageable) {
+        Page<JedinicaMere> jediniceMera = findAll(pageable);
         List<JedinicaMereDTO> jedinicaMereDTOS = new ArrayList<>();
         for (JedinicaMere jm : jediniceMera) {
             jedinicaMereDTOS.add(new JedinicaMereDTO(jm));

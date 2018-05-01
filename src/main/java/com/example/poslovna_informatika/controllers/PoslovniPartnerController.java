@@ -3,6 +3,7 @@ package com.example.poslovna_informatika.controllers;
 import com.example.poslovna_informatika.dto.PoslovniPartnerDTO;
 import com.example.poslovna_informatika.services.PoslovniPartnerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +23,8 @@ public class PoslovniPartnerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PoslovniPartnerDTO>> getAllPartners() {
-        return new ResponseEntity<>(poslovniPartnerService.getAllPartners(), HttpStatus.OK);
+    public ResponseEntity<List<PoslovniPartnerDTO>> getAllPartners(Pageable pageable) {
+        return new ResponseEntity<>(poslovniPartnerService.getAllPartners(pageable), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
@@ -32,8 +33,8 @@ public class PoslovniPartnerController {
     }
 
     @GetMapping(value = "/preduzece/{id}")
-    public ResponseEntity<List<PoslovniPartnerDTO>> getPartnereByPreduzece(@PathVariable("id") long id) {
-        return new ResponseEntity<>(poslovniPartnerService.getPartnersByPreduzece(id), HttpStatus.OK);
+    public ResponseEntity<List<PoslovniPartnerDTO>> getPartnereByPreduzece(@PathVariable("id") long id, Pageable pageable) {
+        return new ResponseEntity<>(poslovniPartnerService.getPartnersByPreduzece(id, pageable), HttpStatus.OK);
     }
 
     @GetMapping(value = "/preduzece/{preduzeceId}/mesto/{mestoId}")

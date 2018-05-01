@@ -1,10 +1,9 @@
 package com.example.poslovna_informatika.controllers;
 
 import com.example.poslovna_informatika.dto.RobaDTO;
-import com.example.poslovna_informatika.services.GrupaRobeService;
-import com.example.poslovna_informatika.services.JedinicaMereService;
 import com.example.poslovna_informatika.services.RobaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,31 +15,26 @@ import java.util.List;
 public class RobaController {
 
     private RobaService robaService;
-    private JedinicaMereService jedinicaMereService;
-    private GrupaRobeService grupaRobeService;
 
     @Autowired
-    public RobaController(RobaService robaService, JedinicaMereService jedinicaMereService,
-                          GrupaRobeService grupaRobeService) {
+    public RobaController(RobaService robaService) {
         this.robaService = robaService;
-        this.jedinicaMereService = jedinicaMereService;
-        this.grupaRobeService = grupaRobeService;
     }
 
 
     @GetMapping
-    public ResponseEntity<List<RobaDTO>> getItems() {
-        return new ResponseEntity<>(robaService.getAllItems(), HttpStatus.OK);
+    public ResponseEntity<List<RobaDTO>> getItems(Pageable pageable) {
+        return new ResponseEntity<>(robaService.getAllItems(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/preduzece/{id}")
-    public ResponseEntity<List<RobaDTO>> getRobaByPreduzeceId(@PathVariable("id") long id) {
-        return new ResponseEntity<>(robaService.getAllItemsByPreduzeceId(id), HttpStatus.OK);
+    public ResponseEntity<List<RobaDTO>> getRobaByPreduzeceId(@PathVariable("id") long id, Pageable pageable) {
+        return new ResponseEntity<>(robaService.getAllItemsByPreduzeceId(id, pageable), HttpStatus.OK);
     }
 
     @GetMapping(value = "/grupa-robe/{id}")
-    public ResponseEntity<List<RobaDTO>> getItemsGrupaR(@PathVariable("id") long id) {
-        return new ResponseEntity<>(robaService.getRobaByGrupa(id), HttpStatus.OK);
+    public ResponseEntity<List<RobaDTO>> getItemsGrupaR(@PathVariable("id") long id, Pageable pageable) {
+        return new ResponseEntity<>(robaService.getRobaByGrupa(id, pageable), HttpStatus.OK);
     }
 
 

@@ -6,6 +6,7 @@ var stavkaId;
 var cenovnikId;
 var dodateStavkeFakture = [];
 var token;
+var page_number = 0;
 
 
 $(document).ready(function () {
@@ -17,7 +18,7 @@ $(document).ready(function () {
         window.location.replace("/index.html");
     }
 
-    loadFakture()
+    loadFakture(page_number);
 });
 
 $('#pretraga-preduzeca').on('input', function () {
@@ -40,7 +41,10 @@ $('#pretraga-preduzeca').on('input', function () {
 });
 
 
-function loadFakture() {
+function loadFakture(page) {
+    $("#fakture").empty();
+    $("#page_number").text(page);
+
     var url = "api/faktura";
     if (preduzeceId != 1) {
         url = "api/faktura/" + preduzeceId;
@@ -48,7 +52,7 @@ function loadFakture() {
 
     $.ajax({
         type: "GET",
-        url: url,
+        url: url + "?size=3&page=" + page,
         dataType: "json",
         beforeSend: function (request) {
             request.setRequestHeader("Authorization", token);
@@ -71,6 +75,18 @@ function loadFakture() {
         }
 
     });
+}
+
+function onLeftArrowClick() {
+    if (page_number > 0) {
+        page_number -= 1;
+        loadFakture(page_number);
+    }
+}
+
+function onRightArrowClick() {
+    page_number += 1;
+    loadFakture(page_number);
 }
 
 $('#btn-add-faktura').click(function (e) {

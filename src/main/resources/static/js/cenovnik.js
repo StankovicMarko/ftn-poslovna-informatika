@@ -1,6 +1,7 @@
 var sviCenovnici;
 var token;
 var preduzeceId;
+var page_number = 0;
 
 $(document).ready(function () {
 
@@ -11,11 +12,14 @@ $(document).ready(function () {
         window.location.replace("/index.html");
     }
 
-    loadCenovnici()
+    loadCenovnici(page_number);
 });
 
 
-function loadCenovnici() {
+function loadCenovnici(page) {
+    $("#cenovnici").empty();
+    $("#page_number").text(page);
+
     var url = "api/cenovnik";
     if (preduzeceId != 1) {
         url = "api/cenovnik/" + preduzeceId;
@@ -23,7 +27,7 @@ function loadCenovnici() {
 
     $.ajax({
         type: "GET",
-        url: url,
+        url: url + "?size=3&page=" + page,
         dataType: "json",
         beforeSend: function (request) {
             request.setRequestHeader("Authorization", token);
@@ -37,6 +41,17 @@ function loadCenovnici() {
     });
 }
 
+function onLeftArrowClick() {
+    if (page_number > 0) {
+        page_number -= 1;
+        loadCenovnici(page_number);
+    }
+}
+
+function onRightArrowClick() {
+    page_number += 1;
+    loadCenovnici(page_number);
+}
 
 $('#cenovnik-add-form').submit(function (e) {
     e.preventDefault();

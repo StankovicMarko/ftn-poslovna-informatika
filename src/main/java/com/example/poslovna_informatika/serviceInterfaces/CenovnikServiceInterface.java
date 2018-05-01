@@ -1,19 +1,19 @@
 package com.example.poslovna_informatika.serviceInterfaces;
 
 import com.example.poslovna_informatika.model.Cenovnik;
-import com.example.poslovna_informatika.model.Mesto;
-import com.example.poslovna_informatika.model.Preduzece;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
 import java.util.List;
 
 public interface CenovnikServiceInterface {
 
-    List<Cenovnik> findAll();
+    Page<Cenovnik> findAll(Pageable pageable);
 
     Cenovnik findOne(long id);
 
-    List<Cenovnik> findAllByPreduzeceId(long preduzeceId);
+    Page<Cenovnik> findAllByPreduzeceId(long preduzeceId, Pageable pageable);
 
     List<Cenovnik> findAllByDatumVazenjaBetween(Date pocetniDatum, Date kranjiDatum);
 
