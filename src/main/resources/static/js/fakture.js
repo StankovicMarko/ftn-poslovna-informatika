@@ -329,7 +329,7 @@ $('#fakture').on('click', 'tr', function () {
             r=0
          }else{
             r=parseInt(maybeR)}
-            
+
         var c = parseInt($("#cena").text());
 
         var osn = kol * c * (100 - r) / 100;
@@ -425,6 +425,10 @@ $('#fakture').on('click', 'tr', function () {
                     '</td> <td>' + stavkaFakture.iznosPDV +
                     '</td> <td>' + stavkaFakture.iznosStavke +
                     '</td> </tr>');
+
+                     osnovica.html(parseFloat(osnovica.text())+stavkaFakture.osnovicaZaPDV );
+                     pdv.html(parseFloat(pdv.text())+stavkaFakture.iznosPDV );
+                     iznos.html(parseFloat(iznos.text())+stavkaFakture.iznosStavke );
 
 
             },
