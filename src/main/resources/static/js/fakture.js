@@ -322,7 +322,14 @@ $('#fakture').on('click', 'tr', function () {
         e.stopImmediatePropagation();
 
         var kol = parseInt($("#kolicina").val());
-        var r = parseInt($("#rabat").val());
+
+         var maybeR = $("#rabat").val();
+         var r;
+         if(maybeR == ""){
+            r=0
+         }else{
+            r=parseInt(maybeR)}
+            
         var c = parseInt($("#cena").text());
 
         var osn = kol * c * (100 - r) / 100;
@@ -351,7 +358,14 @@ $('#fakture').on('click', 'tr', function () {
         e.stopImmediatePropagation();
 
         var kol = parseInt($("#kolicina").val());
-        var r = parseInt($("#rabat").val());
+
+        var maybeR = $("#rabat").val();
+        var r;
+        if(maybeR == ""){
+            r=0
+        }else{
+            r=parseInt(maybeR)}
+
         var c = parseInt($("#cena").text());
 
         var osn = kol * c * (100 - r) / 100;
