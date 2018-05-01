@@ -6,6 +6,8 @@ import com.example.poslovna_informatika.model.Preduzece;
 import com.example.poslovna_informatika.repositories.CenovnikRepository;
 import com.example.poslovna_informatika.serviceInterfaces.CenovnikServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,8 +27,8 @@ public class CenovnikService implements CenovnikServiceInterface {
     }
 
     @Override
-    public List<Cenovnik> findAll() {
-        return cenovnikRepository.findAll();
+    public Page<Cenovnik> findAll(Pageable pageable) {
+        return cenovnikRepository.findAll(pageable);
     }
 
     @Override
@@ -35,8 +37,8 @@ public class CenovnikService implements CenovnikServiceInterface {
     }
 
     @Override
-    public List<Cenovnik> findAllByPreduzeceId(long preduzeceId) {
-        return cenovnikRepository.findAllByPreduzeceId(preduzeceId);
+    public Page<Cenovnik> findAllByPreduzeceId(long preduzeceId, Pageable pageable) {
+        return cenovnikRepository.findAllByPreduzeceId(preduzeceId, pageable);
     }
 
     @Override
@@ -54,9 +56,9 @@ public class CenovnikService implements CenovnikServiceInterface {
         cenovnikRepository.delete(id);
     }
 
-    public List<CenovnikDTO> getCenovniciDTO() {
-        List<Cenovnik> cenovnici = findAll();
-        List<CenovnikDTO> cenovniciDTOS = new ArrayList<CenovnikDTO>();
+    public List<CenovnikDTO> getCenovniciDTO(Pageable pageable) {
+        Page<Cenovnik> cenovnici = findAll(pageable);
+        List<CenovnikDTO> cenovniciDTOS = new ArrayList<>();
         for (Cenovnik c : cenovnici) {
             cenovniciDTOS.add(new CenovnikDTO(c));
         }
@@ -64,9 +66,9 @@ public class CenovnikService implements CenovnikServiceInterface {
         return cenovniciDTOS;
     }
 
-    public List<CenovnikDTO> getCenovniciDTObyId(long id) {
-        List<Cenovnik> cenovnici = findAllByPreduzeceId(id);
-        List<CenovnikDTO> cenovniciDTOS = new ArrayList<CenovnikDTO>();
+    public List<CenovnikDTO> getCenovniciDTObyId(long id, Pageable pageable) {
+        Page<Cenovnik> cenovnici = findAllByPreduzeceId(id, pageable);
+        List<CenovnikDTO> cenovniciDTOS = new ArrayList<>();
         for (Cenovnik c : cenovnici) {
             cenovniciDTOS.add(new CenovnikDTO(c));
         }
