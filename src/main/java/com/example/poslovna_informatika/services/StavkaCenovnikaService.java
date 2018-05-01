@@ -8,6 +8,8 @@ import com.example.poslovna_informatika.model.StavkaCenovnika;
 import com.example.poslovna_informatika.repositories.StavkaCenovnikaRepository;
 import com.example.poslovna_informatika.serviceInterfaces.StavkaCenovnikaServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -39,8 +41,8 @@ public class StavkaCenovnikaService implements StavkaCenovnikaServiceInterface {
     }
 
     @Override
-    public List<StavkaCenovnika> findAllByCenovnikId(long cenovnikId) {
-        return stavkaCenovnikaRepository.findAllByCenovnikId(cenovnikId);
+    public Page<StavkaCenovnika> findAllByCenovnikId(long cenovnikId, Pageable pageable) {
+        return stavkaCenovnikaRepository.findAllByCenovnikId(cenovnikId, pageable);
     }
 
     @Override
@@ -65,8 +67,8 @@ public class StavkaCenovnikaService implements StavkaCenovnikaServiceInterface {
     }
 
 
-    public List<StavkaCenovnikaDTO> getStavkeCenById(long id) {
-        List<StavkaCenovnika> stavkaCenovnikas = findAllByCenovnikId(id);
+    public List<StavkaCenovnikaDTO> getStavkeCenById(long id, Pageable pageable) {
+        Page<StavkaCenovnika> stavkaCenovnikas = findAllByCenovnikId(id, pageable);
         List<StavkaCenovnikaDTO> stavkaCenovnikaDTOS = new ArrayList<>();
         for (StavkaCenovnika sc : stavkaCenovnikas) {
             stavkaCenovnikaDTOS.add(new StavkaCenovnikaDTO(sc));

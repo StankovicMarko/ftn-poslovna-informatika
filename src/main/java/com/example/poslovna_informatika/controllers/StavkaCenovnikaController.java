@@ -3,6 +3,7 @@ package com.example.poslovna_informatika.controllers;
 import com.example.poslovna_informatika.dto.StavkaCenovnikaDTO;
 import com.example.poslovna_informatika.services.StavkaCenovnikaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +23,8 @@ public class StavkaCenovnikaController {
 
 
     @GetMapping(value = "/cenovnik/{id}")
-    public ResponseEntity<List<StavkaCenovnikaDTO>> getItemsByCenovnik(@PathVariable("id") long id) {
-        return new ResponseEntity<>(stavkaCenovnikaService.getStavkeCenById(id), HttpStatus.OK);
+    public ResponseEntity<List<StavkaCenovnikaDTO>> getItemsByCenovnik(@PathVariable("id") long id, Pageable pageable) {
+        return new ResponseEntity<>(stavkaCenovnikaService.getStavkeCenById(id, pageable), HttpStatus.OK);
     }
 
     @GetMapping

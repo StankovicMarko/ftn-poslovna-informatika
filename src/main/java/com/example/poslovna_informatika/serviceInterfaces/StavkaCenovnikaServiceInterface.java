@@ -1,8 +1,8 @@
 package com.example.poslovna_informatika.serviceInterfaces;
 
-import com.example.poslovna_informatika.model.Cenovnik;
-import com.example.poslovna_informatika.model.Roba;
 import com.example.poslovna_informatika.model.StavkaCenovnika;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public interface StavkaCenovnikaServiceInterface {
 
     StavkaCenovnika findOne(long id);
 
-    List<StavkaCenovnika> findAllByCenovnikId(long cenovnikId);
+    Page<StavkaCenovnika> findAllByCenovnikId(long cenovnikId, Pageable pageable);
 
     List<StavkaCenovnika> findAllByRobaId(long robaId);
 
