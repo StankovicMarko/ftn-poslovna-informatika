@@ -6,6 +6,8 @@ import com.example.poslovna_informatika.model.Preduzece;
 import com.example.poslovna_informatika.repositories.PreduzeceRepository;
 import com.example.poslovna_informatika.serviceInterfaces.PreduzeceServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -85,8 +87,17 @@ public class PreduzeceService implements PreduzeceServiceInterface {
         return preduzecaDTO;
     }
 
-    public List<PreduzeceDTO> getAllPreduzeca() {
-        List<Preduzece> preduzeca = findAll();
+    public List<PreduzeceDTO> getPreduzeceByEmail(String email) {
+        List<Preduzece> preduzeca = findAllByEmail(email);
+        List<PreduzeceDTO> preduzecaDTO = new ArrayList<>();
+        for (Preduzece p : preduzeca) {
+            preduzecaDTO.add(new PreduzeceDTO(p));
+        }
+        return preduzecaDTO;
+    }
+
+    public List<PreduzeceDTO> getAllPreduzeca(Pageable pageable) {
+        Page<Preduzece> preduzeca = preduzeceRepository.findAll(pageable);
         List<PreduzeceDTO> preduzecaDTO = new ArrayList<>();
         for (Preduzece p : preduzeca) {
             preduzecaDTO.add(new PreduzeceDTO(p));
@@ -121,9 +132,11 @@ public class PreduzeceService implements PreduzeceServiceInterface {
         p.setPib(preduzeceDTO.getPib());
         p.setTelefon(preduzeceDTO.getTelefon());
         p.setEmail(preduzeceDTO.getEmail());
-        p.setPassword(bCryptPasswordEncoder.encode(preduzeceDTO.getPassword()));
         p.setLogoPath(preduzeceDTO.getLogoPath());
         p.setMesto(mesto);
+
+        if (preduzeceDTO.getPassword() != null)
+            p.setPassword(bCryptPasswordEncoder.encode(preduzeceDTO.getPassword()));
 
         p = save(p);
 

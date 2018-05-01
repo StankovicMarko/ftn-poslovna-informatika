@@ -58,6 +58,7 @@ $('#preduzeca-add-form').submit(function (e) {
     var pib = $('#preduzeca-pib-add').val();
     var telefon = $('#preduzeca-telefon-add').val();
     var email = $('#preduzeca-email-add').val();
+    var password = $('#preduzeca-password-add').val();
     var logo = $('#preduzeca-logo-add').val();
     var mestoIdString = $('#lista-mesta').find(":selected").text();
 
@@ -70,6 +71,7 @@ $('#preduzeca-add-form').submit(function (e) {
         "pib": pib,
         "telefon": telefon,
         "email": email,
+        "password": password,
         "logoPath": logo,
         "mestoId": mestoId
 
@@ -112,6 +114,7 @@ $('#preduzeca').on('click', 'tr', function () {
     var pib = $('#preduzeca-pib-edit').val(preduzece.pib);
     var telefon = $('#preduzeca-telefon-edit').val(preduzece.telefon);
     var email = $('#preduzeca-email-edit').val(preduzece.email);
+    var password = $('#preduzeca-password-edit').val("");
     var logo = $('#preduzeca-logo-edit').val(preduzece.logoPath);
 
     $("#cenovnik").empty();
@@ -194,6 +197,7 @@ $('#preduzeca').on('click', 'tr', function () {
             "pib": pib.val(),
             "telefon": telefon.val(),
             "email": email.val(),
+            "password": password.val(),
             "logoPath": logo.val(),
             "mestoId": preduzece.mestoId
         };
