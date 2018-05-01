@@ -3,6 +3,7 @@ package com.example.poslovna_informatika.controllers;
 import com.example.poslovna_informatika.dto.GrupaRobeDTO;
 import com.example.poslovna_informatika.services.GrupaRobeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,23 +25,24 @@ public class GrupaRobeController {
 
     @GetMapping(value = "/preduzece/{pred-id}/pdv/{pdv-id}")
     public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobeByPredAndPdv(@PathVariable("pred-id") long predId,
-                                                                       @PathVariable("pdv-id") long pdvId) {
-        return new ResponseEntity<>(grupaRobeService.getGrupaRobeByPredAndPdv(predId, pdvId), HttpStatus.OK);
+                                                                       @PathVariable("pdv-id") long pdvId,
+                                                                       Pageable pageable) {
+        return new ResponseEntity<>(grupaRobeService.getGrupaRobeByPredAndPdv(predId, pdvId, pageable), HttpStatus.OK);
     }
 
     @GetMapping(value = "/preduzece/{pred-id}")
-    public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobeByPred(@PathVariable("pred-id") long predId) {
-        return new ResponseEntity<>(grupaRobeService.getGrupaRobeByPred(predId), HttpStatus.OK);
+    public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobeByPred(@PathVariable("pred-id") long predId, Pageable pageable) {
+        return new ResponseEntity<>(grupaRobeService.getGrupaRobeByPred(predId, pageable), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobeById(@PathVariable("id") long id) {
-        return new ResponseEntity<>(grupaRobeService.getAllGrupaRobeById(id), HttpStatus.OK);
+    public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobeById(@PathVariable("id") long id, Pageable pageable) {
+        return new ResponseEntity<>(grupaRobeService.getAllGrupaRobeById(id, pageable), HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobeAll() {
-        return new ResponseEntity<>(grupaRobeService.getAllGrupaRobe(), HttpStatus.OK);
+    public ResponseEntity<List<GrupaRobeDTO>> getGrupeRobeAll(Pageable pageable) {
+        return new ResponseEntity<>(grupaRobeService.getAllGrupaRobe(pageable), HttpStatus.OK);
     }
 
 

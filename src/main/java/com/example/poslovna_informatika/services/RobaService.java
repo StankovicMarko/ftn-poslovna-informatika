@@ -82,8 +82,8 @@ public class RobaService implements RobaServiceInterface {
         return robaDTOS;
     }
 
-    public List<RobaDTO> getAllItemsByPreduzeceId(long predId) {
-        List<GrupaRobe> grupaRobes = grupaRobeService.findAllByPreduzeceId(predId);
+    public List<RobaDTO> getAllItemsByPreduzeceId(long predId, Pageable pageable) {
+        Page<GrupaRobe> grupaRobes = grupaRobeService.findAllByPreduzeceId(predId, pageable);
 
         List<Roba> robas = new ArrayList<>();
 

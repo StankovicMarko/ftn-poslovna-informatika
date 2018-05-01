@@ -28,8 +28,8 @@ public class RobaController {
     }
 
     @GetMapping("/preduzece/{id}")
-    public ResponseEntity<List<RobaDTO>> getRobaByPreduzeceId(@PathVariable("id") long id) {
-        return new ResponseEntity<>(robaService.getAllItemsByPreduzeceId(id), HttpStatus.OK);
+    public ResponseEntity<List<RobaDTO>> getRobaByPreduzeceId(@PathVariable("id") long id, Pageable pageable) {
+        return new ResponseEntity<>(robaService.getAllItemsByPreduzeceId(id, pageable), HttpStatus.OK);
     }
 
     @GetMapping(value = "/grupa-robe/{id}")
