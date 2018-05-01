@@ -5,6 +5,8 @@ import com.example.poslovna_informatika.model.Mesto;
 import com.example.poslovna_informatika.repositories.MestoRepository;
 import com.example.poslovna_informatika.serviceInterfaces.MestoServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,9 +23,8 @@ public class MestoService implements MestoServiceInterface {
     }
 
     @Override
-    public List<Mesto> findAll() {
-        return mestoRepository.findAll();
-
+    public Page<Mesto> findAll(Pageable pageable) {
+        return mestoRepository.findAll(pageable);
     }
 
     @Override
@@ -52,8 +53,8 @@ public class MestoService implements MestoServiceInterface {
     }
 
 
-    public List<MestoDTO> getAllMesta() {
-        List<Mesto> mesta = findAll();
+    public List<MestoDTO> getAllMesta(Pageable pageable) {
+        Page<Mesto> mesta = mestoRepository.findAll(pageable);
         List<MestoDTO> mestoDTOS = new ArrayList<>();
         for (Mesto m : mesta) {
             mestoDTOS.add(new MestoDTO(m));

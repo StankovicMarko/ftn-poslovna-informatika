@@ -1,6 +1,7 @@
 var svaMesta;
 var token;
 var preduzeceId;
+var page_number = 0;
 
 $(document).ready(function () {
 
@@ -11,14 +12,17 @@ $(document).ready(function () {
         window.location.replace("/index.html");
     }
 
-    loadMesta();
+    loadMesta(page_number);
 
 });
 
-function loadMesta() {
+function loadMesta(page) {
+    $("#mesta").empty();
+    $("#page_number").text(page);
+
     $.ajax({
         type: "GET",
-        url: "api/mesto",
+        url: "api/mesto?size=3&page=" + page,
         dataType: "json",
         beforeSend: function (request) {
             request.setRequestHeader("Authorization", token);
@@ -31,6 +35,18 @@ function loadMesta() {
         }
 
     });
+}
+
+function onLeftArrowClick() {
+    if (page_number > 0) {
+        page_number -= 1;
+        loadMesta(page_number);
+    }
+}
+
+function onRightArrowClick() {
+    page_number += 1;
+    loadMesta(page_number);
 }
 
 

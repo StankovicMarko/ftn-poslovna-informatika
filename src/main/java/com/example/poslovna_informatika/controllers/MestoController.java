@@ -4,6 +4,7 @@ import com.example.poslovna_informatika.dto.MestoDTO;
 import com.example.poslovna_informatika.model.Mesto;
 import com.example.poslovna_informatika.services.MestoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class MestoController {
 
 
     @GetMapping
-    public ResponseEntity<List<MestoDTO>> getMesta() {
-        return new ResponseEntity<>(mestoService.getAllMesta(), HttpStatus.OK);
+    public ResponseEntity<List<MestoDTO>> getMesta(Pageable pageable) {
+        return new ResponseEntity<>(mestoService.getAllMesta(pageable), HttpStatus.OK);
     }
 
     @PostMapping(consumes = "application/json")
