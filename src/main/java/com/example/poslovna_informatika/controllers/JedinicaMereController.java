@@ -4,6 +4,7 @@ import com.example.poslovna_informatika.dto.JedinicaMereDTO;
 import com.example.poslovna_informatika.model.JedinicaMere;
 import com.example.poslovna_informatika.services.JedinicaMereService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class JedinicaMereController {
 
 
     @GetMapping
-    public ResponseEntity<List<JedinicaMereDTO>> getJediniceMere() {
-        return new ResponseEntity<>(jedinicaMereService.getAllJedinicaMere(), HttpStatus.OK);
+    public ResponseEntity<List<JedinicaMereDTO>> getJediniceMere(Pageable pageable) {
+        return new ResponseEntity<>(jedinicaMereService.getAllJedinicaMere(pageable), HttpStatus.OK);
     }
 
 

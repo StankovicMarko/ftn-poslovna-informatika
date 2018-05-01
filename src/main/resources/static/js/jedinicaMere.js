@@ -1,5 +1,6 @@
 var sveJedinice;
 var token;
+var page_number = 0;
 
 $(document).ready(function () {
 
@@ -10,14 +11,17 @@ $(document).ready(function () {
         window.location.replace("/index.html");
     }
 
-    loadJedinice();
+    loadJedinice(page_number);
 
 });
 
-function loadJedinice() {
+function loadJedinice(page) {
+    $("#jedinicaMere").empty();
+    $("#page_number").text(page);
+
     $.ajax({
         type: "GET",
-        url: "api/jedinica-mere",
+        url: "api/jedinica-mere?size=3&page=" + page,
         dataType: "json",
         beforeSend: function (request) {
             request.setRequestHeader("Authorization", token);
@@ -30,6 +34,18 @@ function loadJedinice() {
         }
 
     });
+}
+
+function onLeftArrowClick() {
+    if (page_number > 0) {
+        page_number -= 1;
+        loadJedinice(page_number);
+    }
+}
+
+function onRightArrowClick() {
+    page_number += 1;
+    loadJedinice(page_number);
 }
 
 $('#jedinicaMere-add-form').submit(function (e) {
