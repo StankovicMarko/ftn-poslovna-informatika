@@ -2,6 +2,7 @@ var sviPartneri;
 var svaMesta;
 var token;
 var preduzeceId;
+var page_number = 0;
 
 $(document).ready(function () {
 
@@ -12,12 +13,15 @@ $(document).ready(function () {
         window.location.replace("/index.html");
     }
 
-    loadPartneri();
+    loadPartneri(page_number);
     loadMesta();
 
 });
 
-function loadPartneri() {
+function loadPartneri(page) {
+    $("#partneri").empty();
+    $("#page_number").text(page);
+
     var url = "api/poslovni-partner";
     if (preduzeceId != 1) {
         url = "api/poslovni-partner/preduzece/" + preduzeceId;
@@ -25,7 +29,7 @@ function loadPartneri() {
 
     $.ajax({
         type: "GET",
-        url: url,
+        url: url + "?size=3&page=" + page,
         dataType: "json",
         beforeSend: function (request) {
             request.setRequestHeader("Authorization", token);
@@ -56,6 +60,18 @@ function loadMesta() {
         }
 
     });
+}
+
+function onLeftArrowClick() {
+    if (page_number > 0) {
+        page_number -= 1;
+        loadPartneri(page_number);
+    }
+}
+
+function onRightArrowClick() {
+    page_number += 1;
+    loadPartneri(page_number);
 }
 
 $('#partner-add-form').submit(function (e) {

@@ -8,6 +8,8 @@ import com.example.poslovna_informatika.model.Preduzece;
 import com.example.poslovna_informatika.repositories.PoslovniPartnerRepository;
 import com.example.poslovna_informatika.serviceInterfaces.PoslovniPartnerServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -59,8 +61,8 @@ public class PoslovniPartnerService implements PoslovniPartnerServiceInterface {
     }
 
     @Override
-    public List<PoslovniPartner> findAllByPreduzeceId(long preduzeceId) {
-        return poslovniPartnerRepository.findAllByPreduzeceId(preduzeceId);
+    public List<PoslovniPartner> findAllByPreduzeceId(long preduzeceId, Pageable pageable) {
+        return poslovniPartnerRepository.findAllByPreduzeceId(preduzeceId, pageable);
     }
 
     @Override
@@ -74,8 +76,8 @@ public class PoslovniPartnerService implements PoslovniPartnerServiceInterface {
     }
 
 
-    public List<PoslovniPartnerDTO> getAllPartners() {
-        List<PoslovniPartner> partners = findAll();
+    public List<PoslovniPartnerDTO> getAllPartners(Pageable pageable) {
+        Page<PoslovniPartner> partners = poslovniPartnerRepository.findAll(pageable);
         List<PoslovniPartnerDTO> partnersDTO = new ArrayList<>();
         for (PoslovniPartner p : partners) {
             partnersDTO.add(new PoslovniPartnerDTO(p));
@@ -88,8 +90,8 @@ public class PoslovniPartnerService implements PoslovniPartnerServiceInterface {
         return new PoslovniPartnerDTO(poslovniPartner);
     }
 
-    public List<PoslovniPartnerDTO> getPartnersByPreduzece(long id) {
-        List<PoslovniPartner> poslovniPartners = findAllByPreduzeceId(id);
+    public List<PoslovniPartnerDTO> getPartnersByPreduzece(long id, Pageable pageable) {
+        List<PoslovniPartner> poslovniPartners = findAllByPreduzeceId(id, pageable);
         List<PoslovniPartnerDTO> poslovniPartnerDTOS = new ArrayList<>();
         for (PoslovniPartner pp : poslovniPartners) {
             poslovniPartnerDTOS.add(new PoslovniPartnerDTO(pp));
