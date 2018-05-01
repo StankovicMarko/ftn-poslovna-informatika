@@ -8,6 +8,8 @@ import com.example.poslovna_informatika.model.Roba;
 import com.example.poslovna_informatika.repositories.RobaRepository;
 import com.example.poslovna_informatika.serviceInterfaces.RobaServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,20 +21,18 @@ public class RobaService implements RobaServiceInterface {
     private RobaRepository robaRepository;
     private JedinicaMereService jedinicaMereService;
     private GrupaRobeService grupaRobeService;
-    private PreduzeceService preduzeceService;
 
     @Autowired
     public RobaService(RobaRepository robaRepository, JedinicaMereService jedinicaMereService,
-                       GrupaRobeService grupaRobeService, PreduzeceService preduzeceService) {
+                       GrupaRobeService grupaRobeService) {
         this.robaRepository = robaRepository;
         this.jedinicaMereService = jedinicaMereService;
         this.grupaRobeService = grupaRobeService;
-        this.preduzeceService = preduzeceService;
     }
 
     @Override
-    public List<Roba> findAll() {
-        return robaRepository.findAll();
+    public Page<Roba> findAll(Pageable pageable) {
+        return robaRepository.findAll(pageable);
 
     }
 
@@ -44,6 +44,11 @@ public class RobaService implements RobaServiceInterface {
     @Override
     public List<Roba> findAllByNaziv(String nazivRobe) {
         return robaRepository.findAllByNaziv(nazivRobe);
+    }
+
+    @Override
+    public Page<Roba> findAllByGrupaRobeId(long grupaRobeId, Pageable pageable) {
+        return robaRepository.findAllByGrupaRobeId(grupaRobeId, pageable);
     }
 
     @Override
@@ -68,8 +73,8 @@ public class RobaService implements RobaServiceInterface {
     }
 
 
-    public List<RobaDTO> getAllItems() {
-        List<Roba> robas = findAll();
+    public List<RobaDTO> getAllItems(Pageable pageable) {
+        Page<Roba> robas = findAll(pageable);
         List<RobaDTO> robaDTOS = new ArrayList<>();
         for (Roba r : robas) {
             robaDTOS.add(new RobaDTO(r));
@@ -93,8 +98,8 @@ public class RobaService implements RobaServiceInterface {
         return robaDTOS;
     }
 
-    public List<RobaDTO> getRobaByGrupa(long id) {
-        List<Roba> robas = findAllByGrupaRobeId(id);
+    public List<RobaDTO> getRobaByGrupa(long id, Pageable pageable) {
+        Page<Roba> robas = findAllByGrupaRobeId(id, pageable);
         List<RobaDTO> robaDTOS = new ArrayList<>();
         for (Roba r : robas) {
             robaDTOS.add(new RobaDTO(r));
