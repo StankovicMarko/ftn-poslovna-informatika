@@ -7,6 +7,7 @@ var cenovnikId;
 var dodateStavkeFakture = [];
 var token;
 var page_number = 0;
+var fakturaId = 0;
 
 
 $(document).ready(function () {
@@ -88,6 +89,10 @@ function onRightArrowClick() {
     page_number += 1;
     loadFakture(page_number);
 }
+
+$('#print').click(function () {
+    window.location.href = "api/faktura/generate/" + fakturaId;
+});
 
 $('#btn-add-faktura').click(function (e) {
     if (preduzeceId) {
@@ -187,7 +192,7 @@ $('#faktura-add-form').submit(function (e) {
 
 $('#fakture').on('click', 'tr', function () {
     dodateStavkeFakture = [];
-    var fakturaId = $(this).children(':first').text();
+    fakturaId = $(this).children(':first').text();
     $('#edit-faktura').modal('toggle');
 
     var faktura = fakturePreduzeca.find(function (element) {

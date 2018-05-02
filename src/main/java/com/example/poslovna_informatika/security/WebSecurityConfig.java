@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/", "/register", "/templates/navigation.html").permitAll()
+                .antMatchers("/", "/api/preduzece/register", "/templates/navigation.html", "/api/faktura/generate/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/mesto", "/api/pdv", "/api/stopa-pdv").permitAll()
                 .antMatchers("/api/grupa-robe", "/api/jedinica-mere").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/preduzece").hasAuthority("administrator")
