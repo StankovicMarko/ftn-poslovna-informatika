@@ -2,23 +2,56 @@ package com.example.poslovna_informatika.controllers;
 
 import com.example.poslovna_informatika.dto.FakturaDTO;
 import com.example.poslovna_informatika.services.FakturaService;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.util.JRLoader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "api/faktura")
 public class FakturaController {
 
     private FakturaService fakturaService;
+    private DataSource dataSource;
 
     @Autowired
-    public FakturaController(FakturaService fakturaService) {
+    public FakturaController(FakturaService fakturaService, DataSource dataSource) {
         this.fakturaService = fakturaService;
+        this.dataSource = dataSource;
+    }
+
+    @GetMapping(value = "/generate/{id}")
+    public void generateFaktura(HttpServletResponse response, @PathVariable("id") long fakturaId) throws IOException, JRException, SQLException {
+        InputStream is = new ClassPathResource("jasper_template/PI_faktura_izvestaj.jasper").getInputStream();
+
+        Connection conn = dataSource.getConnection();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("FAKTURA_ID", fakturaId);
+        JasperReport jasperReport = (JasperReport) JRLoader.loadObject(is);
+        JasperPrint jasperPrint =
+                JasperFillManager.fillReport(jasperReport, params, conn);
+
+        response.setContentType("application/x-pdf");
+        response.setHeader("Content-disposition", "inline; filename=faktura_" + fakturaId + ".pdf");
+
+        final OutputStream outStream = response.getOutputStream();
+        JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
     }
 
     @GetMapping

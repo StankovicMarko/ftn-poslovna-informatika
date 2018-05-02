@@ -39,6 +39,10 @@ public class PreduzeceController {
         return new ResponseEntity<>(preduzeceService.getAllPreduzeca(pageable), HttpStatus.OK);
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<PreduzeceDTO> register(@RequestBody PreduzeceDTO preduzeceDTO) {
+        return saveItem(preduzeceDTO);
+    }
 
     @PostMapping(consumes = "application/json")
     public ResponseEntity<PreduzeceDTO> saveItem(@RequestBody PreduzeceDTO preduzeceDTO) {
