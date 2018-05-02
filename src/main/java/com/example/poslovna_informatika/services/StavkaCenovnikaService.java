@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.time.temporal.TemporalAdjusters.lastDayOfYear;
 
@@ -91,7 +92,7 @@ public class StavkaCenovnikaService implements StavkaCenovnikaServiceInterface {
         return stavkaCenovnikaDTOS;
     }
 
-    public List<StavkaCenovnikaDTO> getStavkeVazecegCen() {
+    public List<StavkaCenovnikaDTO> getStavkeVazecegCen(long preduzeceId) {
         try {
             Date sad = new Date();
             LocalDate now = LocalDate.now();
@@ -105,7 +106,11 @@ public class StavkaCenovnikaService implements StavkaCenovnikaServiceInterface {
 //        System.out.println(pg);
 
 
-            List<Cenovnik> vazeciCenovnici = cenovnikService.findAllByDatumVazenjaBetween(sad, kraj);
+            List<Cenovnik> vazeciCenovnici = cenovnikService.findAllByDatumVazenjaBetween(sad, kraj).stream()
+                    .filter(c -> c.getPreduzece().getId() == preduzeceId).collect(Collectors.toList());
+
+
+
             //System.out.println(vazeciCenovnik);
             Collections.sort(vazeciCenovnici, new Comparator<Cenovnik>() {
                 public int compare(Cenovnik c1, Cenovnik c2) {

@@ -22,9 +22,9 @@ public class StavkaCenovnikaController {
     }
 
 
-    @GetMapping(value = "/cenovnik")
-    public ResponseEntity<List<StavkaCenovnikaDTO>> getStavkeVazecegCen() {
-        return new ResponseEntity<>(stavkaCenovnikaService.getStavkeVazecegCen(), HttpStatus.OK);
+    @GetMapping(value = "/cenovnik/preduzece/{id}")
+    public ResponseEntity<List<StavkaCenovnikaDTO>> getStavkeVazecegCen(@PathVariable("id") long preduzeceId) {
+        return new ResponseEntity<>(stavkaCenovnikaService.getStavkeVazecegCen(preduzeceId), HttpStatus.OK);
     }
 
     @GetMapping(value = "/cenovnik/{id}")

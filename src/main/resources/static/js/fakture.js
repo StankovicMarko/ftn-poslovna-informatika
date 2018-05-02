@@ -275,7 +275,7 @@ $('#fakture').on('click', 'tr', function () {
 
         $.ajax({
             type: "GET",
-            url: "api/stavka-cenovnika/cenovnik",
+            url: "api/stavka-cenovnika/cenovnik/preduzece/"+preduzeceId,
             dataType: "json",
             beforeSend: function (request) {
                 request.setRequestHeader("Authorization", token);
