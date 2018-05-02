@@ -61,4 +61,14 @@ public class StavkaCenovnika {
     public void setCenovnik(Cenovnik cenovnik) {
         this.cenovnik = cenovnik;
     }
+
+    @Override
+    public String toString() {
+        return "StavkaCenovnika{" +
+                "id=" + id +
+                ", cena=" + cena +
+                ", roba=" + roba +
+                ", cenovnik=" + cenovnik +
+                '}';
+    }
 }

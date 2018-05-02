@@ -62,4 +62,16 @@ public class Cenovnik {
     public void setPreduzece(Preduzece preduzece) {
         this.preduzece = preduzece;
     }
+
+    @Override
+    public String toString() {
+        return "Cenovnik{" +
+                "id=" + id +
+                ", datumVazenja=" + datumVazenja +
+                ", stavkeCenovnika=" + stavkeCenovnika +
+                ", preduzece=" + preduzece +
+                '}';
+    }
+
+
 }

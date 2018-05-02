@@ -265,40 +265,33 @@ $('#fakture').on('click', 'tr', function () {
         }
     });
 
-    $('#pretraga-cenovnika').on('input', function (e) {
-        e.stopImmediatePropagation();
+//    $('#pretraga-cenovnika').on('input', function (e) {
+//        e.stopImmediatePropagation();
 
         $('#lista-stavki').empty();
         $('#cena').text('');
         $('#pretraga-stavki').val('');
 
 
-        var cenovnikString = this.value;
-        cenovnikId = cenovnikString.substr(0, cenovnikString.indexOf('.'));
+        $.ajax({
+            type: "GET",
+            url: "api/stavka-cenovnika/cenovnik",
+            dataType: "json",
+            beforeSend: function (request) {
+                request.setRequestHeader("Authorization", token);
+            },
+            success: function (stavke) {
+                console.log(stavke);
+                ucitaneStavke = stavke;
+                stavke.forEach(function (stavka) {
+                    $('#lista-stavki').append('<option value="' + stavka.id +
+                        '. ' + stavka.nazivRobe + '"></option>');
+                });
+            }
+        });
 
 
-        if (cenovnikId.match(/^-{0,1}\d+$/)) {
-
-            $.ajax({
-                type: "GET",
-                url: "api/stavka-cenovnika/cenovnik/" + cenovnikId,
-                dataType: "json",
-                beforeSend: function (request) {
-                    request.setRequestHeader("Authorization", token);
-                },
-                success: function (stavke) {
-                    ucitaneStavke = stavke;
-                    stavke.forEach(function (stavka) {
-                        $('#lista-stavki').append('<option value="' + stavka.id +
-                            '. ' + stavka.nazivRobe + '"></option>');
-                    });
-                }
-            });
-            //$('#pretraga-stavki').val('');
-
-        } else {
-        }
-    });
+//    });
 
 
     $('#pretraga-stavki').on('input', function () {

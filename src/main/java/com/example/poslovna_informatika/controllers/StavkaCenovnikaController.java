@@ -22,6 +22,11 @@ public class StavkaCenovnikaController {
     }
 
 
+    @GetMapping(value = "/cenovnik")
+    public ResponseEntity<List<StavkaCenovnikaDTO>> getStavkeVazecegCen() {
+        return new ResponseEntity<>(stavkaCenovnikaService.getStavkeVazecegCen(), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/cenovnik/{id}")
     public ResponseEntity<List<StavkaCenovnikaDTO>> getItemsByCenovnik(@PathVariable("id") long id, Pageable pageable) {
         return new ResponseEntity<>(stavkaCenovnikaService.getStavkeCenById(id, pageable), HttpStatus.OK);
