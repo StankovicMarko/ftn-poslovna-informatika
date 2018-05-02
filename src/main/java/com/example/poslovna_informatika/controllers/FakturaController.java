@@ -36,6 +36,11 @@ public class FakturaController {
         return new ResponseEntity<>(fakturaService.getFaktureByPartnerId(id), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/id/{id}")
+    public ResponseEntity<FakturaDTO> getFaktura(@PathVariable("id") long id) {
+        return new ResponseEntity<>(fakturaService.getFaktura(id), HttpStatus.OK);
+    }
+
     @PostMapping(consumes = "application/json")
     public ResponseEntity<FakturaDTO> saveItem(@RequestBody FakturaDTO fakturaDTO) {
         return new ResponseEntity<>(fakturaService.saveFakturaDTO(fakturaDTO), HttpStatus.CREATED);

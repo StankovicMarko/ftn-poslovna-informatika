@@ -12,8 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.time.temporal.TemporalAdjusters.lastDayOfYear;
 
 @Service
 public class StavkaCenovnikaService implements StavkaCenovnikaServiceInterface {
@@ -21,12 +25,19 @@ public class StavkaCenovnikaService implements StavkaCenovnikaServiceInterface {
     private StavkaCenovnikaRepository stavkaCenovnikaRepository;
     private RobaService robaService;
     private CenovnikService cenovnikService;
+    //private PoslovnaGodinaService poslovnaGodinaService;
+
 
     @Autowired
-    public StavkaCenovnikaService(StavkaCenovnikaRepository stavkaCenovnikaRepository, RobaService robaService, CenovnikService cenovnikService) {
+    public StavkaCenovnikaService(StavkaCenovnikaRepository stavkaCenovnikaRepository,
+                                  RobaService robaService, CenovnikService cenovnikService
+                                 // ,PoslovnaGodinaService poslovnaGodinaService
+                                  ) {
         this.stavkaCenovnikaRepository = stavkaCenovnikaRepository;
         this.robaService = robaService;
         this.cenovnikService = cenovnikService;
+        //this.poslovnaGodinaService = poslovnaGodinaService;
+
     }
 
     @Override
@@ -43,6 +54,11 @@ public class StavkaCenovnikaService implements StavkaCenovnikaServiceInterface {
     @Override
     public Page<StavkaCenovnika> findAllByCenovnikId(long cenovnikId, Pageable pageable) {
         return stavkaCenovnikaRepository.findAllByCenovnikId(cenovnikId, pageable);
+    }
+
+    @Override
+    public List<StavkaCenovnika> findAllByCenovnik(Cenovnik c) {
+        return stavkaCenovnikaRepository.findAllByCenovnik(c);
     }
 
     @Override
@@ -74,6 +90,52 @@ public class StavkaCenovnikaService implements StavkaCenovnikaServiceInterface {
             stavkaCenovnikaDTOS.add(new StavkaCenovnikaDTO(sc));
         }
         return stavkaCenovnikaDTOS;
+    }
+
+    public List<StavkaCenovnikaDTO> getStavkeVazecegCen(long preduzeceId) {
+        try {
+            Date sad = new Date();
+            LocalDate now = LocalDate.now();
+            LocalDate lastDay = now.with(lastDayOfYear());
+            Date kraj = Date.from(lastDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+//        LocalDate localDate = now.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//        int god = localDate.getYear();
+//
+//        PoslovnaGodina pg = poslovnaGodinaService.findAllByGodinaBetween(god, god).get(0);
+//        System.out.println(pg);
+
+
+            List<Cenovnik> vazeciCenovnici = cenovnikService.findAllByDatumVazenjaBetween(sad, kraj).stream()
+                    .filter(c -> c.getPreduzece().getId() == preduzeceId).collect(Collectors.toList());
+
+
+
+            //System.out.println(vazeciCenovnik);
+            Collections.sort(vazeciCenovnici, new Comparator<Cenovnik>() {
+                public int compare(Cenovnik c1, Cenovnik c2) {
+                    return c1.getDatumVazenja().compareTo(c2.getDatumVazenja());
+                }
+            });
+
+
+
+
+            List<StavkaCenovnika> stavkaCenovnikas = findAllByCenovnik(vazeciCenovnici.get(0));
+            //System.out.println(stavkaCenovnikas.get(0));
+
+
+            List<StavkaCenovnikaDTO> stavkaCenovnikaDTOS = new ArrayList<>();
+            for (StavkaCenovnika sc : stavkaCenovnikas) {
+                stavkaCenovnikaDTOS.add(new StavkaCenovnikaDTO(sc));
+            }
+            return stavkaCenovnikaDTOS;
+
+        }catch (Exception e){
+            return new ArrayList<StavkaCenovnikaDTO>();
+
+        }
+
     }
 
     public List<StavkaCenovnikaDTO> getAllStavkeCen() {

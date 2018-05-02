@@ -1,5 +1,6 @@
 package com.example.poslovna_informatika.repositories;
 
+import com.example.poslovna_informatika.model.Cenovnik;
 import com.example.poslovna_informatika.model.StavkaCenovnika;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,8 @@ import java.util.List;
 public interface StavkaCenovnikaRepository extends JpaRepository<StavkaCenovnika, Long> {
 
     Page<StavkaCenovnika> findAllByCenovnikId(long cenovnikId, Pageable pageable);
+
+    List<StavkaCenovnika> findAllByCenovnik(Cenovnik c);
 
     List<StavkaCenovnika> findAllByRobaId(long robaId);
 

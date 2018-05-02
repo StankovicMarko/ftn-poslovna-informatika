@@ -1,10 +1,9 @@
 package com.example.poslovna_informatika.services;
 
 
+import com.example.poslovna_informatika.dto.StavkaCenovnikaDTO;
 import com.example.poslovna_informatika.dto.StavkaFaktureDTO;
-import com.example.poslovna_informatika.model.Faktura;
-import com.example.poslovna_informatika.model.Roba;
-import com.example.poslovna_informatika.model.StavkaFakture;
+import com.example.poslovna_informatika.model.*;
 import com.example.poslovna_informatika.repositories.FakturaRepository;
 import com.example.poslovna_informatika.repositories.StavkaFaktureRepository;
 import com.example.poslovna_informatika.serviceInterfaces.StavkaFaktureServiceInterface;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StavkaFaktureService implements StavkaFaktureServiceInterface {
@@ -20,12 +20,23 @@ public class StavkaFaktureService implements StavkaFaktureServiceInterface {
     private StavkaFaktureRepository stavkaFaktureRepository;
     private RobaService robaService;
     private FakturaRepository fakturaRepository;
+    private StavkaCenovnikaService stavkaCenovnikaService;
+    private StopaPdvService stopaPdvService;
+
+
 
     @Autowired
-    public StavkaFaktureService(StavkaFaktureRepository stavkaCenovnikaRepository, FakturaRepository fakturaRepository, RobaService robaService) {
+    public StavkaFaktureService(StavkaFaktureRepository stavkaCenovnikaRepository,
+                                FakturaRepository fakturaRepository, RobaService robaService,
+                                StavkaCenovnikaService stavkaCenovnikaService,
+                                StopaPdvService stopaPdvService) {
         this.stavkaFaktureRepository = stavkaCenovnikaRepository;
         this.fakturaRepository = fakturaRepository;
         this.robaService = robaService;
+        this.stavkaCenovnikaService = stavkaCenovnikaService;
+        this.stopaPdvService = stopaPdvService;
+
+
     }
 
     @Override
@@ -116,15 +127,20 @@ public class StavkaFaktureService implements StavkaFaktureServiceInterface {
     public StavkaFaktureDTO saveStavkaFakture(StavkaFaktureDTO stavkaFaktureDTO) {
         Faktura f = fakturaRepository.findOne(stavkaFaktureDTO.getFakturaId());
         Roba r = robaService.findOne(stavkaFaktureDTO.getRobaId());
+        GrupaRobe gr = r.getGrupaRobe();
+        PDV pdv = gr.getPdv();
+        StopaPDV stopaPDV = stopaPdvService.findAllByPdvId(pdv.getId()).get(0);
+        double osnovica = stavkaFaktureDTO.getKolicina()*stavkaFaktureDTO.getJedinicnaCena()*(100-stavkaFaktureDTO.getRabat())/100;
+        double iznosPdv = osnovica*stopaPDV.getProcenat()/100;
+        double iznosStavke = osnovica+iznosPdv;
 
 
         StavkaFakture sf = new StavkaFakture(stavkaFaktureDTO.getKolicina(), stavkaFaktureDTO.getJedinicnaCena(),
-                stavkaFaktureDTO.getRabat(), stavkaFaktureDTO.getOsnovicaZaPDV(), stavkaFaktureDTO.getProcenatPDV(),
-                stavkaFaktureDTO.getIznosPDV(), stavkaFaktureDTO.getIznosStavke(), r, f);
+                stavkaFaktureDTO.getRabat(), osnovica, stopaPDV.getProcenat(), iznosPdv, iznosStavke, r, f);
 
-        f.setOsnovica(f.getOsnovica() + stavkaFaktureDTO.getOsnovicaZaPDV());
-        f.setUkupanPDV(f.getUkupanPDV() + stavkaFaktureDTO.getIznosPDV());
-        f.setIznosZaPlacanje(f.getIznosZaPlacanje() + stavkaFaktureDTO.getIznosStavke());
+        f.setOsnovica(f.getOsnovica() + sf.getOsnovicaZaPDV());
+        f.setUkupanPDV(f.getUkupanPDV() + sf.getIznosPDV());
+        f.setIznosZaPlacanje(f.getIznosZaPlacanje() + sf.getIznosStavke());
 
         fakturaRepository.save(f);
 
@@ -155,6 +171,50 @@ public class StavkaFaktureService implements StavkaFaktureServiceInterface {
 
         sf = save(sf);
         return new StavkaFaktureDTO(sf);
+    }
+
+    public StavkaFaktureDTO calculate(StavkaFaktureDTO sfDTO) {
+        try{
+            double rabat = sfDTO.getRabat();
+            //System.out.println(rabat);
+
+            int kol = sfDTO.getKolicina();
+
+           // System.out.println(kol);
+
+            long stavkaCenovnikaId = sfDTO.getStavkaCenovnikaId();
+            StavkaCenovnika sc = stavkaCenovnikaService.findOne(stavkaCenovnikaId);
+            //System.out.println(sc);
+
+
+            Roba roba = sc.getRoba();
+            //System.out.println(roba);
+
+            GrupaRobe grupaRobe = roba.getGrupaRobe();
+            //System.out.println(grupaRobe);
+
+            PDV pdv = grupaRobe.getPdv();
+            //System.out.println(pdv);
+
+            StopaPDV stopaPDV = stopaPdvService.findAllByPdvId(pdv.getId()).get(0);
+           // System.out.println(stopaPDV);
+
+
+            StavkaFaktureDTO stavkaFaktureDTO = new StavkaFaktureDTO();
+
+            stavkaFaktureDTO.setOsnovicaZaPDV(kol * sc.getCena() * (100 - rabat) / 100);
+            stavkaFaktureDTO.setIznosPDV(stavkaFaktureDTO.getOsnovicaZaPDV()*stopaPDV.getProcenat()/100);
+            stavkaFaktureDTO.setIznosStavke(stavkaFaktureDTO.getOsnovicaZaPDV()+stavkaFaktureDTO.getIznosPDV());
+
+           // System.out.println(stavkaFaktureDTO);
+
+
+            return stavkaFaktureDTO;
+        }
+        catch (Exception e){
+            return new StavkaFaktureDTO();
+        }
+
     }
 
     public boolean deleteStavkaFakture(long id) {

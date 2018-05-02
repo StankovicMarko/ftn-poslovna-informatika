@@ -60,4 +60,14 @@ public class StopaPDV {
     public void setPdv(PDV pdv) {
         this.pdv = pdv;
     }
+
+    @Override
+    public String toString() {
+        return "StopaPDV{" +
+                "id=" + id +
+                ", procenat=" + procenat +
+                ", datumVazenja=" + datumVazenja +
+                ", pdv=" + pdv +
+                '}';
+    }
 }
