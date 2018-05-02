@@ -86,4 +86,16 @@ public class Roba {
     public void setGrupaRobe(GrupaRobe grupaRobe) {
         this.grupaRobe = grupaRobe;
     }
+
+    @Override
+    public String toString() {
+        return "Roba{" +
+                "id=" + id +
+                ", naziv='" + naziv + '\'' +
+                ", stavkeCenovnika=" + stavkeCenovnika +
+                ", stavkaFakture=" + stavkaFakture +
+                ", jedinicaMere=" + jedinicaMere +
+                ", grupaRobe=" + grupaRobe +
+                '}';
+    }
 }

@@ -306,9 +306,8 @@ $('#fakture').on('click', 'tr', function () {
                 return element.id == stavkaId;
             });
             $("#cena").html(stavka.cena)
-        } else {
-        }
-    });
+
+
 
     $('.btn-secondary').on('click', function (e) {
 
@@ -323,26 +322,64 @@ $('#fakture').on('click', 'tr', function () {
          }else{
             r=parseInt(maybeR)}
 
-        var c = parseInt($("#cena").text());
 
-        var osn = kol * c * (100 - r) / 100;
-        $("#osnovica").html(osn);
+          var data = {
+                      "stavkaCenovnikaId": stavkaId,
+                      "kolicina": kol,
+                      "rabat": r
+                  };
 
-        var stopaPdvStr = $("#pretraga-pdv").val();
-        stopaId = stopaPdvStr.substr(0, stopaPdvStr.indexOf('.'));
+                  console.log(data);
 
-        var procenat;
-        if (stopaId == 1) {
-            procenat = 10;
-        } else {
-            procenat = 20;
+                  $.ajax({
+                      type: "POST",
+                      url: "api/stavka-fakture/calculate",
+                      data: JSON.stringify(data),
+                      contentType: "application/json",
+                      beforeSend: function (request) {
+                          request.setRequestHeader("Authorization", token);
+                      },
+                      success: function (stavkeFakture) {
+                          console.log(stavkeFakture);
+                          $("#osnovica").html(stavkeFakture.osnovicaZaPDV);
+                          $("#iznos-pdv").html(stavkeFakture.iznosPDV);
+                          $("#iznos-stavke").html(stavkeFakture.iznosStavke);
+
+//                          $('#add-faktura').modal('toggle');
+//                          location.reload(true); //reloads from server rather than browser cache
+                          //            alert(response['message']);
+                      },
+                      error: function (err) {
+                          var json = err.responseJSON;
+                          alert(json['message']);
+                      }
+                  });
+
+//        var c = parseInt($("#cena").text());
+//
+//        var osn = kol * c * (100 - r) / 100;
+//        $("#osnovica").html(osn);
+//
+//        var stopaPdvStr = $("#pretraga-pdv").val();
+//        stopaId = stopaPdvStr.substr(0, stopaPdvStr.indexOf('.'));
+//
+//        var procenat;
+//        if (stopaId == 1) {
+//            procenat = 10;
+//        } else {
+//            procenat = 20;
+//        }
+//
+//        var izn = osn * procenat / 100
+//        $("#iznos-pdv").html(izn);
+//
+//        var iznStav = osn + izn;
+//        $("#iznos-stavke").html(iznStav);
+  });
+} else {
         }
 
-        var izn = osn * procenat / 100
-        $("#iznos-pdv").html(izn);
 
-        var iznStav = osn + izn;
-        $("#iznos-stavke").html(iznStav);
 
     });
 
@@ -363,15 +400,15 @@ $('#fakture').on('click', 'tr', function () {
 
         var osn = kol * c * (100 - r) / 100;
 
-        var stopaPdvStr = $("#pretraga-pdv").val();
-        stopaId = stopaPdvStr.substr(0, stopaPdvStr.indexOf('.'));
+//        var stopaPdvStr = $("#pretraga-pdv").val();
+//        stopaId = stopaPdvStr.substr(0, stopaPdvStr.indexOf('.'));
 
-        var procenat;
-        if (stopaId == 1) {
-            procenat = 10;
-        } else {
-            procenat = 20;
-        }
+        var procenat = 0;
+//        if (stopaId == 1) {
+//            procenat = 10;
+//        } else {
+//            procenat = 20;
+//        }
 
         var izn = osn * procenat / 100
         var iznStav = osn + izn;
@@ -527,7 +564,28 @@ $('#fakture').on('click', 'tr', function () {
                     request.setRequestHeader("Authorization", token);
                 },
                 success: function (response) {
-                    row.remove(); //reloads from server rather than browser cache
+                    row.remove();
+
+                    ///update dynaically
+                    $.ajax({
+                        type: "GET",
+                        url: "api/faktura/id/"+fakturaId,
+                        dataType: "json",
+                        beforeSend: function (request) {
+                            request.setRequestHeader("Authorization", token);
+                        },
+                        success: function (faktura) {
+                            console.log(faktura);
+                            $('#fakt-osnovica').html(faktura.osnovica);
+                            $('#fakt-pdv').html(faktura.ukupanPdv);
+                            $('#fakt-iznos').html(faktura.iznosZaPlacanje);
+                            }
+
+
+                            });
+//                        }
+//                    });
+
                 },
                 error: function (err) {
                     alert("Can't delete this Stavka Fakture");

@@ -107,6 +107,10 @@ public class FakturaService implements FakturaServiceInterface {
         fakturaRepository.delete(id);
     }
 
+    public FakturaDTO getFaktura(long id){
+        return new FakturaDTO(findOne(id));
+    }
+
 
     public List<FakturaDTO> getFakture(Pageable pageable) {
         Page<Faktura> fakture = findAll(pageable);

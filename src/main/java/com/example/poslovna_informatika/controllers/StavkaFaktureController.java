@@ -1,5 +1,6 @@
 package com.example.poslovna_informatika.controllers;
 
+import com.example.poslovna_informatika.dto.StavkaCenovnikaDTO;
 import com.example.poslovna_informatika.dto.StavkaFaktureDTO;
 import com.example.poslovna_informatika.services.StavkaFaktureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "api/stavka-fakture")
@@ -34,6 +36,11 @@ public class StavkaFaktureController {
     @PostMapping(consumes = "application/json")
     public ResponseEntity<StavkaFaktureDTO> saveItem(@RequestBody StavkaFaktureDTO stavkaFaktureDTO) {
         return new ResponseEntity<>(stavkaFaktureService.saveStavkaFakture(stavkaFaktureDTO), HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/calculate", consumes = "application/json")
+    public ResponseEntity<StavkaFaktureDTO> calculate(@RequestBody StavkaFaktureDTO stavkaFaktureDTO) {
+        return new ResponseEntity<StavkaFaktureDTO>(stavkaFaktureService.calculate(stavkaFaktureDTO), HttpStatus.OK);
     }
 
 

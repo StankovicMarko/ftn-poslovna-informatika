@@ -66,4 +66,14 @@ public class PDV {
     public void setStopePDV(List<StopaPDV> stopePDV) {
         this.stopePDV = stopePDV;
     }
+
+    @Override
+    public String toString() {
+        return "PDV{" +
+                "id=" + id +
+                ", naziv='" + naziv + '\'' +
+                ", grupaRobe=" + grupaRobe +
+                ", stopePDV=" + stopePDV +
+                '}';
+    }
 }

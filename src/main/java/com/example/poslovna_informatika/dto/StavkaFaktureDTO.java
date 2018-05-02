@@ -15,6 +15,8 @@ public class StavkaFaktureDTO {
     private long robaId;
     private long fakturaId;
     private String nazivRobe;
+    private long stavkaCenovnikaId;
+
 
     public StavkaFaktureDTO() {
     }
@@ -33,6 +35,12 @@ public class StavkaFaktureDTO {
         this.robaId = robaId;
         this.fakturaId = fakturaId;
         this.nazivRobe = nazivRobe;
+    }
+
+    public StavkaFaktureDTO(int kolicina, double rabat, int stavkaCenovnikaId) {
+        this.kolicina = kolicina;
+        this.rabat= rabat;
+        this.stavkaCenovnikaId=stavkaCenovnikaId;
     }
 
     public StavkaFaktureDTO(StavkaFakture stavkaFakture) {
@@ -135,5 +143,30 @@ public class StavkaFaktureDTO {
 
     public void setNazivRobe(String nazivRobe) {
         this.nazivRobe = nazivRobe;
+    }
+
+    public long getStavkaCenovnikaId() {
+        return stavkaCenovnikaId;
+    }
+
+    public void setStavkaCenovnikaId(long stavkaCenovnikaId) {
+        this.stavkaCenovnikaId = stavkaCenovnikaId;
+    }
+
+    @Override
+    public String toString() {
+        return "StavkaFaktureDTO{" +
+                "id=" + id +
+                ", kolicina=" + kolicina +
+                ", jedinicnaCena=" + jedinicnaCena +
+                ", rabat=" + rabat +
+                ", osnovicaZaPDV=" + osnovicaZaPDV +
+                ", procenatPDV=" + procenatPDV +
+                ", iznosPDV=" + iznosPDV +
+                ", iznosStavke=" + iznosStavke +
+                ", robaId=" + robaId +
+                ", fakturaId=" + fakturaId +
+                ", nazivRobe='" + nazivRobe + '\'' +
+                '}';
     }
 }
